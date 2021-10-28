@@ -92,7 +92,7 @@ module uart_i2c_usb_top
    input logic         reg_wr,
    input logic [3:0]   reg_addr,
    input logic [31:0]  reg_wdata,
-   input logic         reg_be,
+   input logic [3:0]   reg_be,
 
         // Outputs
    output logic [31:0]  reg_rdata,
@@ -192,7 +192,7 @@ uart_core  u_uart_core (
         .reg_wr      (reg_wr           ),
         .reg_addr    (reg_addr[3:0]    ),
         .reg_wdata   (reg_wdata[7:0]   ),
-        .reg_be      (reg_be           ),
+        .reg_be      (reg_be[0]        ),
 
         // Outputs
         .reg_rdata   (reg_uart_rdata[7:0]),

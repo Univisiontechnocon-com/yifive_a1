@@ -922,7 +922,10 @@ module user_project_wrapper (user_clock2,
  wire \wbd_uart_dat_o[7] ;
  wire \wbd_uart_dat_o[8] ;
  wire \wbd_uart_dat_o[9] ;
- wire wbd_uart_sel_o;
+ wire \wbd_uart_sel_o[0] ;
+ wire \wbd_uart_sel_o[1] ;
+ wire \wbd_uart_sel_o[2] ;
+ wire \wbd_uart_sel_o[3] ;
  wire wbd_uart_stb_o;
  wire wbd_uart_we_o;
 
@@ -1157,7 +1160,6 @@ module user_project_wrapper (user_clock2,
     .s2_wbd_we_o(wbd_glbl_we_o),
     .s3_wbd_ack_i(wbd_uart_ack_i),
     .s3_wbd_cyc_o(wbd_uart_cyc_o),
-    .s3_wbd_sel_o(wbd_uart_sel_o),
     .s3_wbd_stb_o(wbd_uart_stb_o),
     .s3_wbd_we_o(wbd_uart_we_o),
     .vccd1(vccd1),
@@ -1815,7 +1817,11 @@ module user_project_wrapper (user_clock2,
     \wbd_uart_dat_o[3] ,
     \wbd_uart_dat_o[2] ,
     \wbd_uart_dat_o[1] ,
-    \wbd_uart_dat_o[0] }));
+    \wbd_uart_dat_o[0] }),
+    .s3_wbd_sel_o({\wbd_uart_sel_o[3] ,
+    \wbd_uart_sel_o[2] ,
+    \wbd_uart_sel_o[1] ,
+    \wbd_uart_sel_o[0] }));
  scr1_top_wb u_riscv_top (.core_clk(cpu_clk),
     .cpu_rst_n(cpu_rst_n),
     .pwrup_rst_n(wbd_int_rst_n),
@@ -2626,7 +2632,6 @@ module user_project_wrapper (user_clock2,
  uart_i2c_usb_top u_uart_i2c_usb (.app_clk(wbd_clk_uart),
     .i2c_rstn(i2c_rst_n),
     .reg_ack(wbd_uart_ack_i),
-    .reg_be(wbd_uart_sel_o),
     .reg_cs(wbd_uart_stb_o),
     .reg_wr(wbd_uart_we_o),
     .uart_rstn(uart_rst_n),
@@ -2650,6 +2655,10 @@ module user_project_wrapper (user_clock2,
     \wbd_uart_adr_o[4] ,
     \wbd_uart_adr_o[3] ,
     \wbd_uart_adr_o[2] }),
+    .reg_be({\wbd_uart_sel_o[3] ,
+    \wbd_uart_sel_o[2] ,
+    \wbd_uart_sel_o[1] ,
+    \wbd_uart_sel_o[0] }),
     .reg_rdata({\wbd_uart_dat_i[31] ,
     \wbd_uart_dat_i[30] ,
     \wbd_uart_dat_i[29] ,

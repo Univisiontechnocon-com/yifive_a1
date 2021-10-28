@@ -105,6 +105,9 @@
 ////          sdram                                               ////
 ////    1.3   Oct 28, 2021, Dinesh A                              ////
 ////          Modification for MPW-3 Shuttle                      ////
+////    1.4   Oct 28, 2021, Dinesh A                              ////
+////          Bug fix: uart_i2c_usb byte_select width changed     ////
+////          from 1 to 4                                         ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -268,7 +271,7 @@ wire                           wbd_uart_stb_o; // strobe/request
 wire   [7:0]                   wbd_uart_adr_o; // address
 wire                           wbd_uart_we_o;  // write
 wire   [31:0]                  wbd_uart_dat_o; // data output
-wire                           wbd_uart_sel_o; // byte enable
+wire   [3:0]                   wbd_uart_sel_o; // byte enable
 wire                           wbd_uart_cyc_o ;
 wire   [31:0]                  wbd_uart_dat_i; // data input
 wire                           wbd_uart_ack_i; // acknowlegement
