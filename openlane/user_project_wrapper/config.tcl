@@ -15,9 +15,14 @@
 
 # Base Configurations. Don't Touch
 # section begin
-set script_dir [file dirname [file normalize [info script]]]
 
-source $script_dir/../../caravel/openlane/user_project_wrapper_empty/fixed_wrapper_cfgs.tcl
+# YOU ARE NOT ALLOWED TO CHANGE ANY VARIABLES DEFINED IN THE FIXED WRAPPER CFGS 
+source $::env(CARAVEL_ROOT)/openlane/user_project_wrapper_empty/fixed_wrapper_cfgs.tcl
+
+# YOU CAN CHANGE ANY VARIABLES DEFINED IN THE DEFAULT WRAPPER CFGS BY OVERRIDING THEM IN THIS CONFIG.TCL
+source $::env(CARAVEL_ROOT)/openlane/user_project_wrapper_empty/default_wrapper_cfgs.tcl
+
+set script_dir [file dirname [file normalize [info script]]]
 
 set ::env(DESIGN_NAME) user_project_wrapper
 set verilog_root $script_dir/../../verilog/
@@ -47,7 +52,7 @@ set ::env(CLOCK_PERIOD) "10"
 set ::env(FP_SIZING) "absolute"
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 
-set ::env(PDN_CFG) $script_dir/pdn.tcl
+#set ::env(PDN_CFG) $script_dir/pdn.tcl
 
 set ::env(SDC_FILE) "$script_dir/base.sdc"
 set ::env(BASE_SDC_FILE) "$script_dir/base.sdc"
@@ -62,7 +67,6 @@ set ::env(VERILOG_FILES_BLACKBOX) "\
         $script_dir/../../verilog/gl/uart_i2cm_usb.v     \
 	$script_dir/../../verilog/gl/sdram.v \
 	$script_dir/../../verilog/gl/wb_host.v \
-	$script_dir/../../verilog/gl/clk_skew_adjust.v \
 	$script_dir/../../verilog/gl/syntacore.v \
 	"
 
@@ -73,7 +77,6 @@ set ::env(EXTRA_LEFS) "\
 	$lef_root/sdram.lef \
 	$lef_root/uart_i2cm_usb.lef \
 	$lef_root/wb_host.lef \
-	$lef_root/clk_skew_adjust.lef \
 	$lef_root/syntacore.lef \
 	"
 
@@ -84,7 +87,6 @@ set ::env(EXTRA_GDS_FILES) "\
 	$gds_root/uart_i2cm_usb.gds \
 	$gds_root/sdram.gds \
 	$gds_root/wb_host.gds \
-	$gds_root/clk_skew_adjust.gds \
 	$gds_root/syntacore.gds \
 	"
 
@@ -94,48 +96,47 @@ set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/syntacore/sc
 
 set ::env(GLB_RT_MAXLAYER) 5
 
+# disable pdn check nodes becuase it hangs with multiple power domains.
+# any issue with pdn connections will be flagged with LVS so it is not a critical check.
 set ::env(FP_PDN_CHECK_NODES) 0
 
-set ::env(RUN_KLAYOUT_DRC) 0
+### Macro PDN Connections
 
-set ::env(VDD_PIN) [list {vdda1 vdda2 vccd1 vccd2}]
-set ::env(GND_PIN) [list {vssa1 vssa2 vssd1 vssd2}]
+set ::env(VDD_NETS) "vccd1 vccd2 vdda1 vdda2"
+set ::env(GND_NETS) "vssd1 vssd2 vssa1 vssa2"
 
-set ::env(VDD_NETS) [list {vccd1}]
-set ::env(GND_NETS) [list {vssd1}]
-
+set ::env(FP_PDN_MACROS) "\
+	u_spi_master vccd1 vssd1 \
+	u_sdram_ctrl vccd1 vssd1 \
+	u_glbl_cfg vccd1 vssd1 \
+	u_riscv_top vccd1 vssd1 \
+	u_uart_i2c_usb vccd1 vssd1 \
+	u_intercon vccd1 vssd1 \
+	u_wb_host vccd1 vssd1 \
+	"
 
 
 # The following is because there are no std cells in the example wrapper project.
-#set ::env(SYNTH_TOP_LEVEL) 1
-#set ::env(PL_RANDOM_GLB_PLACEMENT) 1
+set ::env(SYNTH_TOP_LEVEL) 1
+set ::env(PL_RANDOM_GLB_PLACEMENT) 1
 
 set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_TIMING_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) 0
 set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) 0
 
-set ::env(TAP_DECAP_INSERTION) "0"
+set ::env(FP_PDN_ENABLE_RAILS) 0
+
 set ::env(DIODE_INSERTION_STRATEGY) 0
 set ::env(FILL_INSERTION) 0
+set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
 
-#set ::env(MAGIC_EXT_USE_GDS) "1"
+set ::env(QUIT_ON_LVS_ERROR) "0"
+set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_NEGATIVE_WNS) "0"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
+set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
+set ::env(QUIT_ON_TR_DRC) "0"
 
 
-set ::env(PL_DIAMOND_SEARCH_HEIGHT) "250"
-
-
-set ::env(FP_PDN_HOFFSET) "5"
-set ::env(FP_PDN_HPITCH) "80"
-set ::env(FP_PDN_HSPACING) "15"
-set ::env(FP_PDN_HWIDTH) "3"
-set ::env(FP_PDN_LOWER_LAYER) "met4"
-set ::env(FP_PDN_RAILS_LAYER) "met1"
-set ::env(FP_PDN_RAIL_OFFSET) "0"
-set ::env(FP_PDN_RAIL_WIDTH) "0.48"
-set ::env(FP_PDN_UPPER_LAYER) "met5"
-set ::env(FP_PDN_VOFFSET) "5"
-set ::env(FP_PDN_VPITCH) "80"
-set ::env(FP_PDN_VSPACING) "15"
-set ::env(FP_PDN_VWIDTH) "3"

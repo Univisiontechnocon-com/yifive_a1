@@ -101,9 +101,17 @@
 module spim_top
 #( parameter WB_WIDTH = 32)
 (
+`ifdef USE_POWER_PINS
+         input logic            vccd1,    // User area 1 1.8V supply
+         input logic            vssd1,    // User area 1 digital ground
+`endif
     input  logic                          mclk,
     input  logic                          rst_n,
 
+    input  logic   [3:0]                 cfg_cska_sp_co, // spi clock skew adjust
+    input  logic   [3:0]                 cfg_cska_spi,
+    input  logic                         wbd_clk_int,
+    output logic                         wbd_clk_spi,
 
     input  logic                         wbd_stb_i, // strobe/request
     input  logic   [WB_WIDTH-1:0]        wbd_adr_i, // address
@@ -240,7 +248,6 @@ assign  spi_sdi1  =  io_in[1];
 assign  spi_sdi2  =  io_in[2];
 assign  spi_sdi3  =  io_in[3];
 
-assign  io_out[0] =  spi_clk;
 assign  io_out[1] =  spi_csn0;// No hold fix for CS#, as it asserted much eariler than SPI clock
 assign  #1 io_out[2] =  spi_sdo0_out;
 assign  #1 io_out[3] =  spi_sdo1_out;
@@ -271,6 +278,30 @@ assign  #1 io_oeb[2] =  !spi_en_tx;   // spi_dio0
 assign  #1 io_oeb[3] =  !spi_en_tx;   // spi_dio1
 assign  #1 io_oeb[4] =  (spi_mode == 0) ? 1 'b0 : !spi_en_tx;   // spi_dio2
 assign  #1 io_oeb[5] =  (spi_mode == 0) ? 1 'b0 : !spi_en_tx;   // spi_dio3
+
+// spi clock skew control
+clk_skew_adjust u_skew_spi
+       (
+`ifdef USE_POWER_PINS
+               .vccd1      (vccd1                      ),// User area 1 1.8V supply
+               .vssd1      (vssd1                      ),// User area 1 digital ground
+`endif
+	       .clk_in     (wbd_clk_int                ), 
+	       .sel        (cfg_cska_spi               ), 
+	       .clk_out    (wbd_clk_spi                ) 
+       );
+
+// Clock Skey for SPI clock out
+clk_skew_adjust u_skew_sp_co
+       (
+`ifdef USE_POWER_PINS
+               .vccd1      (vccd1                      ),// User area 1 1.8V supply
+               .vssd1      (vssd1                      ),// User area 1 digital ground
+`endif
+	       .clk_in     (spi_clk                   ), 
+	       .sel        (cfg_cska_sp_co            ), 
+	       .clk_out    (io_out[0]                ) 
+       );
 
 spim_if #( .WB_WIDTH(WB_WIDTH)) u_wb_if(
         .mclk                           (mclk                         ),

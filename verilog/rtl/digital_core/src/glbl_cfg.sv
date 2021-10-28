@@ -64,6 +64,14 @@
 //////////////////////////////////////////////////////////////////////
 
 module glbl_cfg (
+`ifdef USE_POWER_PINS
+        input logic            vccd1,// User area 1 1.8V supply
+        input logic            vssd1,// User area 1 digital ground
+`endif
+        input logic [3:0]      cfg_cska_glbl,
+	input logic            wbd_clk_int,
+	output logic           wbd_clk_glbl,
+
 
         input logic             mclk,
         input logic             reset_n,
@@ -137,6 +145,21 @@ logic [31:0]    reg_13; // Software-Reg_13
 logic [31:0]    reg_14; // Software-Reg_14
 logic [31:0]    reg_15; // Software-Reg_15
 logic [31:0]    reg_out;
+
+// global clock skew control
+clk_skew_adjust u_skew_glbl
+       (
+`ifdef USE_POWER_PINS
+               .vccd1      (vccd1                     ),// User area 1 1.8V supply
+               .vssd1      (vssd1                     ),// User area 1 digital ground
+`endif
+	       .clk_in     (wbd_clk_int               ), 
+	       .sel        (cfg_cska_glbl             ), 
+	       .clk_out    (wbd_clk_glbl              ) 
+       );
+
+
+
 
 //-----------------------------------------------------------------------
 // Main code starts here

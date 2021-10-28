@@ -36,6 +36,7 @@ set ::env(SYNTH_MAX_FANOUT) 4
 
 # Local sources + no2usb sources
 set ::env(VERILOG_FILES) "\
+        $script_dir/../../verilog/rtl/clk_skew_adjust/src/clk_skew_adjust.gv \
         $script_dir/../../verilog/rtl/spi_master/src/spim_top.sv \
         $script_dir/../../verilog/rtl/spi_master/src/spim_if.sv \
         $script_dir/../../verilog/rtl/spi_master/src/spim_regs.sv \
@@ -61,7 +62,7 @@ set ::env(GND_PIN) [list {vssd1}]
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 400 650"
+set ::env(DIE_AREA) "0 0 450 650"
 
 set ::env(PL_TIME_DRIVEN) 1
 set ::env(PL_TARGET_DENSITY) "0.45"
@@ -86,7 +87,12 @@ set ::env(FP_PDN_HPITCH) 100
 set ::env(FP_PDN_VWIDTH) 5
 set ::env(FP_PDN_HWIDTH) 5
 
-set ::env(GLB_RT_MAXLAYER) 4
+set ::env(GLB_RT_MAXLAYER) 5
 set ::env(GLB_RT_MAX_DIODE_INS_ITERS) 10
-set ::env(DIODE_INSERTION_STRATEGY) 5
+set ::env(DIODE_INSERTION_STRATEGY) 4
 
+
+set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
+set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_LVS_ERROR) "0"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"

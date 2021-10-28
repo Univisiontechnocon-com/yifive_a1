@@ -99,7 +99,12 @@
 ////          usb1.1 host integrated part of uart_i2cm_usb module,////
 ////          due to number of IO pin limitation,                 ////
 ////          Only UART/I2C/USB selected based on config mode     ////
-////                                                              ////
+////    1.2 - Oct 27, 2021, Dinesh A                              ////
+////          For better power routing, clock skew block are moved////
+////          corresponding destination module like wb_host, spi  ////
+////          sdram                                               ////
+////    1.3   Oct 28, 2021, Dinesh A                              ////
+////          Modification for MPW-3 Shuttle                      ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -318,7 +323,6 @@ wire [3:0]                        cfg_cska_sd_co; // clock skew adjust for sdram
 wire [3:0]                        cfg_cska_sd_ci; // clock skew adjust for sdram clock input
 wire [3:0]                        cfg_cska_sp_co; // clock skew adjust for SPI clock out
 
-wire                              io_out_29_    ; // Internally tapped SDRAM clock
 wire                              io_in_29_     ; // Clock Skewed Pad SDRAM clock
 wire                              io_in_30_     ; // SPI clock out
 
@@ -372,6 +376,10 @@ assign la_data_out[127:0]    = {sdram_debug,spi_debug,riscv_debug};
 //clk_buf u_buf2_wbclk    (.clk_i(wbd_clk_int1),.clk_o(wbd_clk_int2));
 
 wb_host u_wb_host(
+`ifdef USE_POWER_PINS
+         .vccd1         (vccd1                 ),// User area 1 1.8V supply
+         .vssd1         (vssd1                 ),// User area 1 digital ground
+`endif
        .user_clock1      (wb_clk_i             ),
        .user_clock2      (user_clock2          ),
 
@@ -402,8 +410,13 @@ wb_host u_wb_host(
        .wbm_ack_o        (wbs_ack_o            ),  
        .wbm_err_o        (                     ),  
 
+    // Clock Skeq Adjust
+       .wbd_clk_int      (wbd_clk_int          ),
+       .wbd_clk_wh       (wbd_clk_wh           ),  
+       .cfg_cska_wh      (cfg_cska_wh          ),
+
     // Slave Port
-       .wbs_clk_out      (wbd_clk_int          ),  
+       .wbs_clk_out      (wbd_clk_int          ),
        .wbs_clk_i        (wbd_clk_wh           ),  
        .wbs_cyc_o        (wbd_int_cyc_i        ),  
        .wbs_stb_o        (wbd_int_stb_i        ),  
@@ -427,6 +440,10 @@ wb_host u_wb_host(
 // RISC V Core instance
 //------------------------------------------------------------------------------
 scr1_top_wb u_riscv_top (
+`ifdef USE_POWER_PINS
+         .vccd1         (vccd1                 ),// User area 1 1.8V supply
+         .vssd1         (vssd1                 ),// User area 1 digital ground
+`endif
     // Reset
     .pwrup_rst_n            (wbd_int_rst_n             ),
     .rst_n                  (wbd_int_rst_n             ),
@@ -448,6 +465,10 @@ scr1_top_wb u_riscv_top (
     // .test_mode           (1'b0                      ), // Moved inside IP
     // .test_rst_n          (1'b1                      ), // Moved inside IP
 
+    // Clock Skew control
+    .cfg_cska_riscv         (cfg_cska_riscv            ),
+    .wbd_clk_int            (wbd_clk_int               ),
+    .wbd_clk_riscv          (wbd_clk_riscv             ),
     
     .wb_rst_n               (wbd_int_rst_n             ),
     .wb_clk                 (wbd_clk_riscv             ),
@@ -486,8 +507,18 @@ spim_top
 `endif
 ) u_spi_master
 (
+`ifdef USE_POWER_PINS
+         .vccd1         (vccd1                 ),// User area 1 1.8V supply
+         .vssd1         (vssd1                 ),// User area 1 digital ground
+`endif
     .mclk                   (wbd_clk_spi               ),
     .rst_n                  (spi_rst_n                 ),
+
+    // Clock Skew Adjust
+    .cfg_cska_sp_co         (cfg_cska_sp_co            ),
+    .cfg_cska_spi           (cfg_cska_spi              ),
+    .wbd_clk_int            (wbd_clk_int               ),
+    .wbd_clk_spi            (wbd_clk_spi               ),
 
     .wbd_stb_i              (wbd_spim_stb_o            ),
     .wbd_adr_i              (wbd_spim_adr_o            ),
@@ -502,7 +533,7 @@ spim_top
 
     // Pad Interface
     .io_in                  (io_in[35:32]              ), // io_in[31:30] unused ports
-    .io_out                 ({io_out[35:31],io_in_30_} ),
+    .io_out                 (io_out[35:30]             ),
     .io_oeb                 (io_oeb[35:30]             )
 
 );
@@ -517,6 +548,18 @@ sdrc_top
 	    .SDR_BW(1))
       `endif
      u_sdram_ctrl (
+`ifdef USE_POWER_PINS
+     .vccd1                  (vccd1                     ),// User area 1 1.8V supply
+     .vssd1                  (vssd1                     ),// User area 1 digital ground
+`endif
+     .wbd_clk_int            (wbd_clk_int               ),
+     .cfg_cska_sdram         (cfg_cska_sdram            ),
+     .wbd_clk_sdram          (wbd_clk_sdram             ),
+
+     .cfg_cska_sd_co         (cfg_cska_sd_co            ),
+     .cfg_cska_sd_ci         (cfg_cska_sd_ci            ),
+
+
     .cfg_sdr_width          (cfg_sdr_width              ),
     .cfg_colbits            (cfg_colbits                ),
     .sdram_debug            (sdram_debug                ),
@@ -540,9 +583,9 @@ sdrc_top
     .sdram_resetn           (sdram_rst_n               ),
 
     /** Pad Interface       **/
-    .io_in                  ({io_in_29_,io_in[28:0]}   ),
+    .io_in                  (io_in[29:0]               ),
     .io_oeb                 (io_oeb[29:0]              ),
-    .io_out                 ({io_out_29_,io_out[28:0]} ),
+    .io_out                 (io_out[29:0]              ),
                     
     /* Parameters */
     .sdr_init_done          (sdr_init_done             ),
@@ -561,6 +604,15 @@ sdrc_top
 
 
 wb_interconnect  u_intercon (
+`ifdef USE_POWER_PINS
+         .vccd1         (vccd1                 ),// User area 1 1.8V supply
+         .vssd1         (vssd1                 ),// User area 1 digital ground
+`endif
+     // Clock Skew adjust
+	 .wbd_clk_int   (wbd_clk_int           ), 
+	 .cfg_cska_wi   (cfg_cska_wi           ), 
+	 .wbd_clk_wi    (wbd_clk_wi            ),
+
          .clk_i         (wbd_clk_wi            ), 
          .rst_n         (wbd_int_rst_n         ),
 
@@ -644,6 +696,13 @@ wb_interconnect  u_intercon (
 	);
 
 glbl_cfg   u_glbl_cfg (
+`ifdef USE_POWER_PINS
+       .vccd1                  (vccd1                     ),// User area 1 1.8V supply
+       .vssd1                  (vssd1                     ),// User area 1 digital ground
+`endif
+       .wbd_clk_int            (wbd_clk_int               ), 
+       .cfg_cska_glbl          (cfg_cska_glbl             ), 
+       .wbd_clk_glbl           (wbd_clk_glbl              ), 
 
        .mclk                   (wbd_clk_glbl              ),
        .reset_n                (wbd_int_rst_n             ),
@@ -687,6 +746,14 @@ glbl_cfg   u_glbl_cfg (
         );
 
 uart_i2c_usb_top   u_uart_i2c_usb (
+`ifdef USE_POWER_PINS
+         .vccd1                 (vccd1                    ),// User area 1 1.8V supply
+         .vssd1                 (vssd1                    ),// User area 1 digital ground
+`endif
+	.wbd_clk_int            (wbd_clk_int              ), 
+	.cfg_cska_uart          (cfg_cska_uart            ), 
+	.wbd_clk_uart           (wbd_clk_uart             ),
+
         .uart_rstn              (uart_rst_n               ), // uart reset
         .i2c_rstn               (i2c_rst_n                ), // i2c reset
         .usb_rstn               (usb_rst_n                ), // i2c reset
@@ -712,128 +779,6 @@ uart_i2c_usb_top   u_uart_i2c_usb (
 
      );
 
-////////////////////////////////////////////////////////////////
-// Clock Skew adjust module
-// ///////////////////////////////////////////////////////////
 
-// Wishbone interconnect clock skew control
-clk_skew_adjust u_skew_wi
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int                 ), 
-	       .sel        (cfg_cska_wi                 ), 
-	       .clk_out    (wbd_clk_wi                  ) 
-       );
-
-// riscv clock skew control
-clk_skew_adjust u_skew_riscv
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int                 ), 
-	       .sel        (cfg_cska_riscv              ), 
-	       .clk_out    (wbd_clk_riscv               ) 
-       );
-
-// uart clock skew control
-clk_skew_adjust u_skew_uart
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int                 ), 
-	       .sel        (cfg_cska_uart               ), 
-	       .clk_out    (wbd_clk_uart                ) 
-       );
-
-// spi clock skew control
-clk_skew_adjust u_skew_spi
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int                ), 
-	       .sel        (cfg_cska_spi               ), 
-	       .clk_out    (wbd_clk_spi                ) 
-       );
-
-// sdram clock skew control
-clk_skew_adjust u_skew_sdram
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int                ), 
-	       .sel        (cfg_cska_sdram             ), 
-	       .clk_out    (wbd_clk_sdram              ) 
-       );
-
-// global clock skew control
-clk_skew_adjust u_skew_glbl
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int               ), 
-	       .sel        (cfg_cska_glbl             ), 
-	       .clk_out    (wbd_clk_glbl              ) 
-       );
-
-// wb_host clock skew control
-clk_skew_adjust u_skew_wh
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (wbd_clk_int               ), 
-	       .sel        (cfg_cska_wh               ), 
-	       .clk_out    (wbd_clk_wh                ) 
-       );
-
-// SDRAM clock out clock skew control
-clk_skew_adjust u_skew_sd_co
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (sdram_clk                 ), 
-	       .sel        (cfg_cska_sd_co            ), 
-	       .clk_out    (io_out[29]                ) 
-       );
-
-// Clock Skey for PAD SDRAM clock
-clk_skew_adjust u_skew_sd_ci
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (io_in[29]                 ), 
-	       .sel        (cfg_cska_sd_ci            ), 
-	       .clk_out    (io_in_29_                 ) 
-       );
-
-// Clock Skey for SPI clock out
-clk_skew_adjust u_skew_sp_co
-       (
-`ifdef USE_POWER_PINS
-               .vccd1      (vccd1                      ),// User area 1 1.8V supply
-               .vssd1      (vssd1                      ),// User area 1 digital ground
-`endif
-	       .clk_in     (io_in_30_                 ), 
-	       .sel        (cfg_cska_sp_co            ), 
-	       .clk_out    (io_out[30]                ) 
-       );
 
 endmodule : user_project_wrapper

@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 CARAVEL_ROOT?=$(PWD)/caravel
-PRECHECK_ROOT?=${HOME}/open_mpw_precheck
+PRECHECK_ROOT?=${HOME}/mpw_precheck
 SIM ?= RTL
 
 # Install lite version of caravel, (1): caravel-lite, (0): caravel
@@ -35,9 +35,9 @@ endif
 SUBMODULE?=1
 
 # Include Caravel Makefile Targets
-.PHONY: %
+.PHONY: % : check-caravel
 %: 
-	$(MAKE) -f $(CARAVEL_ROOT)/Makefile $@
+	export CARAVEL_ROOT=$(CARAVEL_ROOT) && $(MAKE) -f $(CARAVEL_ROOT)/Makefile $@
 
 # Verify Target for running simulations
 .PHONY: verify
@@ -57,7 +57,6 @@ TARGET_PATH=$(shell pwd)
 PDK_PATH=${PDK_ROOT}/sky130A
 VERIFY_COMMAND="cd ${TARGET_PATH}/verilog/dv/$* && export SIM=${SIM} DUMP=${DUMP} && make"
 $(DV_PATTERNS): verify-% : ./verilog/dv/% 
-# PDK ROOT is not defined, then use pdk from docker at opt/riscv_64
 	@if [ ! -d "$(PDK_ROOT)" ]; then \
 	docker run -v ${TARGET_PATH}:${TARGET_PATH}  \
                 -v ${CARAVEL_ROOT}:${CARAVEL_ROOT} \
@@ -147,20 +146,20 @@ openlane:
 # Default installs to the user home directory, override by "export PRECHECK_ROOT=<precheck-installation-path>"
 .PHONY: precheck
 precheck:
-	@git clone https://github.com/efabless/open_mpw_precheck.git --depth=1 $(PRECHECK_ROOT)
-	@docker pull efabless/open_mpw_precheck:latest
+	@git clone https://github.com/efabless/mpw_precheck.git --depth=1 $(PRECHECK_ROOT)
+	@docker pull efabless/mpw_precheck:latest
 
 .PHONY: run-precheck
 run-precheck: check-precheck check-pdk check-caravel
-	$(eval TARGET_PATH := $(shell pwd))
+	$(eval INPUT_DIRECTORY := $(shell pwd))
 	cd $(PRECHECK_ROOT) && \
-	docker run -v $(PRECHECK_ROOT):/usr/local/bin -v $(TARGET_PATH):$(TARGET_PATH) -v $(PDK_ROOT):$(PDK_ROOT) -v $(CARAVEL_ROOT):$(CARAVEL_ROOT) \
-	-u $(shell id -u $(USER)):$(shell id -g $(USER)) efabless/open_mpw_precheck:latest bash -c "python3 open_mpw_prechecker.py --pdk_root $(PDK_ROOT) --target_path $(TARGET_PATH) -rfc -c $(CARAVEL_ROOT) "
+	docker run -e INPUT_DIRECTORY=$(INPUT_DIRECTORY) -e PDK_ROOT=$(PDK_ROOT) -e CARAVEL_ROOT=$(CARAVEL_ROOT) -v $(PRECHECK_ROOT):$(PRECHECK_ROOT) -v $(INPUT_DIRECTORY):$(INPUT_DIRECTORY) -v $(PDK_ROOT):$(PDK_ROOT) -v $(CARAVEL_ROOT):$(CARAVEL_ROOT) \
+	-u $(shell id -u $(USER)):$(shell id -g $(USER)) efabless/mpw_precheck:latest bash -c "cd $(PRECHECK_ROOT) ; python3 mpw_precheck.py --pdk_root $(PDK_ROOT) --input_directory $(INPUT_DIRECTORY) --caravel_root $(CARAVEL_ROOT)"
 
 # Install PDK using OL's Docker Image
 .PHONY: pdk-nonnative
 pdk-nonnative: skywater-pdk skywater-library skywater-timing open_pdks
-	docker run --rm -v $(PDK_ROOT):$(PDK_ROOT) -v $(pwd):/user_project -v $(CARAVEL_ROOT):$(CARAVEL_ROOT) -e CARAVEL_ROOT=$(CARAVEL_ROOT) -e PDK_ROOT=$(PDK_ROOT) -u $(shell id -u $(USER)):$(shell id -g $(USER)) efabless/openlane:current sh -c "cd $(CARAVEL_ROOT); make build-pdk; make gen-sources"
+	docker run --rm -v $(PDK_ROOT):$(PDK_ROOT) -v $(CARAVEL_ROOT):$(CARAVEL_ROOT) -e CARAVEL_ROOT=$(CARAVEL_ROOT) -e PDK_ROOT=$(PDK_ROOT) -u $(shell id -u $(USER)):$(shell id -g $(USER)) efabless/openlane:current sh -c "cd $(CARAVEL_ROOT); make build-pdk; make gen-sources"
 
 # Clean 
 .PHONY: clean
@@ -190,4 +189,3 @@ check-pdk:
 help:
 	cd $(CARAVEL_ROOT) && $(MAKE) help 
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
-

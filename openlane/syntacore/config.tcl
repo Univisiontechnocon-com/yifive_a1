@@ -35,6 +35,7 @@ set ::env(SYNTH_MAX_FANOUT) 4
 
 # Local sources + no2usb sources
 set ::env(VERILOG_FILES) "\
+        $script_dir/../../verilog/rtl/clk_skew_adjust/src/clk_skew_adjust.gv \
 	$script_dir/../../verilog/rtl/syntacore/scr1/src/core/pipeline/scr1_pipe_top.sv  \
 	$script_dir/../../verilog/rtl/syntacore/scr1/src/core/scr1_core_top.sv  \
 	$script_dir/../../verilog/rtl/syntacore/scr1/src/core/scr1_dm.sv  \
@@ -68,6 +69,7 @@ set ::env(VERILOG_FILES) "\
 	$script_dir/../../verilog/rtl/lib/async_fifo.sv "
 
 set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/syntacore/scr1/src/includes ]
+set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 
 set ::env(SDC_FILE) "$script_dir/base.sdc"
 set ::env(BASE_SDC_FILE) "$script_dir/base.sdc"
@@ -86,7 +88,7 @@ set ::env(GND_PIN) [list {vssd1}]
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) [list 0.0 0.0 1600.0 1200.0]
+set ::env(DIE_AREA) [list 0.0 0.0 1650.0 1250.0]
 
 
 # If you're going to use multiple power domains, then keep this disabled.
@@ -96,9 +98,7 @@ set ::env(RUN_CVC) 0
 
 
 set ::env(PL_TIME_DRIVEN) 1
-set ::env(PL_TARGET_DENSITY) "0.45"
-set ::env(GLOBAL_ROUTER) "fastroute"
-set ::env(DETAILED_ROUTER) "tritonroute"
+set ::env(PL_TARGET_DENSITY) "0.40"
 set ::env(CELL_PAD) "4"
 # helps in anteena fix
 set ::env(USE_ARC_ANTENNA_CHECK) "0"
@@ -106,12 +106,17 @@ set ::env(USE_ARC_ANTENNA_CHECK) "0"
 set ::env(FP_IO_VEXTEND) 4
 set ::env(FP_IO_HEXTEND) 4
 
-
-set ::env(GLB_RT_MAXLAYER) 5
-set ::env(GLB_RT_MAX_DIODE_INS_ITERS) 10
-set ::env(DIODE_INSERTION_STRATEGY) 5
-
 set ::env(FP_PDN_VPITCH) 100
 set ::env(FP_PDN_HPITCH) 100
 set ::env(FP_PDN_VWIDTH) 3
 set ::env(FP_PDN_HWIDTH) 3
+
+set ::env(GLB_RT_MAXLAYER) 5
+set ::env(GLB_RT_MAX_DIODE_INS_ITERS) 10
+set ::env(DIODE_INSERTION_STRATEGY) 4
+
+
+set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
+set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_LVS_ERROR) "0"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
