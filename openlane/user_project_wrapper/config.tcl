@@ -52,7 +52,7 @@ set ::env(CLOCK_PERIOD) "10"
 set ::env(FP_SIZING) "absolute"
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 
-#set ::env(PDN_CFG) $script_dir/pdn.tcl
+set ::env(PDN_CFG) $script_dir/pdn.tcl
 
 set ::env(SDC_FILE) "$script_dir/base.sdc"
 set ::env(BASE_SDC_FILE) "$script_dir/base.sdc"

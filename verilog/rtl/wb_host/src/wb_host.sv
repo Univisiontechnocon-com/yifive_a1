@@ -272,8 +272,8 @@ end
 
 
 generic_register #(32,0  ) u_glb_ctrl (
-	      .we            ({24{sw_wr_en_0}}   ),		 
-	      .data_in       (wbm_dat_i[23:0]    ),
+	      .we            ({32{sw_wr_en_0}}   ),		 
+	      .data_in       (wbm_dat_i[31:0]    ),
 	      .reset_n       (wbm_rst_n         ),
 	      .clk           (wbm_clk_i         ),
 	      

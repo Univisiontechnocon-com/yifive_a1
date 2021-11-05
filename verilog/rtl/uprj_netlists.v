@@ -33,7 +33,6 @@
         `include "user_project_wrapper.v"
         `include "syntacore.v"
         `include "wb_host.v"
-	`include "clk_skew_adjust.v"
 	`include "clk_buf.v"
 
 `else
@@ -135,5 +134,5 @@
      `include "user_project_wrapper.v"
      // we are using netlist file for clk_skew_adjust as it has 
      // standard cell + power pin
-     `include "gl/clk_skew_adjust.v"
+     `include "clk_skew_adjust/src/clk_skew_adjust.v"
 `endif

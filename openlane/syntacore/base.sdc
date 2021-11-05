@@ -1,89 +1,943 @@
-# SPDX-FileCopyrightText:  2021 , Dinesh Annayya
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# SPDX-License-Identifier: Apache-2.0
-# SPDX-FileContributor: Modified by Dinesh Annayya <dinesha@opencores.org>
+###############################################################################
+# Created by write_sdc
+# Wed Nov  3 17:18:11 2021
+###############################################################################
+current_design scr1_top_wb
+###############################################################################
+# Timing Constraints
+###############################################################################
+create_clock -name core_clk -period 20.0000 [get_ports {core_clk}]
+set_propagated_clock [get_clocks {core_clk}]
+create_clock -name rtc_clk -period 40.0000 [get_ports {rtc_clk}]
+set_propagated_clock [get_clocks {rtc_clk}]
+create_clock -name wb_clk -period 10.0000 [get_ports {wb_clk}]
+set_propagated_clock [get_clocks {wb_clk}]
 
+#Reset
+set_input_delay -max 4.5000 -clock [get_clocks {core_clk}] -add_delay [get_ports {cpu_rst_n}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {cpu_rst_n}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {pwrup_rst_n}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {rst_n}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {soft_irq}]
+set_input_delay -max 5.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wb_rst_n}]
 
-set_units -time ns
-#Wishbone Clock
-set ::env(WB_CLOCK_PERIOD)    "10"
-set ::env(WB_CLOCK_PORT)      "wb_clk"
-set ::env(WB_CLOCK_NAME)      "wb_clk"
+set_input_delay -min 1.000 -clock [get_clocks {core_clk}] -add_delay [get_ports {cpu_rst_n}]
+set_input_delay -min 1.000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {cpu_rst_n}]
+set_input_delay -min 1.000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {pwrup_rst_n}]
+set_input_delay -min 1.000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {rst_n}]
+set_input_delay -min 1.000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {soft_irq}]
+set_input_delay -min 1.000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wb_rst_n}]
 
-#Risc Core Clock
-set ::env(CORE_CLOCK_PERIOD) "20"
-set ::env(CORE_CLOCK_PORT)   "core_clk"
-set ::env(CORE_CLOCK_NAME)   "core_clk"
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_ack_i}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[0]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[10]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[11]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[12]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[13]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[14]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[15]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[16]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[17]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[18]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[19]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[1]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[20]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[21]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[22]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[23]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[24]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[25]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[26]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[27]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[28]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[29]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[2]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[30]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[31]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[3]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[4]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[5]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[6]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[7]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[8]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[9]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_err_i}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_ack_i}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[0]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[10]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[11]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[12]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[13]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[14]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[15]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[16]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[17]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[18]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[19]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[1]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[20]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[21]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[22]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[23]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[24]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[25]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[26]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[27]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[28]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[29]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[2]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[30]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[31]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[3]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[4]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[5]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[6]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[7]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[8]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[9]}]
+set_input_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_err_i}]
 
-#RTC Core Clock
-set ::env(RTC_CLOCK_PERIOD) "40"
-set ::env(RTC_CLOCK_PORT)   "rtc_clk"
-set ::env(RTC_CLOCK_NAME)   "rtc_clk"
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_ack_i}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[0]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[10]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[11]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[12]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[13]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[14]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[15]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[16]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[17]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[18]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[19]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[1]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[20]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[21]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[22]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[23]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[24]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[25]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[26]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[27]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[28]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[29]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[2]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[30]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[31]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[3]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[4]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[5]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[6]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[7]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[8]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_i[9]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_err_i}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_ack_i}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[0]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[10]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[11]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[12]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[13]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[14]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[15]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[16]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[17]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[18]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[19]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[1]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[20]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[21]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[22]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[23]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[24]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[25]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[26]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[27]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[28]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[29]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[2]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[30]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[31]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[3]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[4]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[5]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[6]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[7]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[8]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_i[9]}]
+set_input_delay -min 1.0 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_err_i}]
 
-######################################
-# CORE Clock domain input output
-######################################
-create_clock [get_ports $::env(CORE_CLOCK_PORT)]  -name $::env(CORE_CLOCK_NAME)  -period $::env(CORE_CLOCK_PERIOD)
-set core_input_delay_value [expr $::env(CORE_CLOCK_PERIOD) * 0.6]
-set core_output_delay_value [expr $::env(CORE_CLOCK_PERIOD) * 0.6]
-puts "\[INFO\]: Setting core output delay to: $core_output_delay_value"
-puts "\[INFO\]: Setting core input delay to: $core_input_delay_value"
-set core_clk_indx [lsearch [all_inputs] [get_port $::env(CORE_CLOCK_NAME)]]
-set core_rst_indx [lsearch [all_inputs] [get_port cpu_rst_n]]
-set all_inputs_wo_core_clk_rst [lreplace [all_inputs] $core_clk_indx $core_rst_indx]
-set all_outputs_core [all_outputs] 
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[10]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[11]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[12]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[13]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[14]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[15]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[16]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[17]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[18]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[19]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[20]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[21]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[22]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[23]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[24]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[25]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[26]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[27]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[28]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[29]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[30]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[31]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[4]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[5]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[6]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[7]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[8]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[9]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[10]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[11]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[12]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[13]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[14]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[15]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[16]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[17]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[18]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[19]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[20]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[21]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[22]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[23]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[24]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[25]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[26]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[27]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[28]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[29]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[30]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[31]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[4]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[5]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[6]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[7]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[8]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[9]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_stb_o}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_we_o}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[10]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[11]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[12]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[13]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[14]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[15]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[16]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[17]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[18]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[19]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[20]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[21]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[22]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[23]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[24]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[25]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[26]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[27]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[28]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[29]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[30]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[31]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[4]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[5]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[6]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[7]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[8]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[9]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[10]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[11]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[12]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[13]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[14]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[15]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[16]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[17]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[18]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[19]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[20]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[21]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[22]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[23]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[24]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[25]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[26]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[27]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[28]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[29]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[30]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[31]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[4]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[5]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[6]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[7]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[8]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[9]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[0]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[1]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[2]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[3]}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_stb_o}]
+set_output_delay -max 4.5000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_we_o}]
 
-set_input_delay $core_input_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] $all_inputs_wo_core_clk_rst
-set_input_delay 5.0 -clock [get_clocks $::env(CORE_CLOCK_NAME)] {cpu_rst_n}
-set_output_delay $core_output_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] $all_outputs_core
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[10]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[11]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[12]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[13]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[14]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[15]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[16]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[17]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[18]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[19]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[20]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[21]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[22]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[23]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[24]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[25]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[26]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[27]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[28]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[29]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[30]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[31]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[4]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[5]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[6]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[7]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[8]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_adr_o[9]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[10]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[11]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[12]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[13]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[14]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[15]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[16]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[17]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[18]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[19]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[20]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[21]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[22]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[23]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[24]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[25]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[26]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[27]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[28]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[29]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[30]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[31]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[4]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[5]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[6]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[7]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[8]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_dat_o[9]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_sel_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_stb_o}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_dmem_we_o}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[10]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[11]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[12]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[13]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[14]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[15]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[16]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[17]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[18]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[19]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[20]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[21]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[22]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[23]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[24]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[25]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[26]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[27]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[28]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[29]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[30]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[31]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[4]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[5]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[6]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[7]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[8]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_adr_o[9]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[10]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[11]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[12]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[13]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[14]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[15]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[16]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[17]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[18]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[19]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[20]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[21]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[22]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[23]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[24]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[25]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[26]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[27]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[28]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[29]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[30]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[31]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[4]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[5]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[6]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[7]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[8]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_dat_o[9]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[0]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[1]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[2]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_sel_o[3]}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_stb_o}]
+set_output_delay -min 1.0000 -clock [get_clocks {wb_clk}] -add_delay [get_ports {wbd_imem_we_o}]
 
-create_clock [get_ports $::env(RTC_CLOCK_PORT)]  -name $::env(RTC_CLOCK_NAME)  -period $::env(RTC_CLOCK_PERIOD)
+## Max Delay constraints
+set_max_delay -from [get_ports {wbd_clk_int}]        10
+set_max_delay -to   [get_ports {wbd_clk_riscv}]      10
+set_max_delay -from [get_ports {cfg_cska_riscv[0]}]  10
+set_max_delay -from [get_ports {cfg_cska_riscv[1]}]  10
+set_max_delay -from [get_ports {cfg_cska_riscv[2]}]  10 
+set_max_delay -from [get_ports {cfg_cska_riscv[3]}]  10
 
-######################################
-# WB Clock domain input output
-######################################
-create_clock [get_ports $::env(WB_CLOCK_PORT)]  -name $::env(WB_CLOCK_NAME)  -period $::env(WB_CLOCK_PERIOD)
-set wb_input_delay_value [expr $::env(WB_CLOCK_PERIOD) * 0.45]
-set wb_output_delay_value [expr $::env(WB_CLOCK_PERIOD) * 0.45]
-puts "\[INFO\]: Setting wb output delay to:$wb_output_delay_value"
-puts "\[INFO\]: Setting wb input delay to: $wb_input_delay_value"
-set wb_clk_indx [lsearch [all_inputs] [get_port $::env(WB_CLOCK_NAME)]]
-set wb_rst_indx [lsearch [all_inputs] [get_port wb_rst_n]]
-set all_inputs_wo_wb_clk_rst [lreplace [all_inputs] $wb_clk_indx $wb_rst_indx]
-set all_outputs_wb [all_outputs]
+set_max_delay -from [get_ports {fuse_mhartid[0]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[10]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[11]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[12]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[13]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[14]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[15]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[16]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[17]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[18]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[19]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[1]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[20]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[21]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[22]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[23]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[24]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[25]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[26]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[27]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[28]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[29]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[2]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[30]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[31]}]   10
+set_max_delay -from [get_ports {fuse_mhartid[3]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[4]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[5]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[6]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[7]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[8]}]    10
+set_max_delay -from [get_ports {fuse_mhartid[9]}]    10
+set_max_delay -from [get_ports {irq_lines[0]}]       10
+set_max_delay -from [get_ports {irq_lines[10]}]      10
+set_max_delay -from [get_ports {irq_lines[11]}]      10
+set_max_delay -from [get_ports {irq_lines[12]}]      10
+set_max_delay -from [get_ports {irq_lines[13]}]      10
+set_max_delay -from [get_ports {irq_lines[14]}]      10
+set_max_delay -from [get_ports {irq_lines[15]}]      10
+set_max_delay -from [get_ports {irq_lines[1]}]       10
+set_max_delay -from [get_ports {irq_lines[2]}]       10
+set_max_delay -from [get_ports {irq_lines[3]}]       10
+set_max_delay -from [get_ports {irq_lines[4]}]       10
+set_max_delay -from [get_ports {irq_lines[5]}]       10
+set_max_delay -from [get_ports {irq_lines[6]}]       10
+set_max_delay -from [get_ports {irq_lines[7]}]       10
+set_max_delay -from [get_ports {irq_lines[8]}]       10
+set_max_delay -from [get_ports {irq_lines[9]}]       10
 
-set_false_path -to riscv_debug*
-set_false_path -from soft_irq
+set_max_delay -to   [get_ports {riscv_debug[0]}]     10
+set_max_delay -to   [get_ports {riscv_debug[10]}]    10
+set_max_delay -to   [get_ports {riscv_debug[11]}]    10
+set_max_delay -to   [get_ports {riscv_debug[12]}]    10
+set_max_delay -to   [get_ports {riscv_debug[13]}]    10
+set_max_delay -to   [get_ports {riscv_debug[14]}]    10
+set_max_delay -to   [get_ports {riscv_debug[15]}]    10
+set_max_delay -to   [get_ports {riscv_debug[16]}]    10
+set_max_delay -to   [get_ports {riscv_debug[17]}]    10
+set_max_delay -to   [get_ports {riscv_debug[18]}]    10
+set_max_delay -to   [get_ports {riscv_debug[19]}]    10
+set_max_delay -to   [get_ports {riscv_debug[1]}]     10
+set_max_delay -to   [get_ports {riscv_debug[20]}]    10
+set_max_delay -to   [get_ports {riscv_debug[21]}]    10
+set_max_delay -to   [get_ports {riscv_debug[22]}]    10
+set_max_delay -to   [get_ports {riscv_debug[23]}]    10
+set_max_delay -to   [get_ports {riscv_debug[24]}]    10
+set_max_delay -to   [get_ports {riscv_debug[25]}]    10
+set_max_delay -to   [get_ports {riscv_debug[26]}]    10
+set_max_delay -to   [get_ports {riscv_debug[27]}]    10
+set_max_delay -to   [get_ports {riscv_debug[28]}]    10
+set_max_delay -to   [get_ports {riscv_debug[29]}]    10
+set_max_delay -to   [get_ports {riscv_debug[2]}]     10
+set_max_delay -to   [get_ports {riscv_debug[30]}]    10
+set_max_delay -to   [get_ports {riscv_debug[31]}]    10
+set_max_delay -to   [get_ports {riscv_debug[32]}]    10
+set_max_delay -to   [get_ports {riscv_debug[33]}]    10
+set_max_delay -to   [get_ports {riscv_debug[34]}]    10
+set_max_delay -to   [get_ports {riscv_debug[35]}]    10
+set_max_delay -to   [get_ports {riscv_debug[36]}]    10
+set_max_delay -to   [get_ports {riscv_debug[37]}]    10
+set_max_delay -to   [get_ports {riscv_debug[38]}]    10
+set_max_delay -to   [get_ports {riscv_debug[39]}]    10
+set_max_delay -to   [get_ports {riscv_debug[3]}]     10
+set_max_delay -to   [get_ports {riscv_debug[40]}]    10
+set_max_delay -to   [get_ports {riscv_debug[41]}]    10
+set_max_delay -to   [get_ports {riscv_debug[42]}]    10
+set_max_delay -to   [get_ports {riscv_debug[43]}]    10
+set_max_delay -to   [get_ports {riscv_debug[44]}]    10
+set_max_delay -to   [get_ports {riscv_debug[45]}]    10
+set_max_delay -to   [get_ports {riscv_debug[46]}]    10
+set_max_delay -to   [get_ports {riscv_debug[47]}]    10
+set_max_delay -to   [get_ports {riscv_debug[48]}]    10
+set_max_delay -to   [get_ports {riscv_debug[49]}]    10
+set_max_delay -to   [get_ports {riscv_debug[4]}]     10
+set_max_delay -to   [get_ports {riscv_debug[50]}]    10
+set_max_delay -to   [get_ports {riscv_debug[51]}]    10
+set_max_delay -to   [get_ports {riscv_debug[52]}]    10
+set_max_delay -to   [get_ports {riscv_debug[53]}]    10
+set_max_delay -to   [get_ports {riscv_debug[54]}]    10
+set_max_delay -to   [get_ports {riscv_debug[55]}]    10
+set_max_delay -to   [get_ports {riscv_debug[56]}]    10
+set_max_delay -to   [get_ports {riscv_debug[57]}]    10
+set_max_delay -to   [get_ports {riscv_debug[58]}]    10
+set_max_delay -to   [get_ports {riscv_debug[59]}]    10
+set_max_delay -to   [get_ports {riscv_debug[5]}]     10
+set_max_delay -to   [get_ports {riscv_debug[60]}]    10
+set_max_delay -to   [get_ports {riscv_debug[61]}]    10
+set_max_delay -to   [get_ports {riscv_debug[62]}]    10
+set_max_delay -to   [get_ports {riscv_debug[63]}]    10
+set_max_delay -to   [get_ports {riscv_debug[6]}]     10
+set_max_delay -to   [get_ports {riscv_debug[7]}]     10
+set_max_delay -to   [get_ports {riscv_debug[8]}]     10
+set_max_delay -to   [get_ports {riscv_debug[9]}]     10
 
-set_input_delay $wb_input_delay_value  -clock [get_clocks $::env(WB_CLOCK_NAME)] $all_inputs_wo_wb_clk_rst
-set_input_delay 5.0 -clock [get_clocks $::env(WB_CLOCK_NAME)] {wb_rst_n}
-set_output_delay $wb_output_delay_value  -clock [get_clocks $::env(WB_CLOCK_NAME)] $all_outputs_wb
+set_max_delay -from [get_ports {soft_irq}]           20
 
-#### Clock Async Defination
-set_clock_groups -name async_clock -asynchronous -comment "Async Clock group" -group [get_clocks $::env(WB_CLOCK_NAME)] -group [get_clocks $::env(CORE_CLOCK_NAME)] -group [get_clocks $::env(RTC_CLOCK_NAME)]
+set_clock_uncertainty -rise_from [get_clocks {core_clk}] -rise_to [get_clocks {core_clk}] -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {core_clk}] -rise_to [get_clocks {core_clk}] -setup 0.2000
+set_clock_uncertainty -rise_from [get_clocks {core_clk}] -fall_to [get_clocks {core_clk}] -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {core_clk}] -fall_to [get_clocks {core_clk}] -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {core_clk}] -rise_to [get_clocks {core_clk}] -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {core_clk}] -rise_to [get_clocks {core_clk}] -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {core_clk}] -fall_to [get_clocks {core_clk}] -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {core_clk}] -fall_to [get_clocks {core_clk}] -setup 0.2000
+set_clock_uncertainty -rise_from [get_clocks {rtc_clk}] -rise_to [get_clocks {rtc_clk}]   -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {rtc_clk}] -rise_to [get_clocks {rtc_clk}]   -setup 0.2000
+set_clock_uncertainty -rise_from [get_clocks {rtc_clk}] -fall_to [get_clocks {rtc_clk}]   -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {rtc_clk}] -fall_to [get_clocks {rtc_clk}]   -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {rtc_clk}] -rise_to [get_clocks {rtc_clk}]   -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {rtc_clk}] -rise_to [get_clocks {rtc_clk}]   -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {rtc_clk}] -fall_to [get_clocks {rtc_clk}]   -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {rtc_clk}] -fall_to [get_clocks {rtc_clk}]   -setup 0.2000
+set_clock_uncertainty -rise_from [get_clocks {wb_clk}] -rise_to [get_clocks {wb_clk}]     -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {wb_clk}] -rise_to [get_clocks {wb_clk}]     -setup 0.2000
+set_clock_uncertainty -rise_from [get_clocks {wb_clk}] -fall_to [get_clocks {wb_clk}]     -hold  0.1000
+set_clock_uncertainty -rise_from [get_clocks {wb_clk}] -fall_to [get_clocks {wb_clk}]     -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {wb_clk}] -rise_to [get_clocks {wb_clk}]     -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {wb_clk}] -rise_to [get_clocks {wb_clk}]     -setup 0.2000
+set_clock_uncertainty -fall_from [get_clocks {wb_clk}] -fall_to [get_clocks {wb_clk}]     -hold  0.1000
+set_clock_uncertainty -fall_from [get_clocks {wb_clk}] -fall_to [get_clocks {wb_clk}]     -setup 0.2000
 
-set_clock_uncertainty -from $::env(WB_CLOCK_NAME)    -to $::env(WB_CLOCK_NAME)    -setup 0.400
-set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)  -to $::env(CORE_CLOCK_NAME)   -setup 0.400
-set_clock_uncertainty -from $::env(RTC_CLOCK_NAME)   -to $::env(RTC_CLOCK_NAME)   -setup 0.400
-
-set_clock_uncertainty -from $::env(WB_CLOCK_NAME)    -to $::env(WB_CLOCK_NAME)    -hold 0.050
-set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)  -to $::env(CORE_CLOCK_NAME)   -hold 0.050
-set_clock_uncertainty -from $::env(RTC_CLOCK_NAME)   -to $::env(RTC_CLOCK_NAME)   -hold 0.050
-
-
-# TODO set this as parameter
-set_driving_cell -lib_cell $::env(SYNTH_DRIVING_CELL) -pin $::env(SYNTH_DRIVING_CELL_PIN) [all_inputs]
-set cap_load [expr $::env(SYNTH_CAP_LOAD) / 1000.0]
-puts "\[INFO\]: Setting load to: $cap_load"
-set_load  $cap_load [all_outputs]
+set_clock_groups -name async_clock -asynchronous \
+ -group [get_clocks {core_clk}]\
+ -group [get_clocks {rtc_clk}]\
+ -group [get_clocks {wb_clk}] -comment {Async Clock group}
+###############################################################################
+# Environment
+###############################################################################
+set_load -pin_load 0.0334 [get_ports {wbd_clk_riscv}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_stb_o}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_we_o}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_stb_o}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_we_o}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[63]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[62]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[61]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[60]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[59]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[58]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[57]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[56]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[55]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[54]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[53]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[52]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[51]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[50]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[49]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[48]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[47]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[46]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[45]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[44]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[43]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[42]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[41]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[40]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[39]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[38]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[37]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[36]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[35]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[34]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[33]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[32]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[31]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[30]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[29]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[28]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[27]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[26]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[25]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[24]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[23]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[22]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[21]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[20]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[19]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[18]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[17]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[16]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[15]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[14]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[13]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[12]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[11]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[10]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[9]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[8]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[7]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[6]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[5]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[4]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[3]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[2]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[1]}]
+set_load -pin_load 0.0334 [get_ports {riscv_debug[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[31]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[30]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[29]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[28]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[27]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[26]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[25]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[24]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[23]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[22]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[21]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[20]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[19]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[18]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[17]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[16]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[15]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[14]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[13]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[12]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[11]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[10]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[9]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[8]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[7]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[6]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[5]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[4]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_adr_o[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[31]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[30]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[29]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[28]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[27]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[26]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[25]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[24]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[23]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[22]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[21]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[20]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[19]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[18]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[17]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[16]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[15]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[14]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[13]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[12]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[11]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[10]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[9]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[8]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[7]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[6]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[5]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[4]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_dat_o[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_sel_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_sel_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_sel_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_dmem_sel_o[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[31]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[30]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[29]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[28]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[27]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[26]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[25]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[24]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[23]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[22]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[21]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[20]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[19]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[18]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[17]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[16]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[15]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[14]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[13]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[12]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[11]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[10]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[9]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[8]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[7]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[6]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[5]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[4]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_adr_o[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[31]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[30]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[29]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[28]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[27]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[26]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[25]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[24]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[23]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[22]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[21]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[20]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[19]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[18]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[17]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[16]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[15]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[14]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[13]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[12]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[11]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[10]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[9]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[8]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[7]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[6]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[5]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[4]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_dat_o[0]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_sel_o[3]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_sel_o[2]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_sel_o[1]}]
+set_load -pin_load 0.0334 [get_ports {wbd_imem_sel_o[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {core_clk}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {cpu_rst_n}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {pwrup_rst_n}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {rst_n}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {rtc_clk}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {soft_irq}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wb_clk}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wb_rst_n}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_clk_int}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_ack_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_err_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_ack_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_err_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {cfg_cska_riscv[3]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {cfg_cska_riscv[2]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {cfg_cska_riscv[1]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {cfg_cska_riscv[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[31]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[30]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[29]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[28]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[27]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[26]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[25]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[24]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[23]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[22]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[21]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[20]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[19]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[18]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[17]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[16]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[15]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[14]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[13]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[12]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[11]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[10]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[9]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[8]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[7]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[6]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[5]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[4]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[3]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[2]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[1]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {fuse_mhartid[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[15]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[14]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[13]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[12]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[11]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[10]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[9]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[8]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[7]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[6]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[5]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[4]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[3]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[2]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[1]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {irq_lines[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[31]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[30]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[29]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[28]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[27]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[26]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[25]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[24]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[23]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[22]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[21]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[20]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[19]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[18]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[17]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[16]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[15]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[14]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[13]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[12]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[11]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[10]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[9]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[8]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[7]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[6]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[5]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[4]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[3]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[2]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[1]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_dmem_dat_i[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[31]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[30]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[29]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[28]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[27]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[26]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[25]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[24]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[23]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[22]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[21]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[20]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[19]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[18]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[17]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[16]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[15]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[14]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[13]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[12]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[11]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[10]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[9]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[8]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[7]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[6]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[5]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[4]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[3]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[2]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[1]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_1 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbd_imem_dat_i[0]}]
+###############################################################################
+# Design Rules
+###############################################################################

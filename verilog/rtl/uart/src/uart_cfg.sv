@@ -159,31 +159,31 @@ output            reg_ack        ;
 // Internal Wire Declarations
 //-----------------------------------------------------------------------
 
-wire           sw_rd_en;
-wire           sw_wr_en;
-wire  [3:0]    sw_addr ; // addressing 16 registers
-wire           wr_be   ;
+logic           sw_rd_en;
+logic           sw_wr_en;
+logic  [3:0]    sw_addr ; // addressing 16 registers
+logic           wr_be   ;
 
-reg   [7:0]  reg_rdata      ;
-reg           reg_ack     ;
+logic   [7:0]  reg_rdata      ;
+logic           reg_ack     ;
 
-wire [7:0]    reg_0;  // Software_Reg_0
-wire [7:0]    reg_1;  // Software-Reg_1
-wire [7:0]    reg_2;  // Software-Reg_2
-wire [7:0]    reg_3;  // Software-Reg_3
-wire [7:0]    reg_4;  // Software-Reg_4
-wire [7:0]    reg_5;  // Software-Reg_5
-wire [7:0]    reg_6;  // Software-Reg_6
-wire [7:0]    reg_7;  // Software-Reg_7
-wire [7:0]    reg_8;  // Software-Reg_8
-wire [7:0]    reg_9;  // Software-Reg_9
-wire [7:0]    reg_10; // Software-Reg_10
-wire [7:0]    reg_11; // Software-Reg_11
-wire [7:0]    reg_12; // Software-Reg_12
-wire [7:0]    reg_13; // Software-Reg_13
-wire [7:0]    reg_14; // Software-Reg_14
-wire [7:0]    reg_15; // Software-Reg_15
-reg  [7:0]    reg_out;
+logic [7:0]    reg_0;  // Software_Reg_0
+logic [7:0]    reg_1;  // Software-Reg_1
+logic [7:0]    reg_2;  // Software-Reg_2
+logic [7:0]    reg_3;  // Software-Reg_3
+logic [7:0]    reg_4;  // Software-Reg_4
+logic [7:0]    reg_5;  // Software-Reg_5
+logic [7:0]    reg_6;  // Software-Reg_6
+logic [7:0]    reg_7;  // Software-Reg_7
+logic [7:0]    reg_8;  // Software-Reg_8
+logic [7:0]    reg_9;  // Software-Reg_9
+logic [7:0]    reg_10; // Software-Reg_10
+logic [7:0]    reg_11; // Software-Reg_11
+logic [7:0]    reg_12; // Software-Reg_12
+logic [7:0]    reg_13; // Software-Reg_13
+logic [7:0]    reg_14; // Software-Reg_14
+logic [7:0]    reg_15; // Software-Reg_15
+logic [7:0]    reg_out;
 
 //-----------------------------------------------------------------------
 // Main code starts here
@@ -192,10 +192,20 @@ reg  [7:0]    reg_out;
 //-----------------------------------------------------------------------
 // Internal Logic Starts here
 //-----------------------------------------------------------------------
-    assign sw_addr       = reg_addr [3:0];
-    assign sw_rd_en      = reg_cs & !reg_wr;
-    assign sw_wr_en      = reg_cs & reg_wr;
-    assign wr_be         = reg_be;
+always @ (posedge mclk or negedge reset_n)
+begin
+   if (reset_n == 1'b0) begin
+        sw_addr       <= 'h0;
+        sw_rd_en      <= 'h0;
+        sw_wr_en      <= 'h0;
+        wr_be         <= 'h0;
+   end else begin
+        sw_addr       <= reg_addr [3:0];
+        sw_rd_en      <= reg_cs & !reg_wr & !reg_ack ;
+        sw_wr_en      <= reg_cs & reg_wr  & !reg_ack;
+        wr_be         <= reg_be;
+   end
+end
 
 
 //-----------------------------------------------------------------------

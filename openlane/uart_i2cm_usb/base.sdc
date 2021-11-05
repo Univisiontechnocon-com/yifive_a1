@@ -36,44 +36,68 @@ create_clock [get_pins  $::env(LINE_CLOCK_PORT)]  -name $::env(LINE_CLOCK_NAME) 
 create_clock [get_ports $::env(USB_CLOCK_PORT)]  -name $::env(USB_CLOCK_NAME)  -period $::env(USB_CLOCK_PERIOD)
 
 set core_input_delay_value [expr $::env(CORE_CLOCK_PERIOD) * 0.6]
-set core_output_delay_value [expr $::env(CORE_CLOCK_PERIOD) * 0.6]
+set core_output_delay_value [expr $::env(CORE_CLOCK_PERIOD) * 0.4]
 
 set line_input_delay_value  [expr $::env(LINE_CLOCK_PERIOD) * 0.6]
-set line_output_delay_value [expr $::env(LINE_CLOCK_PERIOD) * 0.6]
+set line_output_delay_value [expr $::env(LINE_CLOCK_PERIOD) * 0.4]
 
 set usb_input_delay_value  [expr $::env(USB_CLOCK_PERIOD) * 0.6]
-set usb_output_delay_value [expr $::env(USB_CLOCK_PERIOD) * 0.6]
+set usb_output_delay_value [expr $::env(USB_CLOCK_PERIOD) * 0.4]
 puts "\[INFO\]: Setting wb output delay to:$core_output_delay_value"
 puts "\[INFO\]: Setting wb input delay to: $core_input_delay_value"
 
+#uart_i2c_usb_sel static signal
+set_max_delay -from {uart_i2c_usb_sel*} 10
 
-set_input_delay 2.0 -clock [get_clocks $::env(CORE_CLOCK_NAME)] {uart_rstn}
-set_input_delay 2.0 -clock [get_clocks $::env(CORE_CLOCK_NAME)] {i2c_rstn}
-set_input_delay 2.0 -clock [get_clocks $::env(CORE_CLOCK_NAME)] {usb_rstn}
-set_input_delay 2.0 -clock [get_clocks $::env(CORE_CLOCK_NAME)] {uart_i2c_usb_sel*}
+set_input_delay -max 2.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {uart_rstn}
+set_input_delay -max 2.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {i2c_rstn}
+set_input_delay -max 2.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {usb_rstn}
 
-set_input_delay  $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_cs*]
-set_input_delay  $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_addr*]
-set_input_delay  $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wr*]
-set_input_delay  $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_be*]
-set_input_delay  $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wdata*]
+set_input_delay -min 0.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {uart_rstn}
+set_input_delay -min 0.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {i2c_rstn}
+set_input_delay -min 0.0  -clock [get_clocks $::env(CORE_CLOCK_NAME)] {usb_rstn}
+
+set_input_delay  -max $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_cs*]
+set_input_delay  -max $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_addr*]
+set_input_delay  -max $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wr*]
+set_input_delay  -max $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_be*]
+set_input_delay  -max $core_input_delay_value   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wdata*]
+
+set_input_delay  -min 2   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_cs*]
+set_input_delay  -min 2   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_addr*]
+set_input_delay  -min 2   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wr*]
+set_input_delay  -min 2   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_be*]
+set_input_delay  -min 2   -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_wdata*]
+
+set_output_delay -max $core_output_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_rdata*]
+set_output_delay -max $core_output_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_ack*]
+set_output_delay -min 2                         -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_rdata*]
+set_output_delay -min 2                         -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_ack*]
+
+set_multicycle_path -setup -from [get_port reg_cs]  -to [get_port reg_ack] 2
+set_multicycle_path -hold  -from [get_port reg_cs]  -to [get_port reg_ack] 1
+
+set_multicycle_path -setup -from [get_port reg_wr]  -to [get_port reg_ack] 2
+set_multicycle_path -hold  -from [get_port reg_wr]  -to [get_port reg_ack] 1
+
+set_input_delay  -max $line_input_delay_value   -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_in*]
+set_input_delay  -min 2                         -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_in*]
+
+set_output_delay -max $line_input_delay_value   -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_oeb*]
+set_output_delay -max $line_output_delay_value  -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_out*]
+set_output_delay -min 2                         -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_oeb*]
+set_output_delay -min 2                         -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_out*]
 
 
-set_output_delay $core_output_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_rdata*]
-set_output_delay $core_output_delay_value  -clock [get_clocks $::env(CORE_CLOCK_NAME)] [get_port reg_ack*]
+set_clock_groups -name async_clock -asynchronous -comment "Async Clock group" -group [get_clocks $::env(CORE_CLOCK_NAME)] -group [get_clocks $::env(LINE_CLOCK_NAME)] -group [get_clocks $::env(USB_CLOCK_NAME)] 
 
-set_input_delay  $line_input_delay_value   -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_in*]
-set_output_delay $line_input_delay_value   -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_oeb*]
-set_output_delay $line_output_delay_value  -clock [get_clocks $::env(LINE_CLOCK_NAME)] [get_port io_out*]
+set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)  -to $::env(CORE_CLOCK_NAME) -setup 0.200
+set_clock_uncertainty -from $::env(LINE_CLOCK_NAME)  -to $::env(LINE_CLOCK_NAME) -setup 0.200
+set_clock_uncertainty -from $::env(USB_CLOCK_NAME)   -to $::env(USB_CLOCK_NAME) -setup 0.200
 
-
-set_clock_groups -name async_clock -asynchronous -comment "Async Clock group" -group [get_clocks $::env(CORE_CLOCK_NAME)] -group [get_clocks $::env(LINE_CLOCK_NAME)] 
-
-set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)   -to $::env(CORE_CLOCK_NAME)  -setup 0.400
-set_clock_uncertainty -from $::env(LINE_CLOCK_NAME)   -to $::env(LINE_CLOCK_NAME) -setup 0.400
-
-set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)   -to $::env(CORE_CLOCK_NAME)  -hold 0.050
-set_clock_uncertainty -from $::env(LINE_CLOCK_NAME)   -to $::env(LINE_CLOCK_NAME) -hold 0.050
+set_clock_uncertainty -from $::env(CORE_CLOCK_NAME)  -to $::env(CORE_CLOCK_NAME) -hold 0.100
+set_clock_uncertainty -from $::env(LINE_CLOCK_NAME)  -to $::env(LINE_CLOCK_NAME) -hold 0.100
+set_clock_uncertainty -from $::env(USB_CLOCK_NAME)   -to $::env(USB_CLOCK_NAME) -hold 0.100
 
 # TODO set this as parameter
 set_driving_cell -lib_cell $::env(SYNTH_DRIVING_CELL) -pin $::env(SYNTH_DRIVING_CELL_PIN) [all_inputs]
