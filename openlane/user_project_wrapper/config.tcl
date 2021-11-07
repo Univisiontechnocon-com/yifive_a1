@@ -139,4 +139,9 @@ set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_TR_DRC) "0"
 
+set ::env(GLB_RT_OBS) "met5 0    0   2920 3520 \
+	               met1 904 2708 905  2710 \
+	               met2 904 2708 905  2710 \
+	               met3 904 2708 905  2710 \
+	               met4 904 2708 905  2710"
 

@@ -77,8 +77,8 @@ module uart_i2c_usb_top
 `endif
     // clock skew adjust
    input logic [3:0]   cfg_cska_uart,
-   input logic	       wbd_clk_int,
-   output logic	       wbd_clk_uart,
+   input logic	        wbd_clk_int,
+   output logic	wbd_clk_uart,
 
    input logic         uart_rstn , // async reset
    input logic         i2c_rstn  , // async reset

@@ -52,6 +52,10 @@
 ////          m0: external host                                   ////
 ////          m1: risc imem                                       ////
 ////          m2: risc dmem                                       ////
+////   0.6 - 06 Nov 2021, Dinesh A                                ////
+////          Push the clock skew logic inside the block due to   ////
+////          global power hooking challanges for small block at  ////
+////          top level                                           ////
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
