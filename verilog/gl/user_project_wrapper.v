@@ -232,6 +232,127 @@ module user_project_wrapper (user_clock2,
  wire sdram_rst_n;
  wire soft_irq;
  wire spi_rst_n;
+ wire \sram_addr0[0] ;
+ wire \sram_addr0[1] ;
+ wire \sram_addr0[2] ;
+ wire \sram_addr0[3] ;
+ wire \sram_addr0[4] ;
+ wire \sram_addr0[5] ;
+ wire \sram_addr0[6] ;
+ wire \sram_addr0[7] ;
+ wire \sram_addr0[8] ;
+ wire \sram_addr1[0] ;
+ wire \sram_addr1[1] ;
+ wire \sram_addr1[2] ;
+ wire \sram_addr1[3] ;
+ wire \sram_addr1[4] ;
+ wire \sram_addr1[5] ;
+ wire \sram_addr1[6] ;
+ wire \sram_addr1[7] ;
+ wire \sram_addr1[8] ;
+ wire sram_csb0;
+ wire sram_csb1;
+ wire \sram_din0[0] ;
+ wire \sram_din0[10] ;
+ wire \sram_din0[11] ;
+ wire \sram_din0[12] ;
+ wire \sram_din0[13] ;
+ wire \sram_din0[14] ;
+ wire \sram_din0[15] ;
+ wire \sram_din0[16] ;
+ wire \sram_din0[17] ;
+ wire \sram_din0[18] ;
+ wire \sram_din0[19] ;
+ wire \sram_din0[1] ;
+ wire \sram_din0[20] ;
+ wire \sram_din0[21] ;
+ wire \sram_din0[22] ;
+ wire \sram_din0[23] ;
+ wire \sram_din0[24] ;
+ wire \sram_din0[25] ;
+ wire \sram_din0[26] ;
+ wire \sram_din0[27] ;
+ wire \sram_din0[28] ;
+ wire \sram_din0[29] ;
+ wire \sram_din0[2] ;
+ wire \sram_din0[30] ;
+ wire \sram_din0[31] ;
+ wire \sram_din0[3] ;
+ wire \sram_din0[4] ;
+ wire \sram_din0[5] ;
+ wire \sram_din0[6] ;
+ wire \sram_din0[7] ;
+ wire \sram_din0[8] ;
+ wire \sram_din0[9] ;
+ wire \sram_dout0[0] ;
+ wire \sram_dout0[10] ;
+ wire \sram_dout0[11] ;
+ wire \sram_dout0[12] ;
+ wire \sram_dout0[13] ;
+ wire \sram_dout0[14] ;
+ wire \sram_dout0[15] ;
+ wire \sram_dout0[16] ;
+ wire \sram_dout0[17] ;
+ wire \sram_dout0[18] ;
+ wire \sram_dout0[19] ;
+ wire \sram_dout0[1] ;
+ wire \sram_dout0[20] ;
+ wire \sram_dout0[21] ;
+ wire \sram_dout0[22] ;
+ wire \sram_dout0[23] ;
+ wire \sram_dout0[24] ;
+ wire \sram_dout0[25] ;
+ wire \sram_dout0[26] ;
+ wire \sram_dout0[27] ;
+ wire \sram_dout0[28] ;
+ wire \sram_dout0[29] ;
+ wire \sram_dout0[2] ;
+ wire \sram_dout0[30] ;
+ wire \sram_dout0[31] ;
+ wire \sram_dout0[3] ;
+ wire \sram_dout0[4] ;
+ wire \sram_dout0[5] ;
+ wire \sram_dout0[6] ;
+ wire \sram_dout0[7] ;
+ wire \sram_dout0[8] ;
+ wire \sram_dout0[9] ;
+ wire \sram_dout1[0] ;
+ wire \sram_dout1[10] ;
+ wire \sram_dout1[11] ;
+ wire \sram_dout1[12] ;
+ wire \sram_dout1[13] ;
+ wire \sram_dout1[14] ;
+ wire \sram_dout1[15] ;
+ wire \sram_dout1[16] ;
+ wire \sram_dout1[17] ;
+ wire \sram_dout1[18] ;
+ wire \sram_dout1[19] ;
+ wire \sram_dout1[1] ;
+ wire \sram_dout1[20] ;
+ wire \sram_dout1[21] ;
+ wire \sram_dout1[22] ;
+ wire \sram_dout1[23] ;
+ wire \sram_dout1[24] ;
+ wire \sram_dout1[25] ;
+ wire \sram_dout1[26] ;
+ wire \sram_dout1[27] ;
+ wire \sram_dout1[28] ;
+ wire \sram_dout1[29] ;
+ wire \sram_dout1[2] ;
+ wire \sram_dout1[30] ;
+ wire \sram_dout1[31] ;
+ wire \sram_dout1[3] ;
+ wire \sram_dout1[4] ;
+ wire \sram_dout1[5] ;
+ wire \sram_dout1[6] ;
+ wire \sram_dout1[7] ;
+ wire \sram_dout1[8] ;
+ wire \sram_dout1[9] ;
+ wire sram_web0;
+ wire \sram_wmask0[0] ;
+ wire \sram_wmask0[1] ;
+ wire \sram_wmask0[2] ;
+ wire \sram_wmask0[3] ;
  wire \uart_i2c_usb_sel[0] ;
  wire \uart_i2c_usb_sel[1] ;
  wire uart_rst_n;
@@ -1828,6 +1949,9 @@ module user_project_wrapper (user_clock2,
     .rst_n(wbd_int_rst_n),
     .rtc_clk(rtc_clk),
     .soft_irq(soft_irq),
+    .sram_csb0(sram_csb0),
+    .sram_csb1(sram_csb1),
+    .sram_web0(sram_web0),
     .vccd1(vccd1),
     .vssd1(vssd1),
     .wb_clk(wbd_clk_riscv),
@@ -1958,6 +2082,124 @@ module user_project_wrapper (user_clock2,
     la_data_out[2],
     la_data_out[1],
     la_data_out[0]}),
+    .sram_addr0({\sram_addr0[8] ,
+    \sram_addr0[7] ,
+    \sram_addr0[6] ,
+    \sram_addr0[5] ,
+    \sram_addr0[4] ,
+    \sram_addr0[3] ,
+    \sram_addr0[2] ,
+    \sram_addr0[1] ,
+    \sram_addr0[0] }),
+    .sram_addr1({\sram_addr1[8] ,
+    \sram_addr1[7] ,
+    \sram_addr1[6] ,
+    \sram_addr1[5] ,
+    \sram_addr1[4] ,
+    \sram_addr1[3] ,
+    \sram_addr1[2] ,
+    \sram_addr1[1] ,
+    \sram_addr1[0] }),
+    .sram_din0({\sram_din0[31] ,
+    \sram_din0[30] ,
+    \sram_din0[29] ,
+    \sram_din0[28] ,
+    \sram_din0[27] ,
+    \sram_din0[26] ,
+    \sram_din0[25] ,
+    \sram_din0[24] ,
+    \sram_din0[23] ,
+    \sram_din0[22] ,
+    \sram_din0[21] ,
+    \sram_din0[20] ,
+    \sram_din0[19] ,
+    \sram_din0[18] ,
+    \sram_din0[17] ,
+    \sram_din0[16] ,
+    \sram_din0[15] ,
+    \sram_din0[14] ,
+    \sram_din0[13] ,
+    \sram_din0[12] ,
+    \sram_din0[11] ,
+    \sram_din0[10] ,
+    \sram_din0[9] ,
+    \sram_din0[8] ,
+    \sram_din0[7] ,
+    \sram_din0[6] ,
+    \sram_din0[5] ,
+    \sram_din0[4] ,
+    \sram_din0[3] ,
+    \sram_din0[2] ,
+    \sram_din0[1] ,
+    \sram_din0[0] }),
+    .sram_dout0({\sram_dout0[31] ,
+    \sram_dout0[30] ,
+    \sram_dout0[29] ,
+    \sram_dout0[28] ,
+    \sram_dout0[27] ,
+    \sram_dout0[26] ,
+    \sram_dout0[25] ,
+    \sram_dout0[24] ,
+    \sram_dout0[23] ,
+    \sram_dout0[22] ,
+    \sram_dout0[21] ,
+    \sram_dout0[20] ,
+    \sram_dout0[19] ,
+    \sram_dout0[18] ,
+    \sram_dout0[17] ,
+    \sram_dout0[16] ,
+    \sram_dout0[15] ,
+    \sram_dout0[14] ,
+    \sram_dout0[13] ,
+    \sram_dout0[12] ,
+    \sram_dout0[11] ,
+    \sram_dout0[10] ,
+    \sram_dout0[9] ,
+    \sram_dout0[8] ,
+    \sram_dout0[7] ,
+    \sram_dout0[6] ,
+    \sram_dout0[5] ,
+    \sram_dout0[4] ,
+    \sram_dout0[3] ,
+    \sram_dout0[2] ,
+    \sram_dout0[1] ,
+    \sram_dout0[0] }),
+    .sram_dout1({\sram_dout1[31] ,
+    \sram_dout1[30] ,
+    \sram_dout1[29] ,
+    \sram_dout1[28] ,
+    \sram_dout1[27] ,
+    \sram_dout1[26] ,
+    \sram_dout1[25] ,
+    \sram_dout1[24] ,
+    \sram_dout1[23] ,
+    \sram_dout1[22] ,
+    \sram_dout1[21] ,
+    \sram_dout1[20] ,
+    \sram_dout1[19] ,
+    \sram_dout1[18] ,
+    \sram_dout1[17] ,
+    \sram_dout1[16] ,
+    \sram_dout1[15] ,
+    \sram_dout1[14] ,
+    \sram_dout1[13] ,
+    \sram_dout1[12] ,
+    \sram_dout1[11] ,
+    \sram_dout1[10] ,
+    \sram_dout1[9] ,
+    \sram_dout1[8] ,
+    \sram_dout1[7] ,
+    \sram_dout1[6] ,
+    \sram_dout1[5] ,
+    \sram_dout1[4] ,
+    \sram_dout1[3] ,
+    \sram_dout1[2] ,
+    \sram_dout1[1] ,
+    \sram_dout1[0] }),
+    .sram_wmask0({\sram_wmask0[3] ,
+    \sram_wmask0[2] ,
+    \sram_wmask0[1] ,
+    \sram_wmask0[0] }),
     .wbd_dmem_adr_o({\wbd_riscv_dmem_adr_i[31] ,
     \wbd_riscv_dmem_adr_i[30] ,
     \wbd_riscv_dmem_adr_i[29] ,
@@ -2629,6 +2871,131 @@ module user_project_wrapper (user_clock2,
     \wbd_spim_sel_o[2] ,
     \wbd_spim_sel_o[1] ,
     \wbd_spim_sel_o[0] }));
+ sky130_sram_2kbyte_1rw1r_32x512_8 u_sram_2kb (.csb0(sram_csb0),
+    .csb1(sram_csb1),
+    .web0(sram_web0),
+    .clk0(cpu_clk),
+    .clk1(cpu_clk),
+    .vccd1(vccd1),
+    .vssd1(vssd1),
+    .addr0({\sram_addr0[8] ,
+    \sram_addr0[7] ,
+    \sram_addr0[6] ,
+    \sram_addr0[5] ,
+    \sram_addr0[4] ,
+    \sram_addr0[3] ,
+    \sram_addr0[2] ,
+    \sram_addr0[1] ,
+    \sram_addr0[0] }),
+    .addr1({\sram_addr1[8] ,
+    \sram_addr1[7] ,
+    \sram_addr1[6] ,
+    \sram_addr1[5] ,
+    \sram_addr1[4] ,
+    \sram_addr1[3] ,
+    \sram_addr1[2] ,
+    \sram_addr1[1] ,
+    \sram_addr1[0] }),
+    .din0({\sram_din0[31] ,
+    \sram_din0[30] ,
+    \sram_din0[29] ,
+    \sram_din0[28] ,
+    \sram_din0[27] ,
+    \sram_din0[26] ,
+    \sram_din0[25] ,
+    \sram_din0[24] ,
+    \sram_din0[23] ,
+    \sram_din0[22] ,
+    \sram_din0[21] ,
+    \sram_din0[20] ,
+    \sram_din0[19] ,
+    \sram_din0[18] ,
+    \sram_din0[17] ,
+    \sram_din0[16] ,
+    \sram_din0[15] ,
+    \sram_din0[14] ,
+    \sram_din0[13] ,
+    \sram_din0[12] ,
+    \sram_din0[11] ,
+    \sram_din0[10] ,
+    \sram_din0[9] ,
+    \sram_din0[8] ,
+    \sram_din0[7] ,
+    \sram_din0[6] ,
+    \sram_din0[5] ,
+    \sram_din0[4] ,
+    \sram_din0[3] ,
+    \sram_din0[2] ,
+    \sram_din0[1] ,
+    \sram_din0[0] }),
+    .dout0({\sram_dout0[31] ,
+    \sram_dout0[30] ,
+    \sram_dout0[29] ,
+    \sram_dout0[28] ,
+    \sram_dout0[27] ,
+    \sram_dout0[26] ,
+    \sram_dout0[25] ,
+    \sram_dout0[24] ,
+    \sram_dout0[23] ,
+    \sram_dout0[22] ,
+    \sram_dout0[21] ,
+    \sram_dout0[20] ,
+    \sram_dout0[19] ,
+    \sram_dout0[18] ,
+    \sram_dout0[17] ,
+    \sram_dout0[16] ,
+    \sram_dout0[15] ,
+    \sram_dout0[14] ,
+    \sram_dout0[13] ,
+    \sram_dout0[12] ,
+    \sram_dout0[11] ,
+    \sram_dout0[10] ,
+    \sram_dout0[9] ,
+    \sram_dout0[8] ,
+    \sram_dout0[7] ,
+    \sram_dout0[6] ,
+    \sram_dout0[5] ,
+    \sram_dout0[4] ,
+    \sram_dout0[3] ,
+    \sram_dout0[2] ,
+    \sram_dout0[1] ,
+    \sram_dout0[0] }),
+    .dout1({\sram_dout1[31] ,
+    \sram_dout1[30] ,
+    \sram_dout1[29] ,
+    \sram_dout1[28] ,
+    \sram_dout1[27] ,
+    \sram_dout1[26] ,
+    \sram_dout1[25] ,
+    \sram_dout1[24] ,
+    \sram_dout1[23] ,
+    \sram_dout1[22] ,
+    \sram_dout1[21] ,
+    \sram_dout1[20] ,
+    \sram_dout1[19] ,
+    \sram_dout1[18] ,
+    \sram_dout1[17] ,
+    \sram_dout1[16] ,
+    \sram_dout1[15] ,
+    \sram_dout1[14] ,
+    \sram_dout1[13] ,
+    \sram_dout1[12] ,
+    \sram_dout1[11] ,
+    \sram_dout1[10] ,
+    \sram_dout1[9] ,
+    \sram_dout1[8] ,
+    \sram_dout1[7] ,
+    \sram_dout1[6] ,
+    \sram_dout1[5] ,
+    \sram_dout1[4] ,
+    \sram_dout1[3] ,
+    \sram_dout1[2] ,
+    \sram_dout1[1] ,
+    \sram_dout1[0] }),
+    .wmask0({\sram_wmask0[3] ,
+    \sram_wmask0[2] ,
+    \sram_wmask0[1] ,
+    \sram_wmask0[0] }));
  uart_i2c_usb_top u_uart_i2c_usb (.app_clk(wbd_clk_uart),
     .i2c_rstn(i2c_rst_n),
     .reg_ack(wbd_uart_ack_i),

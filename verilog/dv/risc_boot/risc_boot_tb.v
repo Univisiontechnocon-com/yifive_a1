@@ -497,7 +497,35 @@ uart_agent tb_uart(
 	force uut.mprj.u_wb_host.u_clkbuf_usb.VGND =VSS;
 	force uut.mprj.u_wb_host.u_clkbuf_usb.VNB = VSS;
 
-    end
+	force uut.mprj.u_wb_host.u_sdram_ref_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_sdram_ref_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_sdram_ref_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_sdram_ref_sel.u_mux.VNB = VSS;
+
+	force uut.mprj.u_wb_host.u_sdram_clk_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_sdram_clk_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_sdram_clk_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_sdram_clk_sel.u_mux.VNB = VSS;
+
+	force uut.mprj.u_wb_host.u_cpu_ref_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_cpu_ref_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_cpu_ref_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_cpu_ref_sel.u_mux.VNB = VSS;
+
+	force uut.mprj.u_wb_host.u_cpu_clk_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_cpu_clk_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_cpu_clk_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_cpu_clk_sel.u_mux.VNB = VSS;
+
+	force uut.mprj.u_wb_host.u_wbs_clk_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_wbs_clk_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_wbs_clk_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_wbs_clk_sel.u_mux.VNB = VSS;
+
+	force uut.mprj.u_wb_host.u_usb_clk_sel.u_mux.VPWR =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_usb_clk_sel.u_mux.VPB  =USER_VDD1V8;
+	force uut.mprj.u_wb_host.u_usb_clk_sel.u_mux.VGND =VSS;
+	force uut.mprj.u_wb_host.u_usb_clk_sel.u_mux.VNB = VSS;    end
 `endif    
 
 

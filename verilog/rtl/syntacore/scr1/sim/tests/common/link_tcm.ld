@@ -27,10 +27,11 @@ ENTRY(_start)
 
 MEMORY {
   ROM (rxx) : ORIGIN = 0x0, LENGTH = 64K
+  TCM (rwx) : ORIGIN = 0x00480000, LENGTH = 2K
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
-STACK_SIZE = 1024;
+STACK_SIZE = 256;
 
 CL_SIZE = 32;
 
@@ -59,7 +60,7 @@ SECTIONS {
     *(sc_test_section)
     . = ALIGN(CL_SIZE);
      PROVIDE(__TEXT_END__ = .);
-  } >RAM AT>ROM
+  } >TCM AT>ROM
 
 
   .rodata ALIGN(CL_SIZE) : {
@@ -68,7 +69,7 @@ SECTIONS {
     . = ALIGN(CL_SIZE);
     LONG(0x13);
     . = ALIGN(CL_SIZE);
-  } >RAM AT>ROM
+  } >TCM AT>ROM
 
 
   /* data segment */
@@ -76,14 +77,13 @@ SECTIONS {
     PROVIDE(__DATA_START__ = .);
     *(.data .data.*)
     . = ALIGN(CL_SIZE);
-  }>RAM
-
+  } >TCM 
   
   .sdata ALIGN(CL_SIZE) : {
     *(.sdata .sdata.* .gnu.linkonce.s.*)
     . = ALIGN(CL_SIZE);
     PROVIDE(__DATA_END__ = .);
-  } >RAM
+  } >TCM
 
   /* thread-local data segment */
   .tdata ALIGN(CL_SIZE) : {
@@ -92,14 +92,14 @@ SECTIONS {
     *(.tdata .tdata.*)
     PROVIDE(_tdata_end = .);
     . = ALIGN(CL_SIZE);
-  } >RAM
+  } >TCM
 
   .tbss ALIGN(CL_SIZE) : {
     PROVIDE(_tbss_begin = .);
     *(.tbss .tbss.*)
     . = ALIGN(CL_SIZE);
     PROVIDE(_tbss_end = .);
-  } >RAM
+  } >TCM
 
   /* bss segment */
   .sbss ALIGN(CL_SIZE) : {
@@ -107,25 +107,25 @@ SECTIONS {
     *(.sbss .sbss.* .gnu.linkonce.sb.*)
     *(.scommon)
     . = ALIGN(CL_SIZE);
-  } >RAM
+  } >TCM
 
   .bss ALIGN(CL_SIZE) : {
     *(.dynbss) *(.bss .bss.* .gnu.linkonce.b.*) *(COMMON)
     . = ALIGN(CL_SIZE);
     PROVIDE(__BSS_END__ = .);
-  } >RAM
+  } >TCM
 
   _end = .;
   PROVIDE(__end = .);
 
   /* End of uninitalized data segement */
 
-  .stack ORIGIN(RAM) + LENGTH(RAM) - STACK_SIZE : {
+  .stack ORIGIN(TCM) + LENGTH(TCM) - STACK_SIZE : {
     PROVIDE(__STACK_START__ = .);
     . += STACK_SIZE;
     PROVIDE(__C_STACK_TOP__ = .);
     PROVIDE(__STACK_END__ = .);
-  } >RAM
+  } >TCM
 
   /DISCARD/ : {
     *(.eh_frame .eh_frame.*)

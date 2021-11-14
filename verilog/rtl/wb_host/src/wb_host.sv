@@ -36,6 +36,9 @@
 ////  Revision :                                                  ////
 ////    0.1 - 25th Feb 2021, Dinesh A                             ////
 ////          initial version                                     ////
+////    0.2 - Nov 14 2021, Dinesh A                               ////
+////          Reset connectivity bug fix clk_ctl in u_sdramclk    ////
+////          u_cpuclk,u_rtcclk,u_usbclk
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -360,7 +363,8 @@ assign    cfg_wb_clk_ratio =  cfg_wb_clk_ctrl[1:0];
 assign    cfg_wb_clk_div   =  cfg_wb_clk_ctrl[2];
 
 
-assign wbs_clk_out  = (cfg_wb_clk_div)  ? wb_clk_div : wbm_clk_i;
+//assign wbs_clk_out  = (cfg_wb_clk_div)  ? wb_clk_div : wbm_clk_i;
+ctech_mux2x1 u_wbs_clk_sel (.A0 (wbm_clk_i), .A1 (wb_clk_div), .S  (cfg_wb_clk_div), .X  (wbs_clk_out));
 
 
 clk_ctl #(1) u_wbclk (
@@ -382,8 +386,10 @@ wire   sdram_clk_int;
 wire       cfg_sdram_clk_src_sel   = cfg_sdram_clk_ctrl[0];
 wire       cfg_sdram_clk_div       = cfg_sdram_clk_ctrl[1];
 wire [1:0] cfg_sdram_clk_ratio     = cfg_sdram_clk_ctrl[3:2];
-assign sdram_ref_clk = (cfg_sdram_clk_src_sel) ? user_clock2 :user_clock1;
-assign sdram_clk_int = (cfg_sdram_clk_div) ? sdram_clk_div : sdram_ref_clk;
+//assign sdram_ref_clk = (cfg_sdram_clk_src_sel) ? user_clock2 :user_clock1;
+//assign sdram_clk_int = (cfg_sdram_clk_div) ? sdram_clk_div : sdram_ref_clk;
+ctech_mux2x1 u_sdram_ref_sel (.A0 (user_clock1),   .A1 (user_clock2),   .S(cfg_sdram_clk_src_sel), .X(sdram_ref_clk));
+ctech_mux2x1 u_sdram_clk_sel (.A0 (sdram_ref_clk), .A1 (sdram_clk_div), .S(cfg_sdram_clk_div),     .X(sdram_clk_int));
 
 sky130_fd_sc_hd__clkbuf_16 u_clkbuf_sdram (.A (sdram_clk_int), . X(sdram_clk));
 
@@ -392,7 +398,7 @@ clk_ctl #(1) u_sdramclk (
        .clk_o         (sdram_clk_div      ),
    // Inputs
        .mclk          (sdram_ref_clk      ),
-       .reset_n       (reset_n            ), 
+       .reset_n       (wbm_rst_n          ), 
        .clk_div_ratio (cfg_sdram_clk_ratio)
    );
 
@@ -408,9 +414,11 @@ wire       cfg_cpu_clk_src_sel   = cfg_cpu_clk_ctrl[0];
 wire       cfg_cpu_clk_div       = cfg_cpu_clk_ctrl[1];
 wire [1:0] cfg_cpu_clk_ratio     = cfg_cpu_clk_ctrl[3:2];
 
-assign cpu_ref_clk = (cfg_cpu_clk_src_sel) ? user_clock2 : user_clock1;
-assign cpu_clk_int = (cfg_cpu_clk_div)     ? cpu_clk_div : cpu_ref_clk;
+//assign cpu_ref_clk = (cfg_cpu_clk_src_sel) ? user_clock2 : user_clock1;
+//assign cpu_clk_int = (cfg_cpu_clk_div)     ? cpu_clk_div : cpu_ref_clk;
 
+ctech_mux2x1 u_cpu_ref_sel (.A0 (user_clock1), .A1 (user_clock2), .S  (cfg_cpu_clk_src_sel), .X  (cpu_ref_clk));
+ctech_mux2x1 u_cpu_clk_sel (.A0 (cpu_ref_clk), .A1 (cpu_clk_div), .S  (cfg_cpu_clk_div),     .X  (cpu_clk_int));
 
 sky130_fd_sc_hd__clkbuf_16 u_clkbuf_cpu (.A (cpu_clk_int), . X(cpu_clk));
 
@@ -419,7 +427,7 @@ clk_ctl #(1) u_cpuclk (
        .clk_o         (cpu_clk_div      ),
    // Inputs
        .mclk          (cpu_ref_clk      ),
-       .reset_n       (reset_n          ), 
+       .reset_n       (wbm_rst_n        ), 
        .clk_div_ratio (cfg_cpu_clk_ratio)
    );
 
@@ -437,7 +445,7 @@ clk_ctl #(7) u_rtcclk (
        .clk_o         (rtc_clk_div      ),
    // Inputs
        .mclk          (user_clock2      ),
-       .reset_n       (reset_n          ), 
+       .reset_n       (wbm_rst_n        ), 
        .clk_div_ratio (cfg_rtc_clk_ratio)
    );
 
@@ -453,7 +461,8 @@ wire       cfg_usb_clk_div       = cfg_usb_clk_ctrl[0];
 wire [2:0] cfg_usb_clk_ratio     = cfg_usb_clk_ctrl[3:1];
 
 assign usb_ref_clk = user_clock2 ;
-assign usb_clk_int = (cfg_usb_clk_div)     ? usb_clk_div : usb_ref_clk;
+//assign usb_clk_int = (cfg_usb_clk_div)     ? usb_clk_div : usb_ref_clk;
+ctech_mux2x1 u_usb_clk_sel (.A0 (usb_ref_clk), .A1 (usb_clk_div), .S  (cfg_usb_clk_div), .X  (usb_clk_int));
 
 
 sky130_fd_sc_hd__clkbuf_16 u_clkbuf_usb (.A (usb_clk_int), . X(usb_clk));
@@ -463,7 +472,7 @@ clk_ctl #(2) u_usbclk (
        .clk_o         (usb_clk_div      ),
    // Inputs
        .mclk          (usb_ref_clk      ),
-       .reset_n       (reset_n          ), 
+       .reset_n       (wbm_rst_n        ), 
        .clk_div_ratio (cfg_usb_clk_ratio)
    );
 

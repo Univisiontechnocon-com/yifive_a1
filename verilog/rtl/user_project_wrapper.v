@@ -27,8 +27,12 @@
 ////      This is digital core and integrate all the main block   ////
 ////      here.  Following block are integrated here              ////
 ////      1. Risc V Core                                          ////
-////      2. SPI Master                                           ////
+////      2. Quad SPI Master                                      ////
 ////      3. Wishbone Cross Bar                                   ////
+////      4. UART                                                 ////
+////      5, USB 1.1                                              ////
+////      6. I2C Master                                           ////
+////      7. SRAM 2KB                                             ////
 ////                                                              ////
 ////  To Do:                                                      ////
 ////    nothing                                                   ////
@@ -108,6 +112,11 @@
 ////    1.4   Oct 28, 2021, Dinesh A                              ////
 ////          Bug fix: uart_i2c_usb byte_select width changed     ////
 ////          from 1 to 4                                         ////
+////    1.5   Nov 12, 2021, Dinesh A                              ////
+////          2KB SRAM Interface added to RISC Core               ////
+////    1.6   Nov 14, 2021, Dinesh A                              ////
+////          Major bug, clock divider inside the wb_host reset   ////
+////          connectivity open is fixed                          ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -351,6 +360,20 @@ wire [31:0]                       spi_debug           ;
 wire [31:0]                       sdram_debug         ;
 wire [63:0]                       riscv_debug         ;
 
+`ifndef SCR1_TCM_MEM
+// SRAM PORT-0 - DMEM I/F
+wire                             sram_csb0           ; // CS#
+wire                             sram_web0           ; // WE#
+wire   [8:0]                     sram_addr0          ; // Address
+wire   [3:0]                     sram_wmask0         ; // WMASK#
+wire   [31:0]                    sram_din0           ; // Write Data
+wire   [31:0]                    sram_dout0          ; // Read Data
+
+// SRAM PORT-1, IMEM I/F
+wire                             sram_csb1           ; // CS#
+wire  [8:0]                      sram_addr1          ; // Address
+wire  [31:0]                     sram_dout1          ; // Read Data
+`endif
 
 
 /////////////////////////////////////////////////////////
@@ -444,9 +467,13 @@ wb_host u_wb_host(
 //------------------------------------------------------------------------------
 scr1_top_wb u_riscv_top (
 `ifdef USE_POWER_PINS
-         .vccd1         (vccd1                 ),// User area 1 1.8V supply
-         .vssd1         (vssd1                 ),// User area 1 digital ground
+    .vccd1                 (vccd1                    ),// User area 1 1.8V supply
+    .vssd1                 (vssd1                    ),// User area 1 digital ground
 `endif
+    .wbd_clk_int           (wbd_clk_int               ), 
+    .cfg_cska_riscv        (cfg_cska_riscv            ), 
+    .wbd_clk_riscv         (wbd_clk_riscv             ),
+
     // Reset
     .pwrup_rst_n            (wbd_int_rst_n             ),
     .rst_n                  (wbd_int_rst_n             ),
@@ -468,10 +495,20 @@ scr1_top_wb u_riscv_top (
     // .test_mode           (1'b0                      ), // Moved inside IP
     // .test_rst_n          (1'b1                      ), // Moved inside IP
 
-    // Clock Skew control
-    .cfg_cska_riscv         (cfg_cska_riscv            ),
-    .wbd_clk_int            (wbd_clk_int               ),
-    .wbd_clk_riscv          (wbd_clk_riscv             ),
+`ifndef SCR1_TCM_MEM
+    // SRAM PORT-0
+    .sram_csb0              (sram_csb0                 ),
+    .sram_web0              (sram_web0                 ),
+    .sram_addr0             (sram_addr0                ),
+    .sram_wmask0            (sram_wmask0               ),
+    .sram_din0              (sram_din0                 ),
+    .sram_dout0             (sram_dout0                ),
+    
+    // SRAM PORT-0
+    .sram_csb1              (sram_csb1                 ),
+    .sram_addr1             (sram_addr1                ),
+    .sram_dout1             (sram_dout1                ),
+`endif
     
     .wb_rst_n               (wbd_int_rst_n             ),
     .wb_clk                 (wbd_clk_riscv             ),
@@ -495,6 +532,30 @@ scr1_top_wb u_riscv_top (
     .wbd_dmem_ack_i         (wbd_riscv_dmem_ack_o      ),
     .wbd_dmem_err_i         (wbd_riscv_dmem_err_o      ) 
 );
+
+`ifndef SCR1_TCM_MEM
+sky130_sram_2kbyte_1rw1r_32x512_8 u_sram_2kb(
+`ifdef USE_POWER_PINS
+    .vccd1 (vccd1),// User area 1 1.8V supply
+    .vssd1 (vssd1),// User area 1 digital ground
+`endif
+// Port 0: RW
+    .clk0     (cpu_clk),
+    .csb0     (sram_csb0),
+    .web0     (sram_web0),
+    .wmask0   (sram_wmask0),
+    .addr0    (sram_addr0),
+    .din0     (sram_din0),
+    .dout0    (sram_dout0),
+// Port 1: R
+    .clk1     (cpu_clk),
+    .csb1     (sram_csb1),
+    .addr1    (sram_addr1),
+    .dout1    (sram_dout1)
+  );
+
+`endif
+
 
 /*********************************************************
 * SPI Master

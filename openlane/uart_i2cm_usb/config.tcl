@@ -81,8 +81,6 @@ set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 set ::env(FP_SIZING) "absolute"
 set ::env(DIE_AREA) [list 0.0 0.0 600.0 700.0]
 
-set ::env(PL_TARGET_DENSITY) "0.45"
-
 
 # If you're going to use multiple power domains, then keep this disabled.
 set ::env(RUN_CVC) 0
@@ -90,7 +88,8 @@ set ::env(RUN_CVC) 0
 #set ::env(PDN_CFG) $script_dir/pdn.tcl
 
 
-set ::env(PL_ROUTABILITY_DRIVEN) 1
+set ::env(PL_TIME_DRIVEN) 1
+set ::env(PL_TARGET_DENSITY) "0.40"
 
 # helps in anteena fix
 set ::env(USE_ARC_ANTENNA_CHECK) "0"

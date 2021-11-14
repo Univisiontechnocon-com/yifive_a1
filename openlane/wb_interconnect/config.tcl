@@ -69,7 +69,7 @@ set ::env(RUN_CVC) 0
 #set ::env(PDN_CFG) $script_dir/pdn.tcl
 
 
-set ::env(PL_ROUTABILITY_DRIVEN) 1
+set ::env(PL_TIME_DRIVEN) 1
 set ::env(FP_CORE_UTIL) "50"
 set ::env(PL_TARGET_DENSITY) "0.50"
 
@@ -90,6 +90,6 @@ set ::env(DIODE_INSERTION_STRATEGY) 4
 
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
-set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_LVS_ERROR) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"

@@ -41,6 +41,7 @@ set ::env(VERILOG_FILES) "\
      $script_dir/../../verilog/rtl/lib/async_fifo.sv      \
      $script_dir/../../verilog/rtl/lib/async_wb.sv        \
      $script_dir/../../verilog/rtl/lib/clk_ctl.v          \
+     $script_dir/../../verilog/rtl/lib/ctech_cells.sv     \
      $script_dir/../../verilog/rtl/lib/registers.v"
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
@@ -61,7 +62,6 @@ set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 set ::env(FP_SIZING) absolute
 set ::env(DIE_AREA) "0 0 500 200"
 
-set ::env(PL_TARGET_DENSITY) "0.40"
 
 # If you're going to use multiple power domains, then keep this disabled.
 set ::env(RUN_CVC) 0
@@ -69,10 +69,10 @@ set ::env(RUN_CVC) 0
 #set ::env(PDN_CFG) $script_dir/pdn.tcl
 
 
-set ::env(PL_ROUTABILITY_DRIVEN) 1
+set ::env(PL_TIME_DRIVEN) 1
+set ::env(PL_TARGET_DENSITY) "0.35"
 
-# helps in anteena fix
-set ::env(USE_ARC_ANTENNA_CHECK) "0"
+
 
 set ::env(FP_IO_VEXTEND) 4
 set ::env(FP_IO_HEXTEND) 4
@@ -88,6 +88,8 @@ set ::env(DIODE_INSERTION_STRATEGY) 4
 
 
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
-set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_LVS_ERROR) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
+
+#set ::env(DECAP_CELL) "sky130_ef_sc_hd__decap_12 sky130_fd_sc_hd__decap_3 sky130_fd_sc_hd__decap_4 sky130_fd_sc_hd__decap_6 sky130_fd_sc_hd__decap_8"

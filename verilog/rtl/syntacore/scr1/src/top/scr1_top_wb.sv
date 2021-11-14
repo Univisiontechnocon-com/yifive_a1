@@ -42,6 +42,8 @@
 ////            64bit debug signal added                          ////
 ////     v3:    Aug 23, 2021, Dinesh A                            ////
 ////            timer_irq connective bug fix                      ////
+////     v3:    Nov 12, 2021, Dinesh A                            ////
+////            2KB SRAM Integrated at TCM Interface              ////
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
@@ -88,22 +90,21 @@
 `endif // SCR1_TCM_EN
 
 module scr1_top_wb (
+
 `ifdef USE_POWER_PINS
-    input logic                                     vccd1,    // User area 1 1.8V supply
-    input logic                                     vssd1,    // User area 1 digital ground
+         input logic            vccd1,    // User area 1 1.8V supply
+         input logic            vssd1,    // User area 1 digital ground
 `endif
+    input  logic   [3:0]                 cfg_cska_riscv,
+    input  logic                         wbd_clk_int,
+    output logic                         wbd_clk_riscv,
+
     // Control
     input   logic                                   pwrup_rst_n,            // Power-Up Reset
     input   logic                                   rst_n,                  // Regular Reset signal
     input   logic                                   cpu_rst_n,              // CPU Reset (Core Reset)
     // input   logic                                   test_mode,              // Test mode - unused
     // input   logic                                   test_rst_n,             // Test mode's reset - unused
- 
-   // Clock Skew Adjust 
-    input   logic [3:0]                             cfg_cska_riscv, 
-    input   logic                                   wbd_clk_int,
-    output  logic                                   wbd_clk_riscv, 
-    
     input   logic                                   core_clk,               // Core clock
     input   logic                                   rtc_clk,                // Real-time clock
     output  logic [63:0]                            riscv_debug,
@@ -138,6 +139,22 @@ module scr1_top_wb (
     output  logic                                   tdo,
     output  logic                                   tdo_en,
 `endif // SCR1_DBG_EN
+
+`ifndef SCR1_TCM_MEM
+    // SRAM PORT-0
+    output  logic                           sram_csb0,
+    output  logic                           sram_web0,
+    output  logic   [8:0]                   sram_addr0,
+    output  logic   [3:0]                   sram_wmask0,
+    output  logic   [31:0]                  sram_din0,
+    input   logic   [31:0]                  sram_dout0,
+
+    // SRAM PORT-1
+    output  logic                           sram_csb1,
+    output  logic  [8:0]                    sram_addr1,
+    input   logic  [31:0]                   sram_dout1,
+`endif
+
 
     input   logic                           wb_rst_n,       // Wish bone reset
     input   logic                           wb_clk,         // wish bone clock
@@ -251,7 +268,6 @@ logic                                               timer_irq;
 logic [63:0]                                        timer_val;
 logic [48:0]                                        core_debug;
 
-
 // riscv clock skew control
 clk_skew_adjust u_skew_riscv
        (
@@ -259,11 +275,10 @@ clk_skew_adjust u_skew_riscv
                .vccd1      (vccd1                      ),// User area 1 1.8V supply
                .vssd1      (vssd1                      ),// User area 1 digital ground
 `endif
-	       .clk_in     (wbd_clk_int                 ), 
-	       .sel        (cfg_cska_riscv              ), 
-	       .clk_out    (wbd_clk_riscv               ) 
+	       .clk_in     (wbd_clk_int                ), 
+	       .sel        (cfg_cska_riscv             ), 
+	       .clk_out    (wbd_clk_riscv              ) 
        );
-
 //-------------------------------------------------------------------------------
 // SCR1 Intf instance
 //-------------------------------------------------------------------------------
@@ -280,6 +295,21 @@ scr1_intf u_intf (
     // -- JTAG I/F
     .trst_n                             (trst_n),
 `endif // SCR1_DBG_EN
+
+`ifndef SCR1_TCM_MEM
+    // SRAM PORT-0
+    .sram_csb0      (sram_csb0),
+    .sram_web0      (sram_web0),
+    .sram_addr0     (sram_addr0),
+    .sram_wmask0    (sram_wmask0),
+    .sram_din0      (sram_din0),
+    .sram_dout0     (sram_dout0),
+    
+    // SRAM PORT-0
+    .sram_csb1      (sram_csb1),
+    .sram_addr1     (sram_addr1),
+    .sram_dout1     (sram_dout1),
+`endif
 
     .wb_rst_n                           (wb_rst_n),           // Wish bone reset
     .wb_clk                             (wb_clk),             // wish bone clock

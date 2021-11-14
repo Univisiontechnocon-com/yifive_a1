@@ -121,6 +121,7 @@
      `include "syntacore/scr1/src/core/scr1_dmi.sv"
      `include "syntacore/scr1/src/core/scr1_scu.sv"
       
+     `include "syntacore/scr1/src/top/scr1_imem_router.sv"
      `include "syntacore/scr1/src/top/scr1_dmem_router.sv"
      `include "syntacore/scr1/src/top/scr1_dp_memory.sv"
      `include "syntacore/scr1/src/top/scr1_tcm.sv"
@@ -135,4 +136,6 @@
      // we are using netlist file for clk_skew_adjust as it has 
      // standard cell + power pin
      `include "clk_skew_adjust/src/clk_skew_adjust.v"
+     `include "lib/ctech_cells.sv"
+     `include "sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"
 `endif
