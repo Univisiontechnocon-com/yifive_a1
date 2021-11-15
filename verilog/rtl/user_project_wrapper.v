@@ -117,6 +117,9 @@
 ////    1.6   Nov 14, 2021, Dinesh A                              ////
 ////          Major bug, clock divider inside the wb_host reset   ////
 ////          connectivity open is fixed                          ////
+////    1.7   Nov 15, 2021, Dinesh A                              ////
+////           Bug fix in clk_ctrl High/Low counter width         ////
+////           Removed sram_clock                                 ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////

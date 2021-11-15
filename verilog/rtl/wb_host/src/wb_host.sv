@@ -383,9 +383,9 @@ wire   sdram_clk_div;
 wire   sdram_ref_clk;
 wire   sdram_clk_int;
 
-wire       cfg_sdram_clk_src_sel   = cfg_sdram_clk_ctrl[0];
-wire       cfg_sdram_clk_div       = cfg_sdram_clk_ctrl[1];
-wire [1:0] cfg_sdram_clk_ratio     = cfg_sdram_clk_ctrl[3:2];
+wire       cfg_sdram_clk_src_sel   = cfg_sdram_clk_ctrl[3];
+wire       cfg_sdram_clk_div       = cfg_sdram_clk_ctrl[2];
+wire [1:0] cfg_sdram_clk_ratio     = cfg_sdram_clk_ctrl[1:0];
 //assign sdram_ref_clk = (cfg_sdram_clk_src_sel) ? user_clock2 :user_clock1;
 //assign sdram_clk_int = (cfg_sdram_clk_div) ? sdram_clk_div : sdram_ref_clk;
 ctech_mux2x1 u_sdram_ref_sel (.A0 (user_clock1),   .A1 (user_clock2),   .S(cfg_sdram_clk_src_sel), .X(sdram_ref_clk));
@@ -410,9 +410,9 @@ wire   cpu_clk_div;
 wire   cpu_ref_clk;
 wire   cpu_clk_int;
 
-wire       cfg_cpu_clk_src_sel   = cfg_cpu_clk_ctrl[0];
-wire       cfg_cpu_clk_div       = cfg_cpu_clk_ctrl[1];
-wire [1:0] cfg_cpu_clk_ratio     = cfg_cpu_clk_ctrl[3:2];
+wire       cfg_cpu_clk_src_sel   = cfg_cpu_clk_ctrl[3];
+wire       cfg_cpu_clk_div       = cfg_cpu_clk_ctrl[2];
+wire [1:0] cfg_cpu_clk_ratio     = cfg_cpu_clk_ctrl[1:0];
 
 //assign cpu_ref_clk = (cfg_cpu_clk_src_sel) ? user_clock2 : user_clock1;
 //assign cpu_clk_int = (cfg_cpu_clk_div)     ? cpu_clk_div : cpu_ref_clk;
@@ -457,8 +457,8 @@ wire   usb_clk_div;
 wire   usb_ref_clk;
 wire   usb_clk_int;
 
-wire       cfg_usb_clk_div       = cfg_usb_clk_ctrl[0];
-wire [2:0] cfg_usb_clk_ratio     = cfg_usb_clk_ctrl[3:1];
+wire       cfg_usb_clk_div       = cfg_usb_clk_ctrl[3];
+wire [2:0] cfg_usb_clk_ratio     = cfg_usb_clk_ctrl[2:0];
 
 assign usb_ref_clk = user_clock2 ;
 //assign usb_clk_int = (cfg_usb_clk_div)     ? usb_clk_div : usb_ref_clk;
