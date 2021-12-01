@@ -304,15 +304,18 @@ wire                              cpu_clk       ;
 wire                              rtc_clk       ;
 wire                              usb_clk       ;
 wire                              wbd_clk_int   ;
-//wire                              wbd_clk_int1  ;
-//wire                              wbd_clk_int2  ;
+wire                              wbd_clk_spim_int   ;
+wire                              wbd_clk_sdrc_int   ;
+wire                              wbd_clk_glbl_int   ;
+wire                              wbd_clk_uart_int   ;
 wire                              wbd_int_rst_n ;
-//wire                              wbd_int1_rst_n ;
-//wire                              wbd_int2_rst_n ;
 
 wire [31:0]                       fuse_mhartid  ;
 wire [15:0]                       irq_lines     ;
 wire                              soft_irq      ;
+wire [31:0]                       fuse_mhartid_int  ;
+wire [15:0]                       irq_lines_int ;
+wire                              soft_irq_int  ;
 
 wire [7:0]                        cfg_glb_ctrl  ;
 wire [31:0]                       cfg_clk_ctrl1 ;
@@ -359,6 +362,8 @@ wire [3:0]                        cfg_sdr_twr_d       ; // Write recovery delay
 wire [11: 0]                      cfg_sdr_rfsh        ;
 wire [2 : 0]                      cfg_sdr_rfmax       ;
 
+wire [31:0]                       spi_debug_int       ;
+wire [31:0]                       sdram_debug_int     ;
 wire [31:0]                       spi_debug           ;
 wire [31:0]                       sdram_debug         ;
 wire [63:0]                       riscv_debug         ;
@@ -396,7 +401,7 @@ assign cfg_cska_sd_ci = cfg_clk_ctrl2[7:4]; // SDRAM clock in control
 assign cfg_cska_sp_co = cfg_clk_ctrl2[11:8];// SPI clock out control
 
 //assign la_data_out    = {riscv_debug,spi_debug,sdram_debug};
-assign la_data_out[127:0]    = {sdram_debug,spi_debug,riscv_debug};
+assign la_data_out[127:0]    = {sdram_debug_int,spi_debug_int,riscv_debug};
 
 //clk_buf u_buf1_wb_rstn  (.clk_i(wbd_int_rst_n),.clk_o(wbd_int1_rst_n));
 //clk_buf u_buf2_wb_rstn  (.clk_i(wbd_int1_rst_n),.clk_o(wbd_int2_rst_n));
@@ -584,7 +589,7 @@ spim_top
     // Clock Skew Adjust
     .cfg_cska_sp_co         (cfg_cska_sp_co            ),
     .cfg_cska_spi           (cfg_cska_spi              ),
-    .wbd_clk_int            (wbd_clk_int               ),
+    .wbd_clk_int            (wbd_clk_spim_int          ),
     .wbd_clk_spi            (wbd_clk_spi               ),
 
     .wbd_stb_i              (wbd_spim_stb_o            ),
@@ -619,7 +624,7 @@ sdrc_top
      .vccd1                  (vccd1                     ),// User area 1 1.8V supply
      .vssd1                  (vssd1                     ),// User area 1 digital ground
 `endif
-     .wbd_clk_int            (wbd_clk_int               ),
+     .wbd_clk_int            (wbd_clk_sdrc_int          ),
      .cfg_cska_sdram         (cfg_cska_sdram            ),
      .wbd_clk_sdram          (wbd_clk_sdram             ),
 
@@ -670,7 +675,14 @@ sdrc_top
    );
 
 
-wb_interconnect  u_intercon (
+wb_interconnect  
+          #(
+	`ifndef SYNTHESIS
+	        .CH_CLK_WD(4),
+	        .CH_DATA_WD(113)
+        `endif
+	   )
+       u_intercon (
 `ifdef USE_POWER_PINS
          .vccd1         (vccd1                 ),// User area 1 1.8V supply
          .vssd1         (vssd1                 ),// User area 1 digital ground
@@ -679,6 +691,33 @@ wb_interconnect  u_intercon (
 	 .wbd_clk_int   (wbd_clk_int           ), 
 	 .cfg_cska_wi   (cfg_cska_wi           ), 
 	 .wbd_clk_wi    (wbd_clk_wi            ),
+
+	 // Feed Through Signals
+	 .ch_clk_in     ({
+	                  wbd_clk_int,
+                          wbd_clk_int, 
+                          wbd_clk_int, 
+                          wbd_clk_int}),
+	 .ch_clk_out    ({
+                         wbd_clk_spim_int,  
+                         wbd_clk_sdrc_int,  
+                         wbd_clk_glbl_int,  
+                         wbd_clk_uart_int
+		         }),
+	 .ch_data_in    ({
+	                 sdram_debug[31:0],
+	                 spi_debug[31:0],
+			 irq_lines[15:0],
+			 soft_irq,
+			 fuse_mhartid[31:0]
+			 } ),
+	 .ch_data_out   ({
+	                 sdram_debug_int[31:0],
+	                 spi_debug_int[31:0],
+			 irq_lines_int[15:0],
+			 soft_irq_int,
+			 fuse_mhartid_int[31:0]
+                         }),
 
          .clk_i         (wbd_clk_wi            ), 
          .rst_n         (wbd_int_rst_n         ),
@@ -767,7 +806,7 @@ glbl_cfg   u_glbl_cfg (
        .vccd1                  (vccd1                     ),// User area 1 1.8V supply
        .vssd1                  (vssd1                     ),// User area 1 digital ground
 `endif
-       .wbd_clk_int            (wbd_clk_int               ), 
+       .wbd_clk_int            (wbd_clk_glbl_int          ), 
        .cfg_cska_glbl          (cfg_cska_glbl             ), 
        .wbd_clk_glbl           (wbd_clk_glbl              ), 
 
@@ -786,9 +825,9 @@ glbl_cfg   u_glbl_cfg (
        .reg_ack                (wbd_glbl_ack_i            ),
 
        // Risc configuration
-       .fuse_mhartid           (fuse_mhartid              ),
-       .irq_lines              (irq_lines                 ), 
-       .soft_irq               (soft_irq                  ),
+       .fuse_mhartid           (fuse_mhartid_int          ),
+       .irq_lines              (irq_lines_int             ), 
+       .soft_irq               (soft_irq_int              ),
        .user_irq               (user_irq                  ),
 
        // SDRAM Config
@@ -817,7 +856,7 @@ uart_i2c_usb_top   u_uart_i2c_usb (
          .vccd1                 (vccd1                    ),// User area 1 1.8V supply
          .vssd1                 (vssd1                    ),// User area 1 digital ground
 `endif
-	.wbd_clk_int            (wbd_clk_int              ), 
+	.wbd_clk_int            (wbd_clk_uart_int         ), 
 	.cfg_cska_uart          (cfg_cska_uart            ), 
 	.wbd_clk_uart           (wbd_clk_uart             ),
 
