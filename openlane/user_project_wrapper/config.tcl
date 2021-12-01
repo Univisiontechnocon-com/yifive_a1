@@ -108,11 +108,11 @@ set ::env(FP_PDN_CHECK_NODES) 0
 set ::env(VDD_NETS) "vccd1 vccd2 vdda1 vdda2"
 set ::env(GND_NETS) "vssd1 vssd2 vssa1 vssa2"
 
-set ::env(GLB_RT_OBS) " li1  2000 1000  2683.1 1416.54,\
-                        met1 2000 1000  2683.1 1416.54,\
-	                met2 2000 1000  2683.1 1416.54,\
-	                met3 2000 1000  2683.1 1416.54,\
-			met4 2000 1000  2683.1 1416.54,\
+set ::env(GLB_RT_OBS) " li1  1200 0200  1883.1 0616.54,\
+                        met1 1200 0200  1883.1 0616.54,\
+	                met2 1200 0200  1883.1 0616.54,\
+	                met3 1200 0200  1883.1 0616.54,\
+			met4 1200 0200  1883.1 0616.54,\
 	                met5 0 0 2920 3520"
 set ::env(FP_PDN_MACROS) "\
 	u_spi_master vccd1 vssd1 \
