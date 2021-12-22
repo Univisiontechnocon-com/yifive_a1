@@ -282,51 +282,17 @@ end
 //   reg-0
 //   -----------------------------------------------------------------
 
-
-
-generic_register #(8,8'hAA  ) u_reg0_be0 (
-	      .we            ({8{sw_wr_en_0 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'hAABB_CCDD) u_reg_0	(
+	      //List of Inputs
+	      .reset_n    (reset_n     ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_0   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_0[7:0]        )
-          );
-
-generic_register #(8,8'hBB  ) u_reg0_be1 (
-	      .we            ({8{sw_wr_en_0 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_0[15:8]        )
-          );
-generic_register #(8,8'hCC  ) u_reg0_be2 (
-	      .we            ({8{sw_wr_en_0 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_0[23:16]        )
-          );
-
-generic_register #(8,8'hDD  ) u_reg0_be3 (
-	      .we            ({8{sw_wr_en_0 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_0[31:24]        )
-          );
-
+	      .data_out   (reg_0       )
+	      );
 
 
 //-----------------------------------------------------------------------
@@ -334,95 +300,34 @@ generic_register #(8,8'hDD  ) u_reg0_be3 (
 //   -----------------------------------------------------------------
 
 assign  fuse_mhartid     = reg_1[31:0]; 
-generic_register #(.WD(8),.RESET_DEFAULT(8'h5A)) u_reg1_be0 (
-	      .we            ({8{sw_wr_en_1 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_1[7:0]        )
-          );
 
-generic_register #(.WD(8),.RESET_DEFAULT(8'hA5)  ) u_reg1_be1 (
-	      .we            ({8{sw_wr_en_1 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'hA55A_A55A) u_reg_1	(
+	      //List of Inputs
+	      .reset_n    (reset_n     ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_1   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_1[15:8]        )
-          );
-generic_register #(.WD(8),.RESET_DEFAULT(8'h5A)  ) u_reg1_be2 (
-	      .we            ({8{sw_wr_en_1 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_1[23:16]        )
-          );
-
-generic_register #(.WD(8),.RESET_DEFAULT(8'hA5)  ) u_reg1_be3 (
-	      .we            ({8{sw_wr_en_1 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_1[31:24]        )
-          );
+	      .data_out   (reg_1       )
+	      );
 
 //-----------------------------------------------------------------------
 //   reg-2, reset value = 32'hAABBCCDD
 //-----------------------------------------------------------------
 
-generic_register #(.WD(8),.RESET_DEFAULT(8'hDD)  ) u_reg2_be0 (
-	      .we            ({8{sw_wr_en_2 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'hAABB_CCDD) u_reg_2	(
+	      //List of Inputs
+	      .reset_n    (reset_n     ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_2   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_2[7:0]        )
-          );
-
-generic_register #(.WD(8),.RESET_DEFAULT(8'hCC)  ) u_reg2_be1 (
-	      .we            ({8{sw_wr_en_2 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_2[15:8]        )
-          );
-generic_register #(.WD(8),.RESET_DEFAULT(8'hBB)  ) u_reg2_be2 (
-	      .we            ({8{sw_wr_en_2 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_2[23:16]        )
-          );
-
-generic_register #(.WD(8),.RESET_DEFAULT(8'hAA)  ) u_reg2_be3 (
-	      .we            ({8{sw_wr_en_2 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_2[31:24]        )
-          );
+	      .data_out   (reg_2       )
+	      );
 
 //-----------------------------------------------------------------------
 //   reg-3
@@ -534,528 +439,190 @@ assign      cfg_sdr_rfmax     = reg_5[2:0] ;   // 3'h6
 assign      cfg_sdr_mode_reg  = reg_5[15:3] ;  // 13'h033
 assign      cfg_sdr_rfsh      = reg_5[27:16];  // 12'h100
 
-generic_register #(8,0  ) u_reg5_be0 (
-	      .we            ({8{sw_wr_en_5 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h100_019E) u_reg_5	(
+	      //List of Inputs
+	      .reset_n    (reset_n     ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_5   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_5[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg5_be1 (
-	      .we            ({8{sw_wr_en_5 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_5[15:8]        )
-          );
-generic_register #(8,0  ) u_reg5_be2 (
-	      .we            ({8{sw_wr_en_5 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_5[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg5_be3 (
-	      .we            ({8{sw_wr_en_5 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_5[31:24]        )
-          );
+	      .data_out   (reg_5       )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 6
+// Software Reg-1 : ASCI Representation of YFIV = 32'h5946_4956
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg6_be0 (
-	      .we            ({8{sw_wr_en_6 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h5946_4956) u_reg_6	(
+	      //List of Inputs
+	      .reset_n    (reset_n     ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_6   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_6[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg6_be1 (
-	      .we            ({8{sw_wr_en_6 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_6[15:8]        )
-          );
-generic_register #(8,0  ) u_reg6_be2 (
-	      .we            ({8{sw_wr_en_6 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_6[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg6_be3 (
-	      .we            ({8{sw_wr_en_6 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_6[31:24]        )
-          );
+	      .data_out   (reg_6       )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 7
+// Software Reg-2, Release date: <DAY><MONTH><YEAR>
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg7_be0 (
-	      .we            ({8{sw_wr_en_7 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h22122021) u_reg_7	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_7    ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_7[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg7_be1 (
-	      .we            ({8{sw_wr_en_7 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_7[15:8]        )
-          );
-generic_register #(8,0  ) u_reg7_be2 (
-	      .we            ({8{sw_wr_en_7 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_7[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg7_be3 (
-	      .we            ({8{sw_wr_en_7 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_7[31:24]        )
-          );
+	      .data_out   (reg_7         )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 8
+// Software Reg-3: Poject Revison 1.8 = 0001_8000
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg8_be0 (
-	      .we            ({8{sw_wr_en_8 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0001_8000) u_reg_8	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_8    ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_8[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg8_be1 (
-	      .we            ({8{sw_wr_en_8 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_8[15:8]        )
-          );
-generic_register #(8,0  ) u_reg8_be2 (
-	      .we            ({8{sw_wr_en_8 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_8[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg8_be3 (
-	      .we            ({8{sw_wr_en_8 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_8[31:24]        )
-          );
+	      .data_out   (reg_8         )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 9
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg9_be0 (
-	      .we            ({8{sw_wr_en_9 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_9	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_9    ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_9[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg9_be1 (
-	      .we            ({8{sw_wr_en_9 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_9[15:8]        )
-          );
-generic_register #(8,0  ) u_reg9_be2 (
-	      .we            ({8{sw_wr_en_9 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_9[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg9_be3 (
-	      .we            ({8{sw_wr_en_9 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_9[31:24]        )
-          );
-
+	      .data_out   (reg_9         )
+	      );
 
 //-----------------------------------------------------------------
 //   reg- 10
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg10_be0 (
-	      .we            ({8{sw_wr_en_10 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_10	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_10   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_10[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg10_be1 (
-	      .we            ({8{sw_wr_en_10 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_10[15:8]        )
-          );
-generic_register #(8,0  ) u_reg10_be2 (
-	      .we            ({8{sw_wr_en_10 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_10[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg10_be3 (
-	      .we            ({8{sw_wr_en_10 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_10[31:24]        )
-          );
+	      .data_out   (reg_10        )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 11
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg11_be0 (
-	      .we            ({8{sw_wr_en_11 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_11	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_11   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_11[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg11_be1 (
-	      .we            ({8{sw_wr_en_11 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_11[15:8]        )
-          );
-generic_register #(8,0  ) u_reg11_be2 (
-	      .we            ({8{sw_wr_en_11 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_11[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg11_be3 (
-	      .we            ({8{sw_wr_en_11 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_11[31:24]        )
-          );
+	      .data_out   (reg_11        )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 12
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg12_be0 (
-	      .we            ({8{sw_wr_en_12 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_12	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_12   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_12[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg12_be1 (
-	      .we            ({8{sw_wr_en_12 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_12[15:8]        )
-          );
-generic_register #(8,0  ) u_reg12_be2 (
-	      .we            ({8{sw_wr_en_12 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_12[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg12_be3 (
-	      .we            ({8{sw_wr_en_12 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_12[31:24]        )
-          );
+	      .data_out   (reg_12        )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 13
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg13_be0 (
-	      .we            ({8{sw_wr_en_13 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_13	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_13   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_13[7:0]        )
-          );
+	      .data_out   (reg_13        )
+	      );
 
-generic_register #(8,0  ) u_reg13_be1 (
-	      .we            ({8{sw_wr_en_13 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_13[15:8]        )
-          );
-generic_register #(8,0  ) u_reg13_be2 (
-	      .we            ({8{sw_wr_en_13 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_13[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg13_be3 (
-	      .we            ({8{sw_wr_en_13 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_13[31:24]        )
-          );
 
 
 //-----------------------------------------------------------------
 //   reg- 14
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg14_be0 (
-	      .we            ({8{sw_wr_en_14 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_14	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_14   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_14[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg14_be1 (
-	      .we            ({8{sw_wr_en_14 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_14[15:8]        )
-          );
-generic_register #(8,0  ) u_reg14_be2 (
-	      .we            ({8{sw_wr_en_14 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_14[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg14_be3 (
-	      .we            ({8{sw_wr_en_14 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_14[31:24]        )
-          );
+	      .data_out   (reg_14        )
+	      );
 
 
 //-----------------------------------------------------------------
 //   reg- 15
 //-----------------------------------------------------------------
 
-generic_register #(8,0  ) u_reg15_be0 (
-	      .we            ({8{sw_wr_en_15 & 
-                                 wr_be[0]   }}  ),		 
-	      .data_in       (sw_reg_wdata[7:0]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
+gen_32b_reg  #(32'h0) u_reg_15	(
+	      //List of Inputs
+	      .reset_n    (reset_n       ),
+	      .clk        (mclk          ),
+	      .cs         (sw_wr_en_15   ),
+	      .we         (wr_be         ),		 
+	      .data_in    (sw_reg_wdata  ),
 	      
 	      //List of Outs
-	      .data_out      (reg_15[7:0]        )
-          );
-
-generic_register #(8,0  ) u_reg15_be1 (
-	      .we            ({8{sw_wr_en_15 & 
-                                 wr_be[1]   }}  ),		 
-	      .data_in       (sw_reg_wdata[15:8]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_15[15:8]        )
-          );
-generic_register #(8,0  ) u_reg15_be2 (
-	      .we            ({8{sw_wr_en_15 & 
-                                 wr_be[2]   }}  ),		 
-	      .data_in       (sw_reg_wdata[23:16]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_15[23:16]        )
-          );
-
-generic_register #(8,0  ) u_reg15_be3 (
-	      .we            ({8{sw_wr_en_15 & 
-                                 wr_be[3]   }}  ),		 
-	      .data_in       (sw_reg_wdata[31:24]    ),
-	      .reset_n       (reset_n           ),
-	      .clk           (mclk              ),
-	      
-	      //List of Outs
-	      .data_out      (reg_15[31:24]     )
-          );
+	      .data_out   (reg_15        )
+	      );
 
 
 

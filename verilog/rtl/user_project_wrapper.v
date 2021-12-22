@@ -120,6 +120,8 @@
 ////    1.7   Nov 15, 2021, Dinesh A                              ////
 ////           Bug fix in clk_ctrl High/Low counter width         ////
 ////           Removed sram_clock                                 ////
+////    1.8   Dec 22, 2021, Dinesh A                              ////
+////          software Reg 1/2/3 added in glbl reg 6/7/8          ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -313,9 +315,9 @@ wire                              wbd_int_rst_n ;
 wire [31:0]                       fuse_mhartid  ;
 wire [15:0]                       irq_lines     ;
 wire                              soft_irq      ;
-wire [31:0]                       fuse_mhartid_int  ;
-wire [15:0]                       irq_lines_int ;
-wire                              soft_irq_int  ;
+wire [31:0]                       fuse_mhartid_rp  ;
+wire [15:0]                       irq_lines_rp ;
+wire                              soft_irq_rp  ;
 
 wire [7:0]                        cfg_glb_ctrl  ;
 wire [31:0]                       cfg_clk_ctrl1 ;
@@ -362,8 +364,8 @@ wire [3:0]                        cfg_sdr_twr_d       ; // Write recovery delay
 wire [11: 0]                      cfg_sdr_rfsh        ;
 wire [2 : 0]                      cfg_sdr_rfmax       ;
 
-wire [31:0]                       spi_debug_int       ;
-wire [31:0]                       sdram_debug_int     ;
+wire [31:0]                       spi_debug_rp       ;
+wire [31:0]                       sdram_debug_rp     ;
 wire [31:0]                       spi_debug           ;
 wire [31:0]                       sdram_debug         ;
 wire [63:0]                       riscv_debug         ;
@@ -401,7 +403,7 @@ assign cfg_cska_sd_ci = cfg_clk_ctrl2[7:4]; // SDRAM clock in control
 assign cfg_cska_sp_co = cfg_clk_ctrl2[11:8];// SPI clock out control
 
 //assign la_data_out    = {riscv_debug,spi_debug,sdram_debug};
-assign la_data_out[127:0]    = {sdram_debug_int,spi_debug_int,riscv_debug};
+assign la_data_out[127:0]    = {sdram_debug_rp,spi_debug_rp,riscv_debug};
 
 //clk_buf u_buf1_wb_rstn  (.clk_i(wbd_int_rst_n),.clk_o(wbd_int1_rst_n));
 //clk_buf u_buf2_wb_rstn  (.clk_i(wbd_int1_rst_n),.clk_o(wbd_int2_rst_n));
@@ -493,11 +495,11 @@ scr1_top_wb u_riscv_top (
     .rtc_clk                (rtc_clk                   ),
 
     // Fuses
-    .fuse_mhartid           (fuse_mhartid              ),
+    .fuse_mhartid           (fuse_mhartid_rp           ),
 
     // IRQ
-    .irq_lines              (irq_lines                 ), 
-    .soft_irq               (soft_irq                  ), // TODO - Interrupts
+    .irq_lines              (irq_lines_rp              ), 
+    .soft_irq               (soft_irq_rp               ), // TODO - Interrupts
 
     // DFT
     // .test_mode           (1'b0                      ), // Moved inside IP
@@ -712,11 +714,11 @@ wb_interconnect
 			 fuse_mhartid[31:0]
 			 } ),
 	 .ch_data_out   ({
-	                 sdram_debug_int[31:0],
-	                 spi_debug_int[31:0],
-			 irq_lines_int[15:0],
-			 soft_irq_int,
-			 fuse_mhartid_int[31:0]
+	                 sdram_debug_rp[31:0],
+	                 spi_debug_rp[31:0],
+			 irq_lines_rp[15:0],
+			 soft_irq_rp,
+			 fuse_mhartid_rp[31:0]
                          }),
 
          .clk_i         (wbd_clk_wi            ), 
@@ -825,9 +827,9 @@ glbl_cfg   u_glbl_cfg (
        .reg_ack                (wbd_glbl_ack_i            ),
 
        // Risc configuration
-       .fuse_mhartid           (fuse_mhartid_int          ),
-       .irq_lines              (irq_lines_int             ), 
-       .soft_irq               (soft_irq_int              ),
+       .fuse_mhartid           (fuse_mhartid              ),
+       .irq_lines              (irq_lines                 ), 
+       .soft_irq               (soft_irq                  ),
        .user_irq               (user_irq                  ),
 
        // SDRAM Config

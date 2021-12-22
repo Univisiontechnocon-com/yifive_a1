@@ -258,21 +258,21 @@ assign  #1 io_out[4] =  spi_sdo2_out;
 assign  #1 io_out[5] =  spi_sdo3_out;
 
 // ADDing Delay cells for Interface hold fix
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay1_sdio0 (.X(spi_sdo0_d1),.A(spi_sdo0));
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay2_sdio0 (.X(spi_sdo0_d2),.A(spi_sdo0_d1));
-sky130_fd_sc_hd__clkbuf_16 u_buf_sdio0    (.X(spi_sdo0_out),.A(spi_sdo0_d2));
+ctech_delay_buf u_delay1_sdio0 (.X(spi_sdo0_d1),.A(spi_sdo0));
+ctech_delay_buf u_delay2_sdio0 (.X(spi_sdo0_d2),.A(spi_sdo0_d1));
+ctech_buf u_buf_sdio0    (.X(spi_sdo0_out),.A(spi_sdo0_d2));
 
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay1_sdio1 (.X(spi_sdo1_d1),.A(spi_sdo1));
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay2_sdio1 (.X(spi_sdo1_d2),.A(spi_sdo1_d1));
-sky130_fd_sc_hd__clkbuf_16 u_buf_sdio1    (.X(spi_sdo1_out),.A(spi_sdo1_d2));
+ctech_delay_buf u_delay1_sdio1 (.X(spi_sdo1_d1),.A(spi_sdo1));
+ctech_delay_buf u_delay2_sdio1 (.X(spi_sdo1_d2),.A(spi_sdo1_d1));
+ctech_buf u_buf_sdio1    (.X(spi_sdo1_out),.A(spi_sdo1_d2));
 
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay1_sdio2 (.X(spi_sdo2_d1),.A(spi_sdo2));
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay2_sdio2 (.X(spi_sdo2_d2),.A(spi_sdo2_d1));
-sky130_fd_sc_hd__clkbuf_16 u_buf_sdio2    (.X(spi_sdo2_out),.A(spi_sdo2_d2));
+ctech_delay_buf u_delay1_sdio2 (.X(spi_sdo2_d1),.A(spi_sdo2));
+ctech_delay_buf u_delay2_sdio2 (.X(spi_sdo2_d2),.A(spi_sdo2_d1));
+ctech_buf u_buf_sdio2    (.X(spi_sdo2_out),.A(spi_sdo2_d2));
 
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay1_sdio3 (.X(spi_sdo3_d1),.A(spi_sdo3));
-sky130_fd_sc_hd__dlygate4sd3_1 u_delay2_sdio3 (.X(spi_sdo3_d2),.A(spi_sdo3_d1));
-sky130_fd_sc_hd__clkbuf_16 u_buf_sdio3    (.X(spi_sdo3_out),.A(spi_sdo3_d2));
+ctech_delay_buf u_delay1_sdio3 (.X(spi_sdo3_d1),.A(spi_sdo3));
+ctech_delay_buf u_delay2_sdio3 (.X(spi_sdo3_d2),.A(spi_sdo3_d1));
+ctech_buf u_buf_sdio3    (.X(spi_sdo3_out),.A(spi_sdo3_d2));
 
 
 assign  io_oeb[0] =  1'b0;         // spi_clk

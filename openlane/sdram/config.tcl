@@ -31,6 +31,11 @@ set ::env(CLOCK_PORT) "wb_clk_i sdram_clk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
 
+## CTS BUFFER
+set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
+set ::env(CTS_SINK_CLUSTERING_SIZE) "16"
+set ::env(CLOCK_BUFFER_FANOUT) "8"
+
 # Sources
 # -------
 
@@ -46,7 +51,9 @@ set ::env(VERILOG_FILES) "\
          $script_dir/../../verilog/rtl/sdram_ctrl/src/core/sdrc_bank_fsm.v \
          $script_dir/../../verilog/rtl/sdram_ctrl/src/core/sdrc_bs_convert.v\ 
          $script_dir/../../verilog/rtl/sdram_ctrl/src/core/sdrc_req_gen.v \
-         $script_dir/../../verilog/rtl/sdram_ctrl/src/core/sdrc_xfr_ctl.v "
+         $script_dir/../../verilog/rtl/sdram_ctrl/src/core/sdrc_xfr_ctl.v \
+         $script_dir/../../verilog/rtl/lib/ctech_cells.sv \
+         "
 
 set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/sdram_ctrl/src/defs ]
 

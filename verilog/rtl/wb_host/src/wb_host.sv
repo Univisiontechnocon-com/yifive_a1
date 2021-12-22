@@ -166,13 +166,13 @@ logic  [6:0]        cfg_glb_ctrl;
 assign wbm_rst_n = !wbm_rst_i;
 assign wbs_rst_n = !wbm_rst_i;
 
-sky130_fd_sc_hd__bufbuf_16 u_buf_wb_rst        (.A(cfg_glb_ctrl[0]),.X(wbd_int_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_cpu_rst       (.A(cfg_glb_ctrl[1]),.X(cpu_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_spi_rst       (.A(cfg_glb_ctrl[2]),.X(spi_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_sdram_rst     (.A(cfg_glb_ctrl[3]),.X(sdram_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_uart_rst      (.A(cfg_glb_ctrl[4]),.X(uart_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_i2cm_rst      (.A(cfg_glb_ctrl[5]),.X(i2cm_rst_n));
-sky130_fd_sc_hd__bufbuf_16 u_buf_usb_rst       (.A(cfg_glb_ctrl[6]),.X(usb_rst_n));
+ctech_buf u_buf_wb_rst        (.A(cfg_glb_ctrl[0]),.X(wbd_int_rst_n));
+ctech_buf u_buf_cpu_rst       (.A(cfg_glb_ctrl[1]),.X(cpu_rst_n));
+ctech_buf u_buf_spi_rst       (.A(cfg_glb_ctrl[2]),.X(spi_rst_n));
+ctech_buf u_buf_sdram_rst     (.A(cfg_glb_ctrl[3]),.X(sdram_rst_n));
+ctech_buf u_buf_uart_rst      (.A(cfg_glb_ctrl[4]),.X(uart_rst_n));
+ctech_buf u_buf_i2cm_rst      (.A(cfg_glb_ctrl[5]),.X(i2cm_rst_n));
+ctech_buf u_buf_usb_rst       (.A(cfg_glb_ctrl[6]),.X(usb_rst_n));
 
 // wb_host clock skew control
 clk_skew_adjust u_skew_wh
@@ -391,7 +391,7 @@ wire [1:0] cfg_sdram_clk_ratio     = cfg_sdram_clk_ctrl[1:0];
 ctech_mux2x1 u_sdram_ref_sel (.A0 (user_clock1),   .A1 (user_clock2),   .S(cfg_sdram_clk_src_sel), .X(sdram_ref_clk));
 ctech_mux2x1 u_sdram_clk_sel (.A0 (sdram_ref_clk), .A1 (sdram_clk_div), .S(cfg_sdram_clk_div),     .X(sdram_clk_int));
 
-sky130_fd_sc_hd__clkbuf_16 u_clkbuf_sdram (.A (sdram_clk_int), . X(sdram_clk));
+ctech_clk_buf u_clkbuf_sdram (.A (sdram_clk_int), . X(sdram_clk));
 
 clk_ctl #(1) u_sdramclk (
    // Outputs
@@ -420,7 +420,7 @@ wire [1:0] cfg_cpu_clk_ratio     = cfg_cpu_clk_ctrl[1:0];
 ctech_mux2x1 u_cpu_ref_sel (.A0 (user_clock1), .A1 (user_clock2), .S  (cfg_cpu_clk_src_sel), .X  (cpu_ref_clk));
 ctech_mux2x1 u_cpu_clk_sel (.A0 (cpu_ref_clk), .A1 (cpu_clk_div), .S  (cfg_cpu_clk_div),     .X  (cpu_clk_int));
 
-sky130_fd_sc_hd__clkbuf_16 u_clkbuf_cpu (.A (cpu_clk_int), . X(cpu_clk));
+ctech_clk_buf u_clkbuf_cpu (.A (cpu_clk_int), . X(cpu_clk));
 
 clk_ctl #(1) u_cpuclk (
    // Outputs
@@ -438,7 +438,7 @@ wire   rtc_clk_div;
 wire [7:0] cfg_rtc_clk_ratio     = cfg_rtc_clk_ctrl[7:0];
 
 
-sky130_fd_sc_hd__clkbuf_16 u_clkbuf_rtc (.A (rtc_clk_div), . X(rtc_clk));
+ctech_clk_buf u_clkbuf_rtc (.A (rtc_clk_div), . X(rtc_clk));
 
 clk_ctl #(7) u_rtcclk (
    // Outputs
@@ -465,7 +465,7 @@ assign usb_ref_clk = user_clock2 ;
 ctech_mux2x1 u_usb_clk_sel (.A0 (usb_ref_clk), .A1 (usb_clk_div), .S  (cfg_usb_clk_div), .X  (usb_clk_int));
 
 
-sky130_fd_sc_hd__clkbuf_16 u_clkbuf_usb (.A (usb_clk_int), . X(usb_clk));
+ctech_clk_buf u_clkbuf_usb (.A (usb_clk_int), . X(usb_clk));
 
 clk_ctl #(2) u_usbclk (
    // Outputs

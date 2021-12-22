@@ -30,6 +30,11 @@ set ::env(CLOCK_PORT) "wb_clk core_clk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
 
+## CTS BUFFER
+set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
+set ::env(CTS_SINK_CLUSTERING_SIZE) "16"
+set ::env(CLOCK_BUFFER_FANOUT) "8"
+
 # Sources
 # -------
 
@@ -70,6 +75,7 @@ set ::env(VERILOG_FILES) "\
 
 set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/syntacore/scr1/src/includes ]
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
+set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
 set ::env(SDC_FILE) "$script_dir/base.sdc"
 set ::env(BASE_SDC_FILE) "$script_dir/base.sdc"

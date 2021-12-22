@@ -209,38 +209,38 @@ module user_project_wrapper (user_clock2,
  wire \fuse_mhartid[7] ;
  wire \fuse_mhartid[8] ;
  wire \fuse_mhartid[9] ;
- wire \fuse_mhartid_int[0] ;
- wire \fuse_mhartid_int[10] ;
- wire \fuse_mhartid_int[11] ;
- wire \fuse_mhartid_int[12] ;
- wire \fuse_mhartid_int[13] ;
- wire \fuse_mhartid_int[14] ;
- wire \fuse_mhartid_int[15] ;
- wire \fuse_mhartid_int[16] ;
- wire \fuse_mhartid_int[17] ;
- wire \fuse_mhartid_int[18] ;
- wire \fuse_mhartid_int[19] ;
- wire \fuse_mhartid_int[1] ;
- wire \fuse_mhartid_int[20] ;
- wire \fuse_mhartid_int[21] ;
- wire \fuse_mhartid_int[22] ;
- wire \fuse_mhartid_int[23] ;
- wire \fuse_mhartid_int[24] ;
- wire \fuse_mhartid_int[25] ;
- wire \fuse_mhartid_int[26] ;
- wire \fuse_mhartid_int[27] ;
- wire \fuse_mhartid_int[28] ;
- wire \fuse_mhartid_int[29] ;
- wire \fuse_mhartid_int[2] ;
- wire \fuse_mhartid_int[30] ;
- wire \fuse_mhartid_int[31] ;
- wire \fuse_mhartid_int[3] ;
- wire \fuse_mhartid_int[4] ;
- wire \fuse_mhartid_int[5] ;
- wire \fuse_mhartid_int[6] ;
- wire \fuse_mhartid_int[7] ;
- wire \fuse_mhartid_int[8] ;
- wire \fuse_mhartid_int[9] ;
+ wire \fuse_mhartid_rp[0] ;
+ wire \fuse_mhartid_rp[10] ;
+ wire \fuse_mhartid_rp[11] ;
+ wire \fuse_mhartid_rp[12] ;
+ wire \fuse_mhartid_rp[13] ;
+ wire \fuse_mhartid_rp[14] ;
+ wire \fuse_mhartid_rp[15] ;
+ wire \fuse_mhartid_rp[16] ;
+ wire \fuse_mhartid_rp[17] ;
+ wire \fuse_mhartid_rp[18] ;
+ wire \fuse_mhartid_rp[19] ;
+ wire \fuse_mhartid_rp[1] ;
+ wire \fuse_mhartid_rp[20] ;
+ wire \fuse_mhartid_rp[21] ;
+ wire \fuse_mhartid_rp[22] ;
+ wire \fuse_mhartid_rp[23] ;
+ wire \fuse_mhartid_rp[24] ;
+ wire \fuse_mhartid_rp[25] ;
+ wire \fuse_mhartid_rp[26] ;
+ wire \fuse_mhartid_rp[27] ;
+ wire \fuse_mhartid_rp[28] ;
+ wire \fuse_mhartid_rp[29] ;
+ wire \fuse_mhartid_rp[2] ;
+ wire \fuse_mhartid_rp[30] ;
+ wire \fuse_mhartid_rp[31] ;
+ wire \fuse_mhartid_rp[3] ;
+ wire \fuse_mhartid_rp[4] ;
+ wire \fuse_mhartid_rp[5] ;
+ wire \fuse_mhartid_rp[6] ;
+ wire \fuse_mhartid_rp[7] ;
+ wire \fuse_mhartid_rp[8] ;
+ wire \fuse_mhartid_rp[9] ;
  wire i2c_rst_n;
  wire \irq_lines[0] ;
  wire \irq_lines[10] ;
@@ -258,22 +258,22 @@ module user_project_wrapper (user_clock2,
  wire \irq_lines[7] ;
  wire \irq_lines[8] ;
  wire \irq_lines[9] ;
- wire \irq_lines_int[0] ;
- wire \irq_lines_int[10] ;
- wire \irq_lines_int[11] ;
- wire \irq_lines_int[12] ;
- wire \irq_lines_int[13] ;
- wire \irq_lines_int[14] ;
- wire \irq_lines_int[15] ;
- wire \irq_lines_int[1] ;
- wire \irq_lines_int[2] ;
- wire \irq_lines_int[3] ;
- wire \irq_lines_int[4] ;
- wire \irq_lines_int[5] ;
- wire \irq_lines_int[6] ;
- wire \irq_lines_int[7] ;
- wire \irq_lines_int[8] ;
- wire \irq_lines_int[9] ;
+ wire \irq_lines_rp[0] ;
+ wire \irq_lines_rp[10] ;
+ wire \irq_lines_rp[11] ;
+ wire \irq_lines_rp[12] ;
+ wire \irq_lines_rp[13] ;
+ wire \irq_lines_rp[14] ;
+ wire \irq_lines_rp[15] ;
+ wire \irq_lines_rp[1] ;
+ wire \irq_lines_rp[2] ;
+ wire \irq_lines_rp[3] ;
+ wire \irq_lines_rp[4] ;
+ wire \irq_lines_rp[5] ;
+ wire \irq_lines_rp[6] ;
+ wire \irq_lines_rp[7] ;
+ wire \irq_lines_rp[8] ;
+ wire \irq_lines_rp[9] ;
  wire rtc_clk;
  wire sdr_init_done;
  wire sdram_clk;
@@ -311,7 +311,7 @@ module user_project_wrapper (user_clock2,
  wire \sdram_debug[9] ;
  wire sdram_rst_n;
  wire soft_irq;
- wire soft_irq_int;
+ wire soft_irq_rp;
  wire \spi_debug[0] ;
  wire \spi_debug[10] ;
  wire \spi_debug[11] ;
@@ -1174,7 +1174,7 @@ module user_project_wrapper (user_clock2,
     .reg_wr(wbd_glbl_we_o),
     .reset_n(wbd_int_rst_n),
     .sdr_init_done(sdr_init_done),
-    .soft_irq(soft_irq_int),
+    .soft_irq(soft_irq),
     .vccd1(vccd1),
     .vssd1(vssd1),
     .wbd_clk_glbl(wbd_clk_glbl),
@@ -1240,54 +1240,54 @@ module user_project_wrapper (user_clock2,
     \cfg_sdr_twr_d[0] }),
     .cfg_sdr_width({\cfg_sdr_width[1] ,
     \cfg_sdr_width[0] }),
-    .fuse_mhartid({\fuse_mhartid_int[31] ,
-    \fuse_mhartid_int[30] ,
-    \fuse_mhartid_int[29] ,
-    \fuse_mhartid_int[28] ,
-    \fuse_mhartid_int[27] ,
-    \fuse_mhartid_int[26] ,
-    \fuse_mhartid_int[25] ,
-    \fuse_mhartid_int[24] ,
-    \fuse_mhartid_int[23] ,
-    \fuse_mhartid_int[22] ,
-    \fuse_mhartid_int[21] ,
-    \fuse_mhartid_int[20] ,
-    \fuse_mhartid_int[19] ,
-    \fuse_mhartid_int[18] ,
-    \fuse_mhartid_int[17] ,
-    \fuse_mhartid_int[16] ,
-    \fuse_mhartid_int[15] ,
-    \fuse_mhartid_int[14] ,
-    \fuse_mhartid_int[13] ,
-    \fuse_mhartid_int[12] ,
-    \fuse_mhartid_int[11] ,
-    \fuse_mhartid_int[10] ,
-    \fuse_mhartid_int[9] ,
-    \fuse_mhartid_int[8] ,
-    \fuse_mhartid_int[7] ,
-    \fuse_mhartid_int[6] ,
-    \fuse_mhartid_int[5] ,
-    \fuse_mhartid_int[4] ,
-    \fuse_mhartid_int[3] ,
-    \fuse_mhartid_int[2] ,
-    \fuse_mhartid_int[1] ,
-    \fuse_mhartid_int[0] }),
-    .irq_lines({\irq_lines_int[15] ,
-    \irq_lines_int[14] ,
-    \irq_lines_int[13] ,
-    \irq_lines_int[12] ,
-    \irq_lines_int[11] ,
-    \irq_lines_int[10] ,
-    \irq_lines_int[9] ,
-    \irq_lines_int[8] ,
-    \irq_lines_int[7] ,
-    \irq_lines_int[6] ,
-    \irq_lines_int[5] ,
-    \irq_lines_int[4] ,
-    \irq_lines_int[3] ,
-    \irq_lines_int[2] ,
-    \irq_lines_int[1] ,
-    \irq_lines_int[0] }),
+    .fuse_mhartid({\fuse_mhartid[31] ,
+    \fuse_mhartid[30] ,
+    \fuse_mhartid[29] ,
+    \fuse_mhartid[28] ,
+    \fuse_mhartid[27] ,
+    \fuse_mhartid[26] ,
+    \fuse_mhartid[25] ,
+    \fuse_mhartid[24] ,
+    \fuse_mhartid[23] ,
+    \fuse_mhartid[22] ,
+    \fuse_mhartid[21] ,
+    \fuse_mhartid[20] ,
+    \fuse_mhartid[19] ,
+    \fuse_mhartid[18] ,
+    \fuse_mhartid[17] ,
+    \fuse_mhartid[16] ,
+    \fuse_mhartid[15] ,
+    \fuse_mhartid[14] ,
+    \fuse_mhartid[13] ,
+    \fuse_mhartid[12] ,
+    \fuse_mhartid[11] ,
+    \fuse_mhartid[10] ,
+    \fuse_mhartid[9] ,
+    \fuse_mhartid[8] ,
+    \fuse_mhartid[7] ,
+    \fuse_mhartid[6] ,
+    \fuse_mhartid[5] ,
+    \fuse_mhartid[4] ,
+    \fuse_mhartid[3] ,
+    \fuse_mhartid[2] ,
+    \fuse_mhartid[1] ,
+    \fuse_mhartid[0] }),
+    .irq_lines({\irq_lines[15] ,
+    \irq_lines[14] ,
+    \irq_lines[13] ,
+    \irq_lines[12] ,
+    \irq_lines[11] ,
+    \irq_lines[10] ,
+    \irq_lines[9] ,
+    \irq_lines[8] ,
+    \irq_lines[7] ,
+    \irq_lines[6] ,
+    \irq_lines[5] ,
+    \irq_lines[4] ,
+    \irq_lines[3] ,
+    \irq_lines[2] ,
+    \irq_lines[1] ,
+    \irq_lines[0] }),
     .reg_addr({\wbd_glbl_adr_o[7] ,
     \wbd_glbl_adr_o[6] ,
     \wbd_glbl_adr_o[5] ,
@@ -1593,55 +1593,55 @@ module user_project_wrapper (user_clock2,
     la_data_out[66],
     la_data_out[65],
     la_data_out[64],
-    \irq_lines_int[15] ,
-    \irq_lines_int[14] ,
-    \irq_lines_int[13] ,
-    \irq_lines_int[12] ,
-    \irq_lines_int[11] ,
-    \irq_lines_int[10] ,
-    \irq_lines_int[9] ,
-    \irq_lines_int[8] ,
-    \irq_lines_int[7] ,
-    \irq_lines_int[6] ,
-    \irq_lines_int[5] ,
-    \irq_lines_int[4] ,
-    \irq_lines_int[3] ,
-    \irq_lines_int[2] ,
-    \irq_lines_int[1] ,
-    \irq_lines_int[0] ,
-    soft_irq_int,
-    \fuse_mhartid_int[31] ,
-    \fuse_mhartid_int[30] ,
-    \fuse_mhartid_int[29] ,
-    \fuse_mhartid_int[28] ,
-    \fuse_mhartid_int[27] ,
-    \fuse_mhartid_int[26] ,
-    \fuse_mhartid_int[25] ,
-    \fuse_mhartid_int[24] ,
-    \fuse_mhartid_int[23] ,
-    \fuse_mhartid_int[22] ,
-    \fuse_mhartid_int[21] ,
-    \fuse_mhartid_int[20] ,
-    \fuse_mhartid_int[19] ,
-    \fuse_mhartid_int[18] ,
-    \fuse_mhartid_int[17] ,
-    \fuse_mhartid_int[16] ,
-    \fuse_mhartid_int[15] ,
-    \fuse_mhartid_int[14] ,
-    \fuse_mhartid_int[13] ,
-    \fuse_mhartid_int[12] ,
-    \fuse_mhartid_int[11] ,
-    \fuse_mhartid_int[10] ,
-    \fuse_mhartid_int[9] ,
-    \fuse_mhartid_int[8] ,
-    \fuse_mhartid_int[7] ,
-    \fuse_mhartid_int[6] ,
-    \fuse_mhartid_int[5] ,
-    \fuse_mhartid_int[4] ,
-    \fuse_mhartid_int[3] ,
-    \fuse_mhartid_int[2] ,
-    \fuse_mhartid_int[1] ,
-    \fuse_mhartid_int[0] }),
+    \irq_lines_rp[15] ,
+    \irq_lines_rp[14] ,
+    \irq_lines_rp[13] ,
+    \irq_lines_rp[12] ,
+    \irq_lines_rp[11] ,
+    \irq_lines_rp[10] ,
+    \irq_lines_rp[9] ,
+    \irq_lines_rp[8] ,
+    \irq_lines_rp[7] ,
+    \irq_lines_rp[6] ,
+    \irq_lines_rp[5] ,
+    \irq_lines_rp[4] ,
+    \irq_lines_rp[3] ,
+    \irq_lines_rp[2] ,
+    \irq_lines_rp[1] ,
+    \irq_lines_rp[0] ,
+    soft_irq_rp,
+    \fuse_mhartid_rp[31] ,
+    \fuse_mhartid_rp[30] ,
+    \fuse_mhartid_rp[29] ,
+    \fuse_mhartid_rp[28] ,
+    \fuse_mhartid_rp[27] ,
+    \fuse_mhartid_rp[26] ,
+    \fuse_mhartid_rp[25] ,
+    \fuse_mhartid_rp[24] ,
+    \fuse_mhartid_rp[23] ,
+    \fuse_mhartid_rp[22] ,
+    \fuse_mhartid_rp[21] ,
+    \fuse_mhartid_rp[20] ,
+    \fuse_mhartid_rp[19] ,
+    \fuse_mhartid_rp[18] ,
+    \fuse_mhartid_rp[17] ,
+    \fuse_mhartid_rp[16] ,
+    \fuse_mhartid_rp[15] ,
+    \fuse_mhartid_rp[14] ,
+    \fuse_mhartid_rp[13] ,
+    \fuse_mhartid_rp[12] ,
+    \fuse_mhartid_rp[11] ,
+    \fuse_mhartid_rp[10] ,
+    \fuse_mhartid_rp[9] ,
+    \fuse_mhartid_rp[8] ,
+    \fuse_mhartid_rp[7] ,
+    \fuse_mhartid_rp[6] ,
+    \fuse_mhartid_rp[5] ,
+    \fuse_mhartid_rp[4] ,
+    \fuse_mhartid_rp[3] ,
+    \fuse_mhartid_rp[2] ,
+    \fuse_mhartid_rp[1] ,
+    \fuse_mhartid_rp[0] }),
     .m0_wbd_adr_i({\wbd_int_adr_i[31] ,
     \wbd_int_adr_i[30] ,
     \wbd_int_adr_i[29] ,
@@ -2299,7 +2299,7 @@ module user_project_wrapper (user_clock2,
     .pwrup_rst_n(wbd_int_rst_n),
     .rst_n(wbd_int_rst_n),
     .rtc_clk(rtc_clk),
-    .soft_irq(soft_irq),
+    .soft_irq(soft_irq_rp),
     .sram_csb0(sram_csb0),
     .sram_csb1(sram_csb1),
     .sram_web0(sram_web0),
@@ -2321,54 +2321,54 @@ module user_project_wrapper (user_clock2,
     \cfg_clk_ctrl1[6] ,
     \cfg_clk_ctrl1[5] ,
     \cfg_clk_ctrl1[4] }),
-    .fuse_mhartid({\fuse_mhartid[31] ,
-    \fuse_mhartid[30] ,
-    \fuse_mhartid[29] ,
-    \fuse_mhartid[28] ,
-    \fuse_mhartid[27] ,
-    \fuse_mhartid[26] ,
-    \fuse_mhartid[25] ,
-    \fuse_mhartid[24] ,
-    \fuse_mhartid[23] ,
-    \fuse_mhartid[22] ,
-    \fuse_mhartid[21] ,
-    \fuse_mhartid[20] ,
-    \fuse_mhartid[19] ,
-    \fuse_mhartid[18] ,
-    \fuse_mhartid[17] ,
-    \fuse_mhartid[16] ,
-    \fuse_mhartid[15] ,
-    \fuse_mhartid[14] ,
-    \fuse_mhartid[13] ,
-    \fuse_mhartid[12] ,
-    \fuse_mhartid[11] ,
-    \fuse_mhartid[10] ,
-    \fuse_mhartid[9] ,
-    \fuse_mhartid[8] ,
-    \fuse_mhartid[7] ,
-    \fuse_mhartid[6] ,
-    \fuse_mhartid[5] ,
-    \fuse_mhartid[4] ,
-    \fuse_mhartid[3] ,
-    \fuse_mhartid[2] ,
-    \fuse_mhartid[1] ,
-    \fuse_mhartid[0] }),
-    .irq_lines({\irq_lines[15] ,
-    \irq_lines[14] ,
-    \irq_lines[13] ,
-    \irq_lines[12] ,
-    \irq_lines[11] ,
-    \irq_lines[10] ,
-    \irq_lines[9] ,
-    \irq_lines[8] ,
-    \irq_lines[7] ,
-    \irq_lines[6] ,
-    \irq_lines[5] ,
-    \irq_lines[4] ,
-    \irq_lines[3] ,
-    \irq_lines[2] ,
-    \irq_lines[1] ,
-    \irq_lines[0] }),
+    .fuse_mhartid({\fuse_mhartid_rp[31] ,
+    \fuse_mhartid_rp[30] ,
+    \fuse_mhartid_rp[29] ,
+    \fuse_mhartid_rp[28] ,
+    \fuse_mhartid_rp[27] ,
+    \fuse_mhartid_rp[26] ,
+    \fuse_mhartid_rp[25] ,
+    \fuse_mhartid_rp[24] ,
+    \fuse_mhartid_rp[23] ,
+    \fuse_mhartid_rp[22] ,
+    \fuse_mhartid_rp[21] ,
+    \fuse_mhartid_rp[20] ,
+    \fuse_mhartid_rp[19] ,
+    \fuse_mhartid_rp[18] ,
+    \fuse_mhartid_rp[17] ,
+    \fuse_mhartid_rp[16] ,
+    \fuse_mhartid_rp[15] ,
+    \fuse_mhartid_rp[14] ,
+    \fuse_mhartid_rp[13] ,
+    \fuse_mhartid_rp[12] ,
+    \fuse_mhartid_rp[11] ,
+    \fuse_mhartid_rp[10] ,
+    \fuse_mhartid_rp[9] ,
+    \fuse_mhartid_rp[8] ,
+    \fuse_mhartid_rp[7] ,
+    \fuse_mhartid_rp[6] ,
+    \fuse_mhartid_rp[5] ,
+    \fuse_mhartid_rp[4] ,
+    \fuse_mhartid_rp[3] ,
+    \fuse_mhartid_rp[2] ,
+    \fuse_mhartid_rp[1] ,
+    \fuse_mhartid_rp[0] }),
+    .irq_lines({\irq_lines_rp[15] ,
+    \irq_lines_rp[14] ,
+    \irq_lines_rp[13] ,
+    \irq_lines_rp[12] ,
+    \irq_lines_rp[11] ,
+    \irq_lines_rp[10] ,
+    \irq_lines_rp[9] ,
+    \irq_lines_rp[8] ,
+    \irq_lines_rp[7] ,
+    \irq_lines_rp[6] ,
+    \irq_lines_rp[5] ,
+    \irq_lines_rp[4] ,
+    \irq_lines_rp[3] ,
+    \irq_lines_rp[2] ,
+    \irq_lines_rp[1] ,
+    \irq_lines_rp[0] }),
     .riscv_debug({la_data_out[63],
     la_data_out[62],
     la_data_out[61],

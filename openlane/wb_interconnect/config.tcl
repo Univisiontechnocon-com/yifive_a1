@@ -31,6 +31,11 @@ set ::env(CLOCK_PORT) "clk_i"
 
 set ::env(SYNTH_MAX_FANOUT) 4
 
+## CTS BUFFER
+set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
+set ::env(CTS_SINK_CLUSTERING_SIZE) "16"
+set ::env(CLOCK_BUFFER_FANOUT) "8"
+
 # Sources
 # -------
 
@@ -96,3 +101,14 @@ set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_LVS_ERROR) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
+
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) "0"
+set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) "1"
+set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) "1"
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) "1000"
+set ::env(PL_RESIZER_MAX_SLEW_MARGIN) "1.5"
+set ::env(PL_RESIZER_MAX_CAP_MARGIN) "5"
+
+## FANOUT Reduced to take care of long routes
+set ::env(SYNTH_MAX_FANOUT) "2"
+

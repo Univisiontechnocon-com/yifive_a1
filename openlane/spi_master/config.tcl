@@ -31,6 +31,11 @@ set ::env(CLOCK_PORT) "mclk"
 
 set ::env(SYNTH_MAX_FANOUT) 4
 
+## CTS BUFFER
+set ::env(CTS_CLK_BUFFER_LIST) "sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_8"
+set ::env(CTS_SINK_CLUSTERING_SIZE) "16"
+set ::env(CLOCK_BUFFER_FANOUT) "8"
+
 # Sources
 # -------
 
@@ -45,8 +50,11 @@ set ::env(VERILOG_FILES) "\
         $script_dir/../../verilog/rtl/spi_master/src/spim_clkgen.sv \
         $script_dir/../../verilog/rtl/spi_master/src/spim_ctrl.sv \
         $script_dir/../../verilog/rtl/spi_master/src/spim_rx.sv \
-        $script_dir/../../verilog/rtl/spi_master/src/spim_tx.sv "
+        $script_dir/../../verilog/rtl/spi_master/src/spim_tx.sv \
+        $script_dir/../../verilog/rtl/lib/ctech_cells.sv \
+        "
 
+set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 set ::env(SDC_FILE) "$script_dir/base.sdc"
 set ::env(BASE_SDC_FILE) "$script_dir/base.sdc"

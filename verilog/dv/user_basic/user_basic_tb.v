@@ -235,6 +235,16 @@ begin
 	  test_step = 10;
           wb_user_core_write('h3080_0000,{4'hF,4'hF,4'hF,8'hFF,3'b111,2'b00,7'h00});
 	  clock_monitor(5*CLK2_PERIOD,5*CLK2_PERIOD,257*CLK2_PERIOD,9*CLK2_PERIOD,5*CLK1_PERIOD);
+
+
+         $display("###################################################");
+         $display("Monitor: Checking the chip signature :");
+         // Remove Wb Reset
+         wb_user_core_write('h3080_0000,'h1);
+
+	 wb_user_core_read_check(32'h30000018,read_data,32'h5946_4956);
+	 wb_user_core_read_check(32'h3000001C,read_data,32'h2212_2021);
+	 wb_user_core_read_check(32'h30000020,read_data,32'h0001_8000);
       end
    
       begin
@@ -308,147 +318,8 @@ user_project_wrapper u_top(
 `ifndef GL // Drive Power for Hold Fix Buf
     // All standard cell need power hook-up for functionality work
     initial begin
-	force u_top.u_spi_master.u_delay1_sdio0.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio0.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio0.VGND =VSS;
-	force u_top.u_spi_master.u_delay1_sdio0.VNB = VSS;
-	force u_top.u_spi_master.u_delay2_sdio0.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio0.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio0.VGND =VSS;
-	force u_top.u_spi_master.u_delay2_sdio0.VNB = VSS;
-	force u_top.u_spi_master.u_buf_sdio0.VPWR   =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio0.VPB    =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio0.VGND   =VSS;
-	force u_top.u_spi_master.u_buf_sdio0.VNB    =VSS;
 
-	force u_top.u_spi_master.u_delay1_sdio1.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio1.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio1.VGND =VSS;
-	force u_top.u_spi_master.u_delay1_sdio1.VNB = VSS;
-	force u_top.u_spi_master.u_delay2_sdio1.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio1.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio1.VGND =VSS;
-	force u_top.u_spi_master.u_delay2_sdio1.VNB = VSS;
-	force u_top.u_spi_master.u_buf_sdio1.VPWR   =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio1.VPB    =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio1.VGND   =VSS;
-	force u_top.u_spi_master.u_buf_sdio1.VNB    =VSS;
 
-	force u_top.u_spi_master.u_delay1_sdio2.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio2.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio2.VGND =VSS;
-	force u_top.u_spi_master.u_delay1_sdio2.VNB = VSS;
-	force u_top.u_spi_master.u_delay2_sdio2.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio2.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio2.VGND =VSS;
-	force u_top.u_spi_master.u_delay2_sdio2.VNB = VSS;
-	force u_top.u_spi_master.u_buf_sdio2.VPWR   =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio2.VPB    =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio2.VGND   =VSS;
-	force u_top.u_spi_master.u_buf_sdio2.VNB    =VSS;
-
-	force u_top.u_spi_master.u_delay1_sdio3.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio3.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay1_sdio3.VGND =VSS;
-	force u_top.u_spi_master.u_delay1_sdio3.VNB = VSS;
-	force u_top.u_spi_master.u_delay2_sdio3.VPWR =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio3.VPB  =USER_VDD1V8;
-	force u_top.u_spi_master.u_delay2_sdio3.VGND =VSS;
-	force u_top.u_spi_master.u_delay2_sdio3.VNB = VSS;
-	force u_top.u_spi_master.u_buf_sdio3.VPWR   =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio3.VPB    =USER_VDD1V8;
-	force u_top.u_spi_master.u_buf_sdio3.VGND   =VSS;
-	force u_top.u_spi_master.u_buf_sdio3.VNB    =VSS;
-          
-	force u_top.u_uart_i2c_usb.u_uart_core.u_lineclk_buf.VPWR =USER_VDD1V8;
-	force u_top.u_uart_i2c_usb.u_uart_core.u_lineclk_buf.VPB  =USER_VDD1V8;
-	force u_top.u_uart_i2c_usb.u_uart_core.u_lineclk_buf.VGND =VSS;
-	force u_top.u_uart_i2c_usb.u_uart_core.u_lineclk_buf.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_wb_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_wb_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_wb_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_wb_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_cpu_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_cpu_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_cpu_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_cpu_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_spi_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_spi_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_spi_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_spi_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_sdram_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_sdram_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_sdram_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_sdram_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_uart_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_uart_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_uart_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_uart_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_i2cm_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_i2cm_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_i2cm_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_i2cm_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_buf_usb_rst.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_usb_rst.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_buf_usb_rst.VGND =VSS;
-	force u_top.u_wb_host.u_buf_usb_rst.VNB = VSS;
-
-	force u_top.u_wb_host.u_clkbuf_sdram.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_sdram.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_sdram.VGND =VSS;
-	force u_top.u_wb_host.u_clkbuf_sdram.VNB = VSS;
-
-	force u_top.u_wb_host.u_clkbuf_cpu.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_cpu.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_cpu.VGND =VSS;
-	force u_top.u_wb_host.u_clkbuf_cpu.VNB = VSS;
-
-	force u_top.u_wb_host.u_clkbuf_rtc.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_rtc.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_rtc.VGND =VSS;
-	force u_top.u_wb_host.u_clkbuf_rtc.VNB = VSS;
-
-	force u_top.u_wb_host.u_clkbuf_usb.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_usb.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_clkbuf_usb.VGND =VSS;
-	force u_top.u_wb_host.u_clkbuf_usb.VNB = VSS;
-
-	force u_top.u_wb_host.u_sdram_ref_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_sdram_ref_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_sdram_ref_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_sdram_ref_sel.u_mux.VNB = VSS;
-
-	force u_top.u_wb_host.u_sdram_clk_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_sdram_clk_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_sdram_clk_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_sdram_clk_sel.u_mux.VNB = VSS;
-
-	force u_top.u_wb_host.u_cpu_ref_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_cpu_ref_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_cpu_ref_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_cpu_ref_sel.u_mux.VNB = VSS;
-
-	force u_top.u_wb_host.u_cpu_clk_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_cpu_clk_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_cpu_clk_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_cpu_clk_sel.u_mux.VNB = VSS;
-
-	force u_top.u_wb_host.u_wbs_clk_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_wbs_clk_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_wbs_clk_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_wbs_clk_sel.u_mux.VNB = VSS;
-
-	force u_top.u_wb_host.u_usb_clk_sel.u_mux.VPWR =USER_VDD1V8;
-	force u_top.u_wb_host.u_usb_clk_sel.u_mux.VPB  =USER_VDD1V8;
-	force u_top.u_wb_host.u_usb_clk_sel.u_mux.VGND =VSS;
-	force u_top.u_wb_host.u_usb_clk_sel.u_mux.VNB = VSS;
     end
 `endif    
 
@@ -562,6 +433,41 @@ begin
   wbd_ext_dat_i ='h0;  // data output
   wbd_ext_sel_i ='h0;  // byte enable
   $display("DEBUG WB USER ACCESS READ Address : %x, Data : %x",address,data);
+  repeat (2) @(posedge clock);
+end
+endtask
+
+
+task  wb_user_core_read_check;
+input [31:0] address;
+output [31:0] data;
+input [31:0] cmp_data;
+reg    [31:0] data;
+begin
+  repeat (1) @(posedge clock);
+  #1;
+  wbd_ext_adr_i =address;  // address
+  wbd_ext_we_i  ='h0;  // write
+  wbd_ext_dat_i ='0;  // data output
+  wbd_ext_sel_i ='hF;  // byte enable
+  wbd_ext_cyc_i ='h1;  // strobe/request
+  wbd_ext_stb_i ='h1;  // strobe/request
+  wait(wbd_ext_ack_o == 1);
+  data  = wbd_ext_dat_o;  
+  repeat (1) @(posedge clock);
+  #1;
+  wbd_ext_cyc_i ='h0;  // strobe/request
+  wbd_ext_stb_i ='h0;  // strobe/request
+  wbd_ext_adr_i ='h0;  // address
+  wbd_ext_we_i  ='h0;  // write
+  wbd_ext_dat_i ='h0;  // data output
+  wbd_ext_sel_i ='h0;  // byte enable
+  if(data !== cmp_data) begin
+     $display("ERROR : WB USER ACCESS READ  Address : 0x%x, Exd: 0x%x Rxd: 0x%x ",address,cmp_data,data);
+     test_fail = 1;
+  end else begin
+     $display("STATUS: WB USER ACCESS READ  Address : 0x%x, Data : 0x%x",address,data);
+  end
   repeat (2) @(posedge clock);
 end
 endtask
