@@ -67,8 +67,9 @@ set ::env(VERILOG_FILES_BLACKBOX) "\
         $script_dir/../../verilog/gl/uart_i2cm_usb.v     \
 	$script_dir/../../verilog/gl/sdram.v \
 	$script_dir/../../verilog/gl/wb_host.v \
+	$script_dir/../../verilog/gl/mbist.v \
 	$script_dir/../../verilog/gl/syntacore.v \
-       $script_dir/../../verilog/rtl/sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+        $script_dir/../../verilog/rtl/sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
 	"
 
 set ::env(EXTRA_LEFS) "\
@@ -78,6 +79,7 @@ set ::env(EXTRA_LEFS) "\
 	$lef_root/sdram.lef \
 	$lef_root/uart_i2cm_usb.lef \
 	$lef_root/wb_host.lef \
+	$lef_root/mbist.lef \
 	$lef_root/syntacore.lef \
         $lef_root/sky130_sram_2kbyte_1rw1r_32x512_8.lef 
 	"
@@ -89,6 +91,7 @@ set ::env(EXTRA_GDS_FILES) "\
 	$gds_root/uart_i2cm_usb.gds \
 	$gds_root/sdram.gds \
 	$gds_root/wb_host.gds \
+	$gds_root/mbist.gds \
 	$gds_root/syntacore.gds \
         $gds_root/sky130_sram_2kbyte_1rw1r_32x512_8.gds \
 	"
@@ -108,20 +111,41 @@ set ::env(FP_PDN_CHECK_NODES) 0
 set ::env(VDD_NETS) "vccd1 vccd2 vdda1 vdda2"
 set ::env(GND_NETS) "vssd1 vssd2 vssa1 vssa2"
 
-set ::env(GLB_RT_OBS) " li1  1200 0200  1883.1 0616.54,\
-                        met1 1200 0200  1883.1 0616.54,\
-	                met2 1200 0200  1883.1 0616.54,\
-	                met3 1200 0200  1883.1 0616.54,\
-			met4 1200 0200  1883.1 0616.54,\
-	                met5 0 0 2920 3520"
+set ::env(GLB_RT_OBS) " li1   150 1300  833.1  1716.54,\
+	                met1  150 1300  833.1  1716.54,\
+	                met3  150 1300  833.1  1716.54,\
+                        li1   950 1300 1633.1  1716.54,\
+                        met1  950 1300 1633.1  1716.54,\
+                        met2  950 1300 1633.1  1716.54,\
+                        met3  950 1300 1633.1  1716.54,\
+                        li1   150 1900  833.1  2316.54,\
+                        met1  150 1900  833.1  2316.54,\
+                        met3  150 1900  833.1  2316.54,\
+                        li1  950  1900 1633.1  2316.54,\
+                        met1 950  1900 1633.1  2316.54,\
+                        met3 950  1900 1633.1  2316.54,\
+                        li1  150  2900  833.1  3316.54,\
+                        met1 150  2900  833.1  3316.54,\
+                        met3 150  2900  833.1  3316.54,\
+                        li1  950  2900 1633.1  3316.54,\
+                        met1 950  2900 1633.1  3316.54,\
+                        met3 950  2900 1633.1  3316.54,\
+	                met5  0 0 2920 3520"
 set ::env(FP_PDN_MACROS) "\
 	u_spi_master vccd1 vssd1 \
 	u_sdram_ctrl vccd1 vssd1 \
 	u_glbl_cfg vccd1 vssd1 \
 	u_riscv_top vccd1 vssd1 \
+	u_tsram0_2kb vccd1 vssd1 \
+	u_tsram1_2kb vccd1 vssd1 \
 	u_uart_i2c_usb vccd1 vssd1 \
 	u_intercon vccd1 vssd1 \
 	u_wb_host vccd1 vssd1 \
+	u_mbist vccd1 vssd1 \
+	u_sram0_2kb vccd1 vssd1 \
+	u_sram1_2kb vccd1 vssd1 \
+	u_sram2_2kb vccd1 vssd1 \
+	u_sram3_2kb vccd1 vssd1 \
 	"
 
 
@@ -142,7 +166,7 @@ set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
 
 set ::env(QUIT_ON_LVS_ERROR) "0"
-set ::env(QUIT_ON_MAGIC_DRC) "1"
+set ::env(QUIT_ON_MAGIC_DRC) "0"
 set ::env(QUIT_ON_NEGATIVE_WNS) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
@@ -150,3 +174,8 @@ set ::env(QUIT_ON_TR_DRC) "0"
 
 
 set ::env(ROUTING_OPT_ITERS) "64"
+
+
+set ::env(FP_PDN_HPITCH) "90"
+set ::env(FP_PDN_VPITCH) "180"
+set ::env(FP_PDN_HSPACING) "6"

@@ -77,6 +77,11 @@
 `include "uprj_netlists.v"
 
 
+`define ADDR_SPACE_UART  32'h1001_0000
+`define ADDR_SPACE_I2C   32'h1001_0000
+`define ADDR_SPACE_USB   32'h1001_0000
+`define ADDR_SPACE_GLBL  32'h1002_0000
+
 module user_basic_tb;
 parameter CLK1_PERIOD = 10;
 parameter CLK2_PERIOD = 2;
@@ -242,9 +247,9 @@ begin
          // Remove Wb Reset
          wb_user_core_write('h3080_0000,'h1);
 
-	 wb_user_core_read_check(32'h30000018,read_data,32'h5946_4956);
-	 wb_user_core_read_check(32'h3000001C,read_data,32'h2212_2021);
-	 wb_user_core_read_check(32'h30000020,read_data,32'h0001_8000);
+	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h18,read_data,32'h5946_4956);
+	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h1C,read_data,32'h2312_2021);
+	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h20,read_data,32'h0001_9000);
       end
    
       begin

@@ -221,7 +221,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -247,7 +247,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -273,7 +273,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -300,7 +300,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -327,7 +327,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -351,7 +351,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -375,7 +375,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -399,7 +399,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -423,7 +423,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h00000218,read_data,32'h00000393);
 		wb_user_core_read_check(32'h0000021C,read_data,32'h00000413);
 		wb_user_core_read_check(32'h00000400,read_data,32'h11223737);
-		wb_user_core_read_check(32'h00000404,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h00000404,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h00000408,read_data,32'h34470293);
 		wb_user_core_read_check(32'h0000040C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h00000410,read_data,32'h0057ac23);
@@ -456,7 +456,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
 		wb_user_core_write(32'h10000014,32'h00000404);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_write(32'h10000014,32'h00000408);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_write(32'h10000014,32'h0000040C);
@@ -490,7 +490,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h1000001C,read_data,32'h00000413);
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_write(32'h10000014,32'h00000408);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h22334337);
@@ -517,7 +517,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h1000001C,read_data,32'h00000313);
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_write(32'h10000014,32'h0000040C);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h22334337);
@@ -542,7 +542,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h1000001C,read_data,32'h00000413);
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h22334337);
 		wb_user_core_write(32'h10000014,32'h00000410);
@@ -565,7 +565,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h1000001C,read_data,32'h00000293);
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h0057ac23);
@@ -586,7 +586,7 @@ parameter P_FSM_CR     = 4'b1011;  // COMMAND -> READ
 		wb_user_core_read_check(32'h1000001C,read_data,32'h00000413);
 		wb_user_core_write(32'h10000014,32'h00000400);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h11223737);
-		wb_user_core_read_check(32'h1000001C,read_data,32'h300007b7);
+		wb_user_core_read_check(32'h1000001C,read_data,32'h100207b7);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h34470293);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h22334337);
 		wb_user_core_read_check(32'h1000001C,read_data,32'h0057ac23);

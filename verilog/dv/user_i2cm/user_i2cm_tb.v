@@ -71,8 +71,8 @@
 `include "i2c_slave_model.v"
 
 
-`define ADDR_SPACE_UART  32'h3001_0000
-`define ADDR_SPACE_I2CM  32'h3001_0000
+`define ADDR_SPACE_UART  32'h1001_0000
+`define ADDR_SPACE_I2CM  32'h1001_0000
 
 
 module tb_top;

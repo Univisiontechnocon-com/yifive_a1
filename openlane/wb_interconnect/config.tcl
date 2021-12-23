@@ -47,10 +47,12 @@ set ::env(VERILOG_FILES) "\
         $script_dir/../../verilog/rtl/wb_interconnect/src/wb_interconnect.sv  \
 	"
 
-set ::env(SYNTH_PARAMS) "CH_CLK_WD 4,\
-	                 CH_DATA_WD 113 \
-			 "
 set ::env(VERILOG_INCLUDE_DIRS) [glob $script_dir/../../verilog/rtl/syntacore/scr1/src/includes $script_dir/../../verilog/rtl/sdram_ctrl/src/defs ]
+set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
+
+set ::env(SYNTH_PARAMS) "CH_CLK_WD 6,\
+	                 CH_DATA_WD 116 \
+			 "
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 set ::env(SDC_FILE) "$script_dir/base.sdc"
@@ -68,7 +70,7 @@ set ::env(GND_PIN) [list {vssd1}]
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 2200 150"
+set ::env(DIE_AREA) "0 0 160 2200"
 
 
 # If you're going to use multiple power domains, then keep this disabled.

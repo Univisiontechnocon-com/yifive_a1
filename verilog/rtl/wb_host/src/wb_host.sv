@@ -86,7 +86,7 @@ module wb_host (
        output logic                sdram_rst_n      ,
        output logic                uart_rst_n       ,
        output logic                i2cm_rst_n       ,
-       output logic                usb_rst_n        ,
+       output logic                mbist_rst_n        ,
        output logic  [1:0]         uart_i2c_usb_sel ,
 
     // Master Port
@@ -120,6 +120,7 @@ module wb_host (
        input   logic               wbs_ack_i        ,  // acknowlegement
        input   logic               wbs_err_i        ,  // error
 
+       output logic [3:0]          cfg_boot_remap   ,
        output logic [31:0]         cfg_clk_ctrl1    ,
        output logic [31:0]         cfg_clk_ctrl2    
 
@@ -172,7 +173,7 @@ ctech_buf u_buf_spi_rst       (.A(cfg_glb_ctrl[2]),.X(spi_rst_n));
 ctech_buf u_buf_sdram_rst     (.A(cfg_glb_ctrl[3]),.X(sdram_rst_n));
 ctech_buf u_buf_uart_rst      (.A(cfg_glb_ctrl[4]),.X(uart_rst_n));
 ctech_buf u_buf_i2cm_rst      (.A(cfg_glb_ctrl[5]),.X(i2cm_rst_n));
-ctech_buf u_buf_usb_rst       (.A(cfg_glb_ctrl[6]),.X(usb_rst_n));
+ctech_buf u_buf_mbist_rst     (.A(cfg_glb_ctrl[6]),.X(mbist_rst_n));
 
 // wb_host clock skew control
 clk_skew_adjust u_skew_wh
@@ -265,7 +266,7 @@ begin
 
   case (sw_addr [1:0])
     2'b00 :   reg_out [31:0] = reg_0;
-    2'b01 :   reg_out [31:0] = {24'h0,cfg_bank_sel [7:0]};     
+    2'b01 :   reg_out [31:0] = {20'h0,cfg_boot_remap[3:0],cfg_bank_sel [7:0]};     
     2'b10 :   reg_out [31:0] = cfg_clk_ctrl1 [31:0];    
     2'b11 :   reg_out [31:0] = cfg_clk_ctrl2 [31:0];     
     default : reg_out [31:0] = 'h0;
@@ -284,7 +285,7 @@ generic_register #(32,0  ) u_glb_ctrl (
 	      .data_out      (reg_0[31:0])
           );
 
-generic_register #(8,8'h30 ) u_bank_sel (
+generic_register #(8,8'h10 ) u_bank_sel (
 	      .we            ({8{sw_wr_en_1}}   ),		 
 	      .data_in       (wbm_dat_i[7:0]    ),
 	      .reset_n       (wbm_rst_n         ),
@@ -292,6 +293,16 @@ generic_register #(8,8'h30 ) u_bank_sel (
 	      
 	      //List of Outs
 	      .data_out      (cfg_bank_sel[7:0] )
+          );
+
+generic_register #(4,4'h0 ) u_boot_remap (
+	      .we            ({4{sw_wr_en_1}}   ),		 
+	      .data_in       (wbm_dat_i[11:8]    ),
+	      .reset_n       (wbm_rst_n         ),
+	      .clk           (wbm_clk_i         ),
+	      
+	      //List of Outs
+	      .data_out      (cfg_boot_remap[3:0] )
           );
 
 

@@ -225,17 +225,17 @@ module user_risc_regress_tb;
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ fuse_mhartid= 0x00
-                wb_user_core_write('h3000_0004,'h0);
+                wb_user_core_write('h1001_0004,'h0);
 
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ SDRAM Config - 2
-                wb_user_core_write('h3000_0014,'h100_019E);
+                wb_user_core_write('h1001_0014,'h100_019E);
 
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ SDRAM Config - 1
-                wb_user_core_write('h3000_0010,'h2F17_2266);
+                wb_user_core_write('h1001_0010,'h2F17_2266);
 
 	        repeat (2) @(posedge clock);
 		#1;

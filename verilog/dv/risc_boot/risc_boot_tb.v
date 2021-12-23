@@ -183,7 +183,7 @@ module risc_boot_tb;
                    tb_uart.read_char_chk(uart_write_data[j]);
                  end
               end
-              join
+          join
            
               #100
               tb_uart.report_status(uart_rx_nu, uart_tx_nu);

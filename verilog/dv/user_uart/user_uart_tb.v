@@ -80,7 +80,10 @@
 `include "uart_agent.v"
 
 
-`define ADDR_SPACE_UART  32'h3001_0000
+`define ADDR_SPACE_UART  32'h1001_0000
+`define ADDR_SPACE_I2C   32'h1001_0000
+`define ADDR_SPACE_USB   32'h1001_0000
+`define ADDR_SPACE_GLBL  32'h1002_0000
 
 
 module user_uart_tb;
@@ -179,12 +182,12 @@ begin
 
    #1;
    //------------ SDRAM Config - 2
-   wb_user_core_write('h3000_0014,'h100_019E);
+   wb_user_core_write(`ADDR_SPACE_GLBL+8'h14,'h100_019E);
    
    repeat (2) @(posedge clock);
    #1;
    //------------ SDRAM Config - 1
-   wb_user_core_write('h3000_0010,'h2F17_2242);
+   wb_user_core_write(`ADDR_SPACE_GLBL+8'h10,'h2F17_2242);
    
    repeat (2) @(posedge clock);
    #1;

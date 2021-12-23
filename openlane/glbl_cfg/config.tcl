@@ -44,6 +44,7 @@ set ::env(VERILOG_FILES) "\
         $script_dir/../../verilog/rtl/lib/registers.v                  \
         $script_dir/../../verilog/rtl/lib/clk_ctl.v                    \
         $script_dir/../../verilog/rtl/digital_core/src/glbl_cfg.sv     \
+        $script_dir/../../verilog/rtl/lib/ser_inf_32b.sv       \
 	"
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
@@ -64,7 +65,7 @@ set ::env(GND_PIN) [list {vssd1}]
 set ::env(FP_PIN_ORDER_CFG) $::env(DESIGN_DIR)/pin_order.cfg
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 260 350"
+set ::env(DIE_AREA) "0 0 350 300"
 
 
 # If you're going to use multiple power domains, then keep this disabled.

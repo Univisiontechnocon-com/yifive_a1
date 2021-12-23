@@ -23,6 +23,11 @@ create_clock -name line_clk    -period 100.0000 [get_pins {mprj/u_uart_i2c_usb/u
 create_clock -name sdram_clk   -period 20.0000  [get_pins {mprj/u_wb_host/sdram_clk}]
 create_clock -name sdram_pad_clk -period 20.0000  [get_pins {mprj/io_in[29]}]
 
+create_generated_clock -name mem_clk0 -add -source [get_pins {mprj/u_wb_host/wbs_clk_out}] -master_clock [get_clocks wbs_clk_i] -divide_by 1 -comment {memory Clock} [get_pins mprj/u_mbist/mem_no[0].u_mem_sel.u_mem_clk_sel.u_mux/X]
+create_generated_clock -name mem_clk1 -add -source [get_pins {mprj/u_wb_host/wbs_clk_out}] -master_clock [get_clocks wbs_clk_i] -divide_by 1 -comment {memory Clock} [get_pins mprj/u_mbist/mem_no[1].u_mem_sel.u_mem_clk_sel.u_mux/X]
+create_generated_clock -name mem_clk2 -add -source [get_pins {mprj/u_wb_host/wbs_clk_out}] -master_clock [get_clocks wbs_clk_i] -divide_by 1 -comment {memory Clock} [get_pins mprj/u_mbist/mem_no[2].u_mem_sel.u_mem_clk_sel.u_mux/X]
+create_generated_clock -name mem_clk3 -add -source [get_pins {mprj/u_wb_host/wbs_clk_out}] -master_clock [get_clocks wbs_clk_i] -divide_by 1 -comment {memory Clock} [get_pins mprj/u_mbist/mem_no[3].u_mem_sel.u_mem_clk_sel.u_mux/X]
+
 ## Case analysis
 
 set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[0]}]
@@ -46,8 +51,8 @@ set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_sp_co[1]}]
 set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_sp_co[2]}]
 set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_sp_co[3]}]
 
-set_case_analysis 1 [get_pins {mprj/u_spi_master/cfg_cska_spi[0]}]
-set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_spi[1]}]
+set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_spi[0]}]
+set_case_analysis 1 [get_pins {mprj/u_spi_master/cfg_cska_spi[1]}]
 set_case_analysis 1 [get_pins {mprj/u_spi_master/cfg_cska_spi[2]}]
 set_case_analysis 0 [get_pins {mprj/u_spi_master/cfg_cska_spi[3]}]
 
@@ -76,14 +81,18 @@ set_case_analysis 0 [get_pins {mprj/u_sdram_ctrl/cfg_cska_sd_ci[1]}]
 set_case_analysis 0 [get_pins {mprj/u_sdram_ctrl/cfg_cska_sd_ci[2]}]
 set_case_analysis 0 [get_pins {mprj/u_sdram_ctrl/cfg_cska_sd_ci[3]}]
 
+set_case_analysis 0 [get_pins {mprj/u_mbist/cfg_cska_mbist[0]}]
+set_case_analysis 0 [get_pins {mprj/u_mbist/cfg_cska_mbist[1]}]
+set_case_analysis 0 [get_pins {mprj/u_mbist/cfg_cska_mbist[2]}]
+set_case_analysis 1 [get_pins {mprj/u_mbist/cfg_cska_mbist[3]}]
 #disable clock gating check at static clock select pins
 set_false_path -through [get_pins mprj/u_wb_host/u_wbs_clk_sel.u_mux/S]
 
 set_propagated_clock [all_clocks]
 
 set_clock_groups -name async_clock -asynchronous \
+ -group [get_clocks {clock wb_clk mem_clk0 mem_clk1 mem_clk2 mem_clk3}]\
  -group [get_clocks {user_clk2}]\
- -group [get_clocks {clock wb_clk}]\
  -group [get_clocks {wbs_clk_i}]\
  -group [get_clocks {cpu_clk}]\
  -group [get_clocks {cpu_ref_clk}]\
@@ -156,7 +165,7 @@ set_false_path -from [get_ports mprj_io[*]]
 set_false_path -from [get_ports gpio]
 
 ## User Project static signals
-set_false_path -through [get_pins mprj/u_pinmux/bist_en]
+set_false_path -through [get_pins mprj/u_glbl_cfg/bist_en]
 
 # TODO set this as parameter
 set cap_load [expr $::env(SYNTH_CAP_LOAD) / 1000.0]

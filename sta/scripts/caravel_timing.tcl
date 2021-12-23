@@ -50,6 +50,7 @@
         read_verilog $::env(USER_ROOT)/verilog/gl/sdram.v
         read_verilog $::env(USER_ROOT)/verilog/gl/wb_interconnect.v
         read_verilog $::env(USER_ROOT)/verilog/gl/glbl_cfg.v
+        read_verilog $::env(USER_ROOT)/verilog/gl/mbist.v
         read_verilog $::env(USER_ROOT)/verilog/gl/user_project_wrapper.v  
 
 
@@ -144,6 +145,8 @@
 	read_spef -path gpio_defaults_block_37              $::env(CARAVEL_ROOT)/spef/gpio_defaults_block.spef	
 
 	## User Project Spef
+        read_spef -path mprj/u_mbist                       $::env(USER_ROOT)/spef/mbist_top.spef  
+
         read_spef -path mprj/u_riscv_top         $::env(USER_ROOT)/spef/scr1_top_wb.spef
         read_spef -path mprj/u_glbl_cfg          $::env(USER_ROOT)/spef/glbl_cfg.spef
         read_spef -path mprj/u_sdram_ctrl        $::env(USER_ROOT)/spef/sdrc_top.spef
