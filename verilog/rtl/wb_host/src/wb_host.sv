@@ -122,7 +122,8 @@ module wb_host (
 
        output logic [3:0]          cfg_boot_remap   ,
        output logic [31:0]         cfg_clk_ctrl1    ,
-       output logic [31:0]         cfg_clk_ctrl2    
+       output logic [31:0]         cfg_clk_ctrl2    ,
+       input  logic                la_data_in       
 
     );
 
@@ -164,9 +165,6 @@ logic  [3:0]        cfg_usb_clk_ctrl;
 logic  [6:0]        cfg_glb_ctrl;
 
 
-assign wbm_rst_n = !wbm_rst_i;
-assign wbs_rst_n = !wbm_rst_i;
-
 ctech_buf u_buf_wb_rst        (.A(cfg_glb_ctrl[0]),.X(wbd_int_rst_n));
 ctech_buf u_buf_cpu_rst       (.A(cfg_glb_ctrl[1]),.X(cpu_rst_n));
 ctech_buf u_buf_spi_rst       (.A(cfg_glb_ctrl[2]),.X(spi_rst_n));
@@ -175,6 +173,24 @@ ctech_buf u_buf_uart_rst      (.A(cfg_glb_ctrl[4]),.X(uart_rst_n));
 ctech_buf u_buf_i2cm_rst      (.A(cfg_glb_ctrl[5]),.X(i2cm_rst_n));
 ctech_buf u_buf_mbist_rst     (.A(cfg_glb_ctrl[6]),.X(mbist_rst_n));
 
+//--------------------------------------------------------------------------------
+// Look like wishbone reset removed early than user Power up sequence
+// To control the reset phase, we have added additional control through la[0]
+// ------------------------------------------------------------------------------
+wire    arst_n = !wbm_rst_i & la_data_in;
+reset_sync  u_wbm_rst (
+	      .scan_mode  (1'b0           ),
+              .dclk       (wbm_clk_i      ), // Destination clock domain
+	      .arst_n     (arst_n         ), // active low async reset
+              .srst_n     (wbm_rst_n      )
+          );
+
+reset_sync  u_wbs_rst (
+	      .scan_mode  (1'b0           ),
+              .dclk       (wbs_clk_i      ), // Destination clock domain
+	      .arst_n     (arst_n         ), // active low async reset
+              .srst_n     (wbs_rst_n      )
+          );
 // wb_host clock skew control
 clk_skew_adjust u_skew_wh
        (

@@ -248,8 +248,8 @@ begin
          wb_user_core_write('h3080_0000,'h1);
 
 	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h18,read_data,32'h5946_4956);
-	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h1C,read_data,32'h2312_2021);
-	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h20,read_data,32'h0001_9000);
+	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h1C,read_data,32'h0701_2022);
+	 wb_user_core_read_check(`ADDR_SPACE_GLBL + 8'h20,read_data,32'h0002_0000);
       end
    
       begin
@@ -306,7 +306,7 @@ user_project_wrapper u_top(
 
  
     // Logic Analyzer Signals
-    .la_data_in      ('0) ,
+    .la_data_in      ('1) ,
     .la_data_out     (),
     .la_oenb         ('0),
  

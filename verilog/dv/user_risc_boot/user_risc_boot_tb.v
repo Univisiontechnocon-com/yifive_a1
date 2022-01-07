@@ -150,7 +150,7 @@ module user_risc_boot_tb;
 	           repeat (2) @(posedge clock);
 		   #1;
 		   //------------ SDRAM Config - 1
-                   wb_user_core_write(`ADDR_SPACE_GLBL+8'h10,'h2F17_2242);
+                   wb_user_core_write(`ADDR_SPACE_GLBL+8'h10,'h2F17_2266);
 
 	           repeat (2) @(posedge clock);
 		   #1;
@@ -231,7 +231,7 @@ user_project_wrapper u_top(
 
  
     // Logic Analyzer Signals
-    .la_data_in      ('0) ,
+    .la_data_in      ('1) ,
     .la_data_out     (),
     .la_oenb         ('0),
  

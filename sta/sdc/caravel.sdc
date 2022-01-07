@@ -35,10 +35,10 @@ set_case_analysis 1 [get_pins {mprj/u_intercon/cfg_cska_wi[1]}]
 set_case_analysis 0 [get_pins {mprj/u_intercon/cfg_cska_wi[2]}]
 set_case_analysis 1 [get_pins {mprj/u_intercon/cfg_cska_wi[3]}]
 
-set_case_analysis 0 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[0]}]
+set_case_analysis 1 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[0]}]
 set_case_analysis 0 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[1]}]
-set_case_analysis 0 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[2]}]
-set_case_analysis 1 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[3]}]
+set_case_analysis 1 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[2]}]
+set_case_analysis 0 [get_pins {mprj/u_glbl_cfg/cfg_cska_glbl[3]}]
 
 set_case_analysis 0 [get_pins {mprj/u_sdram_ctrl/cfg_cska_sdram[0]}]
 set_case_analysis 0 [get_pins {mprj/u_sdram_ctrl/cfg_cska_sdram[1]}]

@@ -55,8 +55,8 @@ end
 **/
 /**
   logic [31:0] test_count;
- `define RISC_CORE  i_top.i_core_top
- `define RISC_EXU  i_top.i_core_top.i_pipe_top.i_pipe_exu
+ `define RISC_CORE  u_top.u_riscv_top.i_core_top
+ `define RISC_EXU  u_top.u_riscv_top.i_core_top.i_pipe_top.i_pipe_exu
 
  initial begin
 	 test_count = 0;

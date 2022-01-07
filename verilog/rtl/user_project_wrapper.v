@@ -124,6 +124,9 @@
 ////          software Reg 1/2/3 added in glbl reg 6/7/8          ////
 ////    1.9   Dec 23, 2021, Dinesh A                              ////
 ////          8KB SRAM+ MBIST and 4KB TSRAM ADDED                 ////
+////    2.0   Jan 07, 2022, Dinesh A                              ////
+////          1. TCM Bug fix                                      ////
+////          2. Soft Reboot with LA[0]                           ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
 //// Copyright (C) 2000 Authors and OPENCORES.ORG                 ////
@@ -589,7 +592,9 @@ wb_host u_wb_host(
 
        .cfg_clk_ctrl1    (cfg_clk_ctrl1        ),
        .cfg_clk_ctrl2    (cfg_clk_ctrl2        ),
-       .cfg_boot_remap   (cfg_boot_remap       )
+       .cfg_boot_remap   (cfg_boot_remap       ),
+
+       .la_data_in       (la_data_in[0]        )
 
     );
 

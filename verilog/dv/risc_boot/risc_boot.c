@@ -169,6 +169,10 @@ void main()
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
 
+    reg_la0_data = 0x000;
+    reg_la0_data = 0x001; // Remove Soft Reset
+   
+
     // Remove Wishbone Reset
     reg_mprj_wbhost_reg0 = 0x1;
 
@@ -177,7 +181,7 @@ void main()
 
 
     // SDRAM Config-1
-    reg_mprj_globl_reg4  = 0x2F172242;
+    reg_mprj_globl_reg4  = 0x2F172266;
 
     // Remove All Reset
     reg_mprj_wbhost_reg0 = 0x1F;

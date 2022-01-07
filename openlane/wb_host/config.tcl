@@ -47,6 +47,7 @@ set ::env(VERILOG_FILES) "\
      $script_dir/../../verilog/rtl/lib/async_wb.sv        \
      $script_dir/../../verilog/rtl/lib/clk_ctl.v          \
      $script_dir/../../verilog/rtl/lib/ctech_cells.sv     \
+     $script_dir/../../verilog/rtl/lib/reset_sync.sv      \
      $script_dir/../../verilog/rtl/lib/registers.v"
 
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1

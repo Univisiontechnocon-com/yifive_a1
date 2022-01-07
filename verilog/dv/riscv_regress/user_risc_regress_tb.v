@@ -77,6 +77,12 @@
 `include "uprj_netlists.v"
 `include "mt48lc8m8a2.v"
 
+
+`define ADDR_SPACE_UART  32'h1001_0000
+`define ADDR_SPACE_I2C   32'h1001_0000
+`define ADDR_SPACE_GLBL  32'h1002_0000
+
+
 module user_risc_regress_tb;
 	reg clock;
 	reg wb_rst_i;
@@ -180,7 +186,8 @@ module user_risc_regress_tb;
 	   	$dumpvars(1, user_risc_regress_tb);
 	   	$dumpvars(0, user_risc_regress_tb.u_top.u_sdram_ctrl);
 	   	$dumpvars(0, user_risc_regress_tb.u_sdram8);
-	   	//$dumpvars(1, user_risc_regress_tb.u_top.u_riscv_top);
+	   	$dumpvars(1, user_risc_regress_tb.u_top);
+	   	$dumpvars(0, user_risc_regress_tb.u_top.u_riscv_top);
 	   end
        `endif
 
@@ -191,6 +198,7 @@ module user_risc_regress_tb;
 		// Initialize the SPI memory with hex content
 		// Wait for reset removal
 		wait (rst_n == 1);
+
 
 		// Initialize the SPI memory with hex content
                 $write("\033[0;34m---Initializing the SPI Memory with Hexfile: %s\033[0m\n", test_file);
@@ -225,17 +233,17 @@ module user_risc_regress_tb;
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ fuse_mhartid= 0x00
-                wb_user_core_write('h1001_0004,'h0);
+                wb_user_core_write(`ADDR_SPACE_GLBL+8'h4,'h0);
 
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ SDRAM Config - 2
-                wb_user_core_write('h1001_0014,'h100_019E);
+                wb_user_core_write(`ADDR_SPACE_GLBL+8'h14,'h100_019E);
 
 	        repeat (2) @(posedge clock);
 		#1;
 		//------------ SDRAM Config - 1
-                wb_user_core_write('h1001_0010,'h2F17_2266);
+                wb_user_core_write(`ADDR_SPACE_GLBL+8'h10,'h2F17_2266);
 
 	        repeat (2) @(posedge clock);
 		#1;
@@ -279,7 +287,7 @@ user_project_wrapper u_top(
 
  
     // Logic Analyzer Signals
-    .la_data_in      ('0) ,
+    .la_data_in      ('1) ,
     .la_data_out     (),
     .la_oenb         ('0),
  

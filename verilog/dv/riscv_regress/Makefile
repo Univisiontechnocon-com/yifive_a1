@@ -137,6 +137,7 @@ UPRJ_INCLUDE_PATH1 = $(UPRJ_RTL_PATH)/syntacore/scr1/src/includes
 UPRJ_INCLUDE_PATH2 = $(UPRJ_RTL_PATH)/sdram_ctrl/src/defs
 UPRJ_INCLUDE_PATH3 = $(UPRJ_RTL_PATH)/i2cm/src/includes
 UPRJ_INCLUDE_PATH4 = $(UPRJ_RTL_PATH)/usb1_host/src/includes
+UPRJ_INCLUDE_PATH5 = $(UPRJ_RTL_PATH)/mbist/include
 
 sv_list            = ../../user_risc_regress_tb.v
 top_module         = user_risc_regress_tb
@@ -179,20 +180,20 @@ ifeq (,$(findstring e,$(ARCH_lowercase)))
 endif
 
 # Comment this target if you don't want to run the isr_sample
-TARGETS += isr_sample
+#TARGETS += isr_sample
 
 # Comment this target if you don't want to run the coremark
-TARGETS += coremark
+#TARGETS += coremark
 
 # Comment this target if you don't want to run the dhrystone
-TARGETS += dhrystone21
+#TARGETS += dhrystone21
 
 # Comment this target if you don't want to run the hello test
 TARGETS += hello
 
 
 # Targets
-.PHONY: tests run_iverilog run_modelsim run_modelsim_wlf run_vcs run_ncsim run_verilator run_verilator_wf
+.PHONY: tests run_iverilog run_modelsim run_modelsim_wlf run_vcs run_ncsim run_verilator run_verilator_wf run_iverilog_wf
 
 default: clean_test_list run_iverilog
 
@@ -270,7 +271,7 @@ run_iverilog: $(test_info)
 	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH) -I $(UPRJ_VERILOG_PATH) \
 	-I $(UPRJ_BEHAVIOURAL_AGENTS)    \
 	-I $(UPRJ_INCLUDE_PATH1)    -I $(UPRJ_INCLUDE_PATH2) -I $(UPRJ_INCLUDE_PATH3) \
-	-I $(UPRJ_INCLUDE_PATH4) -I $(UPRJ_TESTS_PATH) \
+	-I $(UPRJ_INCLUDE_PATH4) -I $(UPRJ_INCLUDE_PATH5) -I $(UPRJ_TESTS_PATH) \
 	$(sv_list) \
 	-o $(top_module).vvp; \
 	printf "" > $(test_results); \
@@ -290,7 +291,7 @@ run_iverilog_wf: $(test_info)
 	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH) -I $(UPRJ_VERILOG_PATH) \
 	-I $(UPRJ_BEHAVIOURAL_AGENTS)    \
 	-I $(UPRJ_INCLUDE_PATH1)    -I $(UPRJ_INCLUDE_PATH2) -I $(UPRJ_INCLUDE_PATH3) \
-	-I $(UPRJ_INCLUDE_PATH4) -I $(UPRJ_TESTS_PATH) \
+	-I $(UPRJ_INCLUDE_PATH4) -I $(UPRJ_INCLUDE_PATH5) -I $(UPRJ_TESTS_PATH) \
 	$(sv_list) \
 	-o $(top_module).vvp; \
 	printf "" > $(test_results); \

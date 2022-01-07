@@ -20,9 +20,9 @@ set_case_analysis 0 [get_ports {cfg_cska_wi[3]}]
 
 
 # Set max delay for clock skew
-set_max_delay 4.0 -from [get_ports {wbd_clk_int}]
-set_max_delay   2 -to   [get_ports {wbd_clk_wi}]
-set_max_delay 4.0 -from wbd_clk_int -to wbd_clk_wi
+set_max_delay 10.0 -from [get_ports {wbd_clk_int}]
+set_max_delay 10.0 -to   [get_ports {wbd_clk_wi}]
+set_max_delay 10.0 -from wbd_clk_int -to wbd_clk_wi
 ##
 set_input_delay -max 2.0000 -clock [get_clocks {clk_i}] -add_delay [get_ports {rst_n}]
 set_input_delay -max 6.0000 -clock [get_clocks {clk_i}] -add_delay [get_ports {s0_wbd_ack_i}]
